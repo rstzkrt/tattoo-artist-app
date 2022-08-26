@@ -12,7 +12,7 @@ import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatGridListModule} from "@angular/material/grid-list";
 import {MatCardModule} from "@angular/material/card";
 import {MatTableModule} from "@angular/material/table";
-import {FlexLayoutModule} from "@angular/flex-layout";
+// import {FlexLayoutModule} from "@angular/flex-layout";
 // import {FlexLayout} from "@angular/flex-layout";
 
 @NgModule({
@@ -30,8 +30,8 @@ import {FlexLayoutModule} from "@angular/flex-layout";
     MatPaginatorModule,
     MatGridListModule,
     MatCardModule,
-    MatTableModule,
-    FlexLayoutModule,
+    MatTableModule
+    // FlexLayoutModule,
     // FlexLayout
 
   ],
