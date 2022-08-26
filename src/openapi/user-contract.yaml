@@ -1,0 +1,673 @@
+openapi: 3.0.3
+info:
+  title: user-generated-contract
+  description: user-generated-contract
+  version: 1.0.0
+paths:
+  /users:
+    get:
+      operationId: getAllUsers
+      description: get users
+      parameters:
+        - in: query
+          name: firstName
+          description: user firstname
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: lastName
+          description: user lastname
+          required: false
+          schema:
+            type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserResponseDto'
+        default:
+          description: error payload
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+# every user will be created as client first ,so we pass client request dto to request body
+    post:
+      operationId: createUser
+      description: add user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClientReqDto'
+      responses:
+        201:
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponseDto'
+        default:
+          description: error payload
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /users/{id}:
+    get:
+      operationId: getUserById
+      description: get user
+      parameters:
+        - in: path
+          name: id
+          description: user id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponseDto'
+        default:
+          description: error payload
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /users/me:
+    get:
+      operationId: getAuthenticatedUser
+      responses:
+        200:
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponseDto'
+        default:
+          description: error payload
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    delete:
+      operationId: deleteUser
+      description: get user
+      responses:
+        200:
+          description: no content
+        default:
+          description: error payload
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+    put:
+      operationId: updateUser
+      description: update user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserUpdateRequestDto'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponseDto'
+        default:
+          description: error payload
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    patch:
+      operationId: createArtistAccount
+      description: create artist page
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TattooArtistAccReqDto'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponseDto'
+        default:
+          description: error payload
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /users/me/tattoo-works/{post_id}/favorites:
+    put:
+      operationId: favoriteTattooWork
+      parameters:
+        - in: path
+          name: post_id
+          description: tattooWork post id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponseDto'
+        default:
+          description: error payload
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+    delete:
+      operationId: unfavoriteTattooWork
+      parameters:
+        - in: path
+          name: post_id
+          description: tattooWork post id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        200:
+          description: no content
+        default:
+          description: error payload
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /users/me/tattoo-artists/{artist_id}/favorites:
+    put:
+      operationId: favoriteTattooArtist
+      parameters:
+        - in: path
+          name: artist_id
+          description: artist id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponseDto'
+        default:
+          description: error payload
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+    delete:
+      operationId: unfavoriteTattooArtist
+      parameters:
+        - in: path
+          name: artist_id
+          description: artist id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        204:
+          description: no content
+        default:
+          description: error payload
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /users/me/tattoo-works/{post_id}/likes:
+    put:
+      operationId: likeTattooWork
+      description: like
+      parameters:
+        - in: path
+          name: post_id
+          description: post_id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        200:
+          description: no content
+        default:
+          description: error payload
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    delete:
+      operationId: dislikeTattooWork
+      description: dislike
+      parameters:
+        - in: path
+          name: post_id
+          description: artist id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        200:
+          description: no content
+        default:
+          description: error payload
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /users/{id}/price-interval:
+    get:
+      operationId: userPriceInterval
+      description: price interval
+      parameters:
+        - in: path
+          name: id
+          description: user id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TattooArtistPriceInterval'
+        default:
+          description: error payload
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+
+    UserUpdateRequestDto:
+      type: object
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        birthDate:
+          type: string
+          format: date
+        avatarUrl:
+          type: string
+        phoneNumber:
+          type: string
+        workDays:
+          type: array
+          items:
+            $ref: '#/components/schemas/WorkingDays'
+        street:
+          type: string
+        city:
+          type: string
+        country:
+          type: string
+        state:
+          type: string
+        postalCode:
+          type: string
+        otherInformation:
+          type: string
+
+    ClientReqDto:
+      type: object
+      properties:
+        uid:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        avatarUrl:
+          type: string
+        birthDate:
+          type: string
+          format: date
+        email:
+          type: string
+
+    TattooArtistAccReqDto:
+      type: object
+      properties:
+        phoneNumber:
+          type: string
+        workDays:
+          type: array
+          items:
+            $ref: '#/components/schemas/WorkingDays'
+        street:
+          type: string
+        city:
+          type: string
+        country:
+          type: string
+        state:
+          type: string
+        postalCode:
+          type: string
+        otherInformation:
+          type: string
+
+    UserResponseDto:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        uid:
+          type: string
+          description: id for firebase auth
+        firstName:
+          type: string
+        lastName:
+          type: string
+        avatarUrl:
+          type: string
+        birthDate:
+          type: string
+          format: date
+        email:
+          type: string
+        hasArtistPage:
+          type: boolean
+        workDays:
+          type: array
+          items:
+            $ref: '#/components/schemas/WorkingDays'
+        averageRating:
+          type: number
+        phoneNumber:
+          type: string
+        street:
+          type: string
+        city:
+          type: string
+        country:
+          type: string
+        state:
+          type: string
+        postalCode:
+          type: string
+        otherInformation:
+          type: string
+        favoriteArtistIds:
+          type: array
+          items:
+            type: string
+            format: uuid
+        favoriteTattooWorkIds:
+          type: array
+          items:
+            type: string
+            format: uuid
+        commentIds:
+          type: array
+          items:
+            type: string
+            format: uuid
+        tattooWorkIds:
+          type: array
+          items:
+            type: string
+            format: uuid
+
+    TattooArtistPriceInterval:
+      type: object
+      properties:
+        maxTattooWorkPrice:
+          type: number
+        minTattooWorkPrice:
+          type: number
+        minTattooWorkPriceCurrency:
+          $ref: '#/components/schemas/Currency'
+        maxTattooWorkPriceCurrency:
+          $ref: '#/components/schemas/Currency'
+
+    WorkingDays:
+      enum:
+        - MONDAY
+        - TUESDAY
+        - WEDNESDAY
+        - THURSDAY
+        - FRIDAY
+        - SATURDAY
+        - SUNDAY
+
+    ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
+
+    Currency:
+      enum:
+        - AED
+        - AFN
+        - ALL
+        - AMD
+        - ANG
+        - AOA
+        - ARS
+        - AUD
+        - AWG
+        - AZN
+        - BAM
+        - BBD
+        - BDT
+        - BGN
+        - BHD
+        - BIF
+        - BMD
+        - BND
+        - BOB
+        - BOV
+        - BRL
+        - BSD
+        - BTC
+        - BTN
+        - BWP
+        - BYR
+        - BYN
+        - BZD
+        - CAD
+        - CDF
+        - CHE
+        - CHF
+        - CHW
+        - CLF
+        - CLP
+        - CNY
+        - COP
+        - COU
+        - CRC
+        - CUC
+        - CUP
+        - CVE
+        - CZK
+        - DJF
+        - DKK
+        - DOP
+        - DZD
+        - EGP
+        - ERN
+        - ETB
+        - EUR
+        - FJD
+        - FKP
+        - GBP
+        - GEL
+        - GHS
+        - GIP
+        - GMD
+        - GNF
+        - GTQ
+        - GYD
+        - HKD
+        - HNL
+        - HRK
+        - HTG
+        - HUF
+        - IDR
+        - ILS
+        - INR
+        - IQD
+        - IRR
+        - ISK
+        - JMD
+        - JOD
+        - JPY
+        - KES
+        - KGS
+        - KHR
+        - KMF
+        - KPW
+        - KRW
+        - KWD
+        - KYD
+        - KZT
+        - LAK
+        - LBP
+        - LKR
+        - LRD
+        - LSL
+        - LTL
+        - LVL
+        - LYD
+        - MAD
+        - MDL
+        - MGA
+        - MKD
+        - MMK
+        - MNT
+        - MOP
+        - MRO
+        - MRU
+        - MUR
+        - MVR
+        - MWK
+        - MXN
+        - MXV
+        - MYR
+        - MZN
+        - NAD
+        - NGN
+        - NIO
+        - NOK
+        - NPR
+        - NZD
+        - OMR
+        - PAB
+        - PEN
+        - PGK
+        - PHP
+        - PKR
+        - PLN
+        - PYG
+        - QAR
+        - RON
+        - RSD
+        - RUB
+        - RWF
+        - SAR
+        - SBD
+        - SCR
+        - SDG
+        - SEK
+        - SGD
+        - SHP
+        - SLL
+        - SOS
+        - SRD
+        - STD
+        - STN
+        - SVC
+        - SYP
+        - SZL
+        - THB
+        - TJS
+        - TMT
+        - TND
+        - TOP
+        - TRY
+        - TTD
+        - TWD
+        - TZS
+        - UAH
+        - UGX
+        - USD
+        - USN
+        - UYI
+        - UYU
+        - UYW
+        - UZS
+        - VED
+        - VEF
+        - VES
+        - VND
+        - VUV
+        - WST
+        - XAG
+        - XAU
+        - XAF
+        - XBA
+        - XBB
+        - XBC
+        - XBD
+        - XCD
+        - XDR
+        - XOF
+        - XPD
+        - XPF
+        - XPT
+        - XSU
+        - XTS
+        - XUA
+        - XXX
+        - YER
+        - ZAR
+        - ZMK
+        - ZWL
+        - ZMW
+        - SSP
