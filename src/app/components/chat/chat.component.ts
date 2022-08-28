@@ -94,9 +94,9 @@ export class ChatComponent implements OnInit, AfterViewInit {
       startWith(''),
       switchMap(queryString => this.chatClientService.autocompleteUsers(queryString)))
 
-    const filter = {type: 'messaging', id: {$in: [this.routeCurr.snapshot.paramMap.get('id')]}};
+    const filter = {type: 'messaging', id: {$in: [this.routeCurr.snapshot.paramMap.get('id')]}, members: {$in: [ this.auth.getCurrentUser().uid ]}};
 
-    this.chatService.chatClient.queryChannels(filter, [], {
+    await this.chatService.chatClient.queryChannels(filter, {last_message_at: -1}, {
       watch: false,
       state: true,
     }).then(data => {
@@ -104,9 +104,8 @@ export class ChatComponent implements OnInit, AfterViewInit {
     }).catch(err => err);
 
     const filter1 = {type: 'messaging', members: {$in: [ this.auth.getCurrentUser().uid ]}};
-    const sort = {last_message_at: -1};
 
-    this.channelList = await this.chatClientService.chatClient.queryChannels(filter1, [], {state: true, watch: true});
+    this.channelList = await this.chatClientService.chatClient.queryChannels(filter1, {last_message_at: -1}, {state: true, watch: true});
 
     console.log(this.channelList[0]);
   }
@@ -133,10 +132,19 @@ export class ChatComponent implements OnInit, AfterViewInit {
   // }
 
   activateChannel(channel: Channel<DefaultStreamChatGenerics>) {
+    // if (channel.getClient()){
+    //   channel.getClient().disconnect()
+    // }
+
     this.channelService.setAsActiveChannel(channel);
   }
 
-  addToChat({option: {value: userId}}: MatAutocompleteSelectedEvent) {
-    this.channel.addMembers([userId])
+  disconnectClient() {
+       this.channel.getClient().disconnect()
   }
+
+
+  // addToChat({option: {value: userId}}: MatAutocompleteSelectedEvent) {
+  //   this.channel.addMembers([userId])
+  // }
 }

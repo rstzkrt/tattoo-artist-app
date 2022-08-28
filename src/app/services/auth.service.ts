@@ -7,6 +7,8 @@ import {UserService} from "./user.service";
 import {HttpClient} from "@angular/common/http";
 import {AngularFireFunctions} from "@angular/fire/compat/functions";
 import {TokenOrProvider} from "stream-chat";
+import {ChatComponent} from "../components/chat/chat.component";
+import {ChatClientService} from "stream-chat-angular";
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +24,8 @@ export class AuthService {
               private userService: UserService,
               private httpClient:HttpClient,
               private auth:AngularFireAuth,
-              private firebaseFunctions:AngularFireFunctions) {
+              private firebaseFunctions:AngularFireFunctions,
+              private chatComp:ChatClientService) {
 
     this.afAuth.authState.subscribe(user => {
       this.firebaseUser = user;
@@ -36,28 +39,13 @@ export class AuthService {
     });
   }
   getCurrentUser() {
+    console.log(this.firebaseUser.uid)
     return this.firebaseUser;
   }
 
   getStreamToken() : Observable<TokenOrProvider> {
-    // const data = this.firebaseFunctions.httpsCallable('ext-auth-chat-getStreamUserToken')
-    //   .call(data => {
-    //     console.log("data getstream "+data)
-    //   });
-
-    // const callable = this.firebaseFunctions.httpsCallable('ext-auth-chat-getStreamUserToken');
-    // const data:any = callable({ name: 'some-data' });
-    // let token;
     return  this.firebaseFunctions
       .httpsCallable("ext-auth-chat-getStreamUserToken")({});
-      // .toPromise()
-      // .then((r) => {
-      //   token=r;
-      // }).catch(err=>console.log(err));
-    // return new Observable((observer: Observer<TokenOrProvider>) => {
-    //   console.log(token+"asasdasd")
-    //   observer.next(token);
-    // });
   }
 
   async loginWithGoogle() {
@@ -66,8 +54,13 @@ export class AuthService {
         this.requestBodyUser.uid = res.user.uid
         this.requestBodyUser.email = res.user.email;
         this.requestBodyUser.avatarUrl = res.user.photoURL;
-        this.requestBodyUser.firstName = res.user.displayName.split(" ")[0];
-        this.requestBodyUser.lastName = res.user.displayName.split(" ")[length];
+        if(res.user.displayName.split(" ").length===1){
+          this.requestBodyUser.firstName = res.user.displayName;
+          this.requestBodyUser.lastName = res.user.displayName;
+        }else {
+          this.requestBodyUser.firstName = res.user.displayName.split(" ")[0];
+          this.requestBodyUser.lastName = res.user.displayName.split(" ")[length];
+        }
         if (res.additionalUserInfo.isNewUser) {
           this.userService.registerClient(this.requestBodyUser)
             .subscribe(response => {
@@ -94,6 +87,7 @@ export class AuthService {
         .call(data => {
           console.log(data)
         });
+      this.chatComp.disconnectUser();
     });
   }
 }

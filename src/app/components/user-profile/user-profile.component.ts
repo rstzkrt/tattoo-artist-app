@@ -52,8 +52,6 @@ export class UserProfileComponent implements OnInit {
       console.log(channels[0].id)
 
       await this.router.navigateByUrl("/chat/" + channels[0].id)
-
-
     });
 
 

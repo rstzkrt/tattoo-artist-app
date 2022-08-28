@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpContext, HttpContextToken} from "@angular/common/http";
+import {HttpClient, HttpContext} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {UserResponseDto} from "../generated/user/models/user-response-dto";
-import {ApiService} from "../generated/user/services/api.service";
 import {TattooArtistAccReqDto} from "../generated/user/models/tattoo-artist-acc-req-dto";
 import {ClientReqDto} from "../generated/user/models/client-req-dto";
 import {UserUpdateRequestDto} from "../generated/user/models/user-update-request-dto";
 import {TattooArtistPriceInterval} from "../generated/user/models/tattoo-artist-price-interval";
 import {User} from "../common/user";
+import {DefaultService} from "../generated-apis/user";
 
 @Injectable({
   providedIn: 'root'
@@ -17,34 +17,20 @@ export class UserService{
 
   private _rootUrl: string="http://localhost:8080";
 
-
-  constructor(private httpClient:HttpClient, private userOpenApiService:ApiService) {
-    this.userOpenApiService.rootUrl=this._rootUrl;
+  constructor(private httpClient:HttpClient, private userOpenApiService:DefaultService) {
+    userOpenApiService.configuration.basePath=this._rootUrl;
   }
-
-  registerClient(request:ClientReqDto):Observable<UserResponseDto> {
-    const body=JSON.stringify(request);
-
-    // @ts-ignore
-    return this.userOpenApiService.createUser({ context: null, body: body })
+  registerClient(clientReqDto:ClientReqDto):Observable<UserResponseDto> {
+    return this.userOpenApiService.createUser(clientReqDto);
   }
 
   fetchAuthenticatedUser(token:string) : Observable<User>{
-    // const context: HttpContext=new HttpContext();
-    // const AUTHORIZATION = new HttpContextToken(() => token);
-    // context.set(AUTHORIZATION,token)
-    // console.log(AUTHORIZATION.defaultValue())
-    // console.log(context)
-    //
-    // return this.userOpenApiService.getAuthenticatedUser();
-    const headers = { 'content-type': 'application/json','Authorization': `Bearer ${token}` };
-    return this.httpClient.get<User>(`${this._rootUrl}/users/me`,{'headers': headers});
+    this.userOpenApiService.configuration.credentials= {"bearerAuth": token};
+    return this.userOpenApiService.getAuthenticatedUser();
   }
 
-  getUserById(id:String): Observable<UserResponseDto> {
-    // @ts-ignore
-    return this.userOpenApiService.getUserById({id: id, context: null})
-      .subscribe(res=>console.log(res),error => console.log(error));
+  getUserById(id:string): Observable<UserResponseDto> {
+    return this.userOpenApiService.getUserById(id);
   }
 
   createArtistAccount(params: { context?: HttpContext; body: TattooArtistAccReqDto }): Observable<User> {
