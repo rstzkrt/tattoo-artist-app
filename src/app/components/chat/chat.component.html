@@ -1,0 +1,26 @@
+<div *ngFor="let channel of channelList ">
+  <div>
+    {{channel.state.messageSets[0].messages[channel.state.messageSets[0].messages.length-1].text}}
+  </div>
+</div>
+
+<section class="chat" *ngIf="chatIsReady$ | async; else unavailable">
+  <stream-channel>
+    <!--  <stream-channel-list></stream-channel-list>-->
+    <stream-channel-header></stream-channel-header>
+    <stream-message-list></stream-message-list>
+    <stream-notification-list></stream-notification-list>
+    <stream-message-input></stream-message-input>
+  </stream-channel>
+</section>
+
+<ng-template #unavailable>
+  <div class="chat-notification">Chat is not available...</div>
+</ng-template>
+
+<ng-template #channelPreview let-channel="channel">
+  <section (click)="activateChannel(channel)">
+    <h1>{{channel.data?.name}}</h1>
+    <div>{{channel?.state?.messages.at(-1)?.text}}</div>
+  </section>
+</ng-template>

@@ -256,11 +256,7 @@ export class ApiService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  getAuthenticatedUser(params?: {
-    context?: HttpContext
-  }
-): Observable<UserResponseDto> {
-
+  getAuthenticatedUser(params?: { context?: HttpContext }): Observable<UserResponseDto> {
     return this.getAuthenticatedUser$Response(params).pipe(
       map((r: StrictHttpResponse<UserResponseDto>) => r.body as UserResponseDto)
     );

@@ -1,19 +1,24 @@
-<header>
-  <mat-toolbar>
+<header style="height: 250px">
+  <div>
+    <mat-toolbar style="height: 250px">
 
-  </mat-toolbar>
+      <img routerLink="/me" *ngIf="authService.firebaseUser!==null"
+           mat-card-image style="object-fit:cover; height: 200px; width: 200px; border-radius: 50%" src="{{authService.authenticatedUser.avatarUrl}}">
+
+      <h1 style="font-size: 150px">TattooArtistApp</h1>
+      <button mat-button routerLink="/home"><mat-icon>home</mat-icon></button>
+      <button mat-button routerLink="/me"><mat-icon>person</mat-icon></button>
+      <button mat-button routerLink="/chat"><mat-icon>message</mat-icon></button>
+    </mat-toolbar>
+  </div>
 </header>
+<br><br>
 
-<div fxLayout="row">
-  <div fxFlex>First item in row</div>
-  <div fxFlex>Second item in row</div>
-</div>
+<body>
+<router-outlet></router-outlet>
+</body>
 
-<div fxLayout="column">
-  <div fxFlex>First item in column</div>
-  <div fxFlex>Second item in column</div>
-</div>
 
-<footer>
+<footer style="margin-top: 100%">
   <mat-paginator [length]=1 [pageSize]=2 aria-label="Select page"></mat-paginator>
 </footer>
