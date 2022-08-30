@@ -1,9 +1,68 @@
-<mat-button-toggle routerLink="/users/bmq6dnfEMRhVKnNkOePVKd8J5S92" (click)="userService.getUserById('bmq6dnfEMRhVKnNkOePVKd8J5S92')">
-  <mat-icon>get</mat-icon>
-</mat-button-toggle>
-<mat-button-toggle (click)="authService.loginWithGoogle()">
-  <mat-icon>add</mat-icon>
-</mat-button-toggle>
-<mat-button-toggle (click)="authService.logout()">
-  <mat-icon>remove</mat-icon>
-</mat-button-toggle>
+
+
+<div fxLayout="row wrap" style="margin-left: 50px" >
+  <div fxFlex style="padding-bottom: 30px" *ngFor="let tattooWork of tattooWorkList">
+
+    <mat-card *ngIf="tattooWork.madeBy.id!==authService.authenticatedUser.id" style="width: 500px;">
+      <mat-card-header>
+        <img mat-card-avatar routerLink="/users/{{tattooWork.madeBy.id}}" src="{{tattooWork.madeBy.avatarUrl}}" style="background-size: cover;cursor: pointer">
+        <mat-card-title>{{tattooWork.madeBy.firstName}}</mat-card-title>
+        <mat-card-subtitle>{{tattooWork.madeBy.city? tattooWork.madeBy.city:"nowhere"}}</mat-card-subtitle>
+      </mat-card-header>
+      <img mat-card-image style="object-fit:cover; height: 80%" src="{{tattooWork.coverPhoto}}">
+      <mat-card-content>
+
+        <mat-button-toggle>
+          like : {{tattooWork.like_number}}
+        </mat-button-toggle>
+
+        <mat-button-toggle>
+          dislike: {{tattooWork.dislike_number}}
+        </mat-button-toggle>
+
+        <h2>{{tattooWork.description}}</h2>
+        <h2>value: {{tattooWork.price | currency:tattooWork.currency}}</h2>
+      </mat-card-content>
+
+      <mat-card-actions>
+        <form style="min-width: 150px; max-width: 500px;width: 100%;" *ngIf="tattooWork.clientId===authService.authenticatedUser.id">
+          <mat-form-field style="width: 100%;">
+            <mat-label>Leave a comment <mat-icon>add</mat-icon></mat-label>
+            <input matInput>
+          </mat-form-field>
+        </form>
+      </mat-card-actions>
+    </mat-card>
+
+    <mat-card *ngIf="tattooWork.madeBy.id===authService.authenticatedUser.id" matBadge="*" matBadgeSize="large" matBadgeColor="warn" style="width: 500px;">
+      <mat-card-header>
+        <img mat-card-avatar routerLink="/users/{{tattooWork.madeBy.id}}" src="{{tattooWork.madeBy.avatarUrl}}" style="background-size: cover;cursor: pointer">
+        <mat-card-title>{{tattooWork.madeBy.firstName}}</mat-card-title>
+        <mat-card-subtitle>{{tattooWork.madeBy.city? tattooWork.madeBy.city:"nowhere"}}</mat-card-subtitle>
+      </mat-card-header>
+      <img mat-card-image style="object-fit:cover; height: 80%" src="{{tattooWork.coverPhoto}}">
+      <mat-card-content>
+
+        <mat-button-toggle>
+          like : {{tattooWork.like_number}}
+        </mat-button-toggle>
+
+        <mat-button-toggle>
+          dislike: {{tattooWork.dislike_number}}
+        </mat-button-toggle>
+
+        <h2>{{tattooWork.description}}</h2>
+        <h2>value: {{tattooWork.price | currency: tattooWork.currency}}</h2>
+      </mat-card-content>
+
+      <mat-card-actions>
+        <form style="min-width: 150px; max-width: 500px;width: 100%;" *ngIf="tattooWork.clientId===authService.authenticatedUser.id">
+          <mat-form-field style="width: 100%;">
+            <mat-label>Leave a comment <mat-icon>add</mat-icon></mat-label>
+            <input matInput>
+          </mat-form-field>
+        </form>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>

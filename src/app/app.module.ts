@@ -33,10 +33,17 @@ import {AngularFireFunctionsModule, REGION} from "@angular/fire/compat/functions
 import {RouterModule, Routes} from "@angular/router";
 import {ReactiveFormsModule} from "@angular/forms";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
-import {MatOptionModule} from "@angular/material/core";
+import {MatNativeDateModule, MatOptionModule} from "@angular/material/core";
 import {MatButtonModule} from "@angular/material/button";
 import { HomePageComponent } from './components/home-page/home-page.component';
 import { MyProfileComponent } from './components/my-profile/my-profile.component';
+import {MatBadgeModule} from "@angular/material/badge";
+import { LoginDialogComponent } from './components/login-dialog/login-dialog.component';
+import { MatDialogModule} from "@angular/material/dialog";
+import {MatDividerModule} from "@angular/material/divider";
+import {MatDatepickerModule} from "@angular/material/datepicker";
+import { FirstLoginDialogComponent } from './components/first-login-dialog/first-login-dialog.component';
+import { FirstLoginCheckDialogComponent } from './components/first-login-check-dialog/first-login-check-dialog.component';
 
 const routes: Routes = [
   // { path: '**', redirectTo:'home', component: HomePageComponent},
@@ -54,7 +61,10 @@ const routes: Routes = [
     TattooWorkListComponent,
     ChatComponent,
     HomePageComponent,
-    MyProfileComponent
+    MyProfileComponent,
+    LoginDialogComponent,
+    FirstLoginDialogComponent,
+    FirstLoginCheckDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -86,7 +96,12 @@ const routes: Routes = [
     ReactiveFormsModule,
     MatAutocompleteModule,
     MatOptionModule,
-    MatButtonModule
+    MatButtonModule,
+    MatBadgeModule,
+    MatDialogModule,
+    MatDividerModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
 
   ],
   providers: [{ provide: REGION, useValue: 'europe-central2' }],

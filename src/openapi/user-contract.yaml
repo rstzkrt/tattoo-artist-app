@@ -59,7 +59,30 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-
+  /users/by-uid/{id}:
+    get:
+      operationId: getUserByUId
+      description: get user
+      parameters:
+        - in: path
+          name: id
+          description: user id
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponseDto'
+        default:
+          description: error payload
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
   /users/{id}:
     get:
       operationId: getUserById
@@ -85,6 +108,25 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+    delete:
+      operationId: deleteUser
+      description: delete user
+      parameters:
+        - in: path
+          name: id
+          description: user id
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: no content
+        default:
+          description: error payload
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
   /users/me:
     get:
       operationId: getAuthenticatedUser
@@ -104,7 +146,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
     delete:
-      operationId: deleteUser
+      security:
+        - bearerAuth: [ ]
+      operationId: deleteMe
       description: get user
       responses:
         200:
@@ -117,6 +161,8 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
 
     put:
+      security:
+        - bearerAuth: [ ]
       operationId: updateUser
       description: update user
       requestBody:
@@ -139,6 +185,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
     patch:
+      security:
+        - bearerAuth: [ ]
       operationId: createArtistAccount
       description: create artist page
       requestBody:
@@ -163,6 +211,8 @@ paths:
 
   /users/me/tattoo-works/{post_id}/favorites:
     put:
+      security:
+        - bearerAuth: [ ]
       operationId: favoriteTattooWork
       parameters:
         - in: path
@@ -187,6 +237,8 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
 
     delete:
+      security:
+        - bearerAuth: [ ]
       operationId: unfavoriteTattooWork
       parameters:
         - in: path
@@ -208,6 +260,8 @@ paths:
 
   /users/me/tattoo-artists/{artist_id}/favorites:
     put:
+      security:
+        - bearerAuth: [ ]
       operationId: favoriteTattooArtist
       parameters:
         - in: path
@@ -232,6 +286,8 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
 
     delete:
+      security:
+        - bearerAuth: [ ]
       operationId: unfavoriteTattooArtist
       parameters:
         - in: path
@@ -253,6 +309,8 @@ paths:
 
   /users/me/tattoo-works/{post_id}/likes:
     put:
+      security:
+        - bearerAuth: [ ]
       operationId: likeTattooWork
       description: like
       parameters:
@@ -273,6 +331,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
     delete:
+      security:
+        - bearerAuth: [ ]
       operationId: dislikeTattooWork
       description: dislike
       parameters:

@@ -1,14 +1,25 @@
 <header style="height: 250px">
   <div>
     <mat-toolbar style="height: 250px">
+      <section *ngIf="authService.firebaseUser!==null" style="margin-left: 5%; margin-top: 20px">
+        <img routerLink="/me"
+             mat-card-image
+             style="object-fit:cover;
+              height: 200px;
+               width: 200px;
+               border-radius: 10%;
+                cursor: pointer;"
+             src="{{authService.authenticatedUser.avatarUrl}}">
+      </section>
 
-      <img routerLink="/me" *ngIf="authService.firebaseUser!==null"
-           mat-card-image style="object-fit:cover; height: 200px; width: 200px; border-radius: 50%" src="{{authService.authenticatedUser.avatarUrl}}">
+      <h1 style="font-size: 150px;padding-left: 5%">TattooArtistApp</h1>
 
-      <h1 style="font-size: 150px">TattooArtistApp</h1>
-      <button mat-button routerLink="/home"><mat-icon>home</mat-icon></button>
-      <button mat-button routerLink="/me"><mat-icon>person</mat-icon></button>
-      <button mat-button routerLink="/chat"><mat-icon>message</mat-icon></button>
+      <button *ngIf="authService.firebaseUser!==null" (click)="signUpDialog()" mat-button color="warn" ><mat-icon>login</mat-icon>Sign up/Login</button>
+      <button *ngIf="authService.firebaseUser!==null" (click)="authService.logout()" mat-button color="warn" ><mat-icon>logout</mat-icon>Logout</button>
+
+      <button mat-button routerLink="/home"><mat-icon>home</mat-icon>home</button>
+      <button mat-button routerLink="/me"><mat-icon>person</mat-icon>profile</button>
+      <button mat-button routerLink="/chat"><mat-icon>message</mat-icon>messages</button>
     </mat-toolbar>
   </div>
 </header>

@@ -7,7 +7,6 @@ import {UserService} from "./user.service";
 import {HttpClient} from "@angular/common/http";
 import {AngularFireFunctions} from "@angular/fire/compat/functions";
 import {TokenOrProvider} from "stream-chat";
-import {ChatComponent} from "../components/chat/chat.component";
 import {ChatClientService} from "stream-chat-angular";
 
 @Injectable({
@@ -19,11 +18,9 @@ export class AuthService {
   firebaseUser: firebase.User;
   requestBodyUser: User = new User();
   idToken: Observable<string | null>;
-
   constructor(private afAuth: AngularFireAuth,
               private userService: UserService,
               private httpClient:HttpClient,
-              private auth:AngularFireAuth,
               private firebaseFunctions:AngularFireFunctions,
               private chatComp:ChatClientService) {
 
@@ -87,7 +84,7 @@ export class AuthService {
         .call(data => {
           console.log(data)
         });
-      this.chatComp.disconnectUser();
+      // this.chatComp.disconnectUser();
     });
   }
 }

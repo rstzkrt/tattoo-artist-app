@@ -1,0 +1,78 @@
+<h1 style="text-align: center">Date of birth picker (only for first register) </h1>
+
+<div style="text-align: center">
+
+  <mat-form-field appearance="fill">
+    <mat-label>Choose a date</mat-label>
+    <input matInput [matDatepicker]="picker">
+    <mat-hint>MM/DD/YYYY</mat-hint>
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+  <mat-divider style="color: blueviolet"></mat-divider>
+</div>
+
+
+<h1 style="text-align: center">Sign up/Sign in</h1>
+<div fxLayout="row">
+
+  <div style="padding-right: 1%">
+    <button mat-raised-button color="accent" style="width: 400px">
+      Sign up/Login With Facebook
+    </button>
+    <br><br>
+    <button mat-raised-button color="accent" style="width: 400px">
+      Sign up/Login With Twitter
+    </button>
+    <br><br>
+    <button (click)="authService.loginWithGoogle()" mat-raised-button color="accent" style="width: 400px">
+      Sign up/Login With Google
+    </button>
+    <br><br>
+    <h2 style="text-align: center">Login with Email/Password</h2>
+    <form >
+      <mat-form-field style="width: 400px;" color="accent">
+        <mat-label>Email</mat-label>
+        <input type="email" matInput formControlName="email" placeholder="email" style="width: 400px;">
+        <mat-error >Enter a valid email</mat-error>
+      </mat-form-field>
+      <br>
+      <mat-form-field style="width: 400px;" color="accent">
+        <mat-label>Password</mat-label>
+        <input type="password" matInput formControlName="password" placeholder="Password" style="width: 400px;">
+        <mat-error >Password is too short</mat-error>
+      </mat-form-field>
+      <br>
+      <button mat-raised-button color="accent">Sign In</button>
+    </form>
+  </div>
+
+  <mat-divider vertical style="color: blueviolet"></mat-divider>
+
+  <div style="padding-left: 1%">
+    <h2 style="text-align: center">Register</h2>
+    <form style="width: 400px">
+      <mat-form-field style="width: 400px;" color="accent">
+        <mat-label>Display Name</mat-label>
+        <input type="text" matInput formControlName="displayName" placeholder="Display Name" style="width: 400px">
+      </mat-form-field>
+      <br>
+      <mat-form-field style="width: 400px;" color="accent">
+        <mat-label>Email</mat-label>
+        <input type="email" matInput formControlName="email" placeholder="email" style="width: 400px;">
+      </mat-form-field>
+      <br>
+      <mat-form-field style="width: 400px;" color="accent">
+        <mat-label>Password</mat-label>
+        <input type="password" matInput formControlName="password" placeholder="Password" style="width: 400px;">
+      </mat-form-field>
+      <br>
+      <button style="text-align: center" mat-raised-button color="accent">Create Account</button>
+      <br>
+    </form>
+  </div>
+</div>
+
+
+
+

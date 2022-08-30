@@ -1,5 +1,7 @@
 <img *ngIf="authService.firebaseUser!==null"
      mat-card-image style="object-fit:cover; height: 200px; width: 200px; border-radius: 50%" src="{{authService.authenticatedUser.avatarUrl}}">
+
+
 <mat-button-toggle (click)="handleSendMessage()">
-  <mat-icon>message</mat-icon>
+  <mat-icon>message</mat-icon>send message now
 </mat-button-toggle>

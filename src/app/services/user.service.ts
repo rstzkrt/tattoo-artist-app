@@ -33,56 +33,63 @@ export class UserService{
     return this.userOpenApiService.getUserById(id);
   }
 
-  createArtistAccount(params: { context?: HttpContext; body: TattooArtistAccReqDto }): Observable<User> {
-    return new Observable<UserResponseDto>()
+  getUserByUId(id:string): Observable<UserResponseDto> {
+    return this.userOpenApiService.getUserByUId(id);
   }
 
-  createUser(params: { context?: HttpContext; body: ClientReqDto }): Observable<UserResponseDto> {
-    return new Observable<UserResponseDto>();
+  createArtistAccount(tattooArtistAccReqDto: TattooArtistAccReqDto,token:string): Observable<User> {
+    // let token:string;
+    // this.authService.firebaseUser.getIdToken().then(r =>token=r )
+    this.userOpenApiService.configuration.credentials= {"bearerAuth": token};
+    return this.userOpenApiService.createArtistAccount(tattooArtistAccReqDto);
   }
 
-  deleteUser(params?: { context?: HttpContext }): Observable<void> {
-    return new Observable<void>();
+  deleteMyAccount(token:string): Observable<void> {
+    this.userOpenApiService.configuration.credentials= {"bearerAuth": token};
+    return this.userOpenApiService.deleteMe()
   }
 
-  dislikeTattooWork(params: { post_id: string; context?: HttpContext }): Observable<void> {
-    return new Observable<void>();
+  dislikeTattooWork(tattoo_work_id:string,token:string): Observable<void> {
+    this.userOpenApiService.configuration.credentials= {"bearerAuth": token};
+    return this.userOpenApiService.dislikeTattooWork(tattoo_work_id);
   }
 
-  favoriteTattooArtist(params: { artist_id: string; context?: HttpContext }): Observable<UserResponseDto> {
-    return new Observable<UserResponseDto>();
+  favoriteTattooArtist(artistId:string,token:string): Observable<UserResponseDto> {
+    this.userOpenApiService.configuration.credentials= {"bearerAuth": token};
+    return this.userOpenApiService.favoriteTattooArtist(artistId)
   }
 
-  favoriteTattooWork(params: { post_id: string; context?: HttpContext }): Observable<UserResponseDto> {
-    return new Observable();
+  favoriteTattooWork(tattoo_work_id:string,token:string): Observable<UserResponseDto> {
+    this.userOpenApiService.configuration.credentials= {"bearerAuth": token};
+    return this.userOpenApiService.favoriteTattooWork(tattoo_work_id)
   }
 
-  getAllUsers(params?: { firstName?: string; lastName?: string; context?: HttpContext }): Observable<Array<UserResponseDto>> {
-    return new Observable();
+  getAllUsers(firstName?: string, lastName?: string): Observable<Array<UserResponseDto>> {
+    return this.userOpenApiService.getAllUsers(firstName,lastName)
   }
 
-  likeTattooWork(params: { post_id: string; context?: HttpContext }): Observable<void> {
-    return new Observable();
+  likeTattooWork(tattoo_work_id:string,token:string): Observable<void> {
+    this.userOpenApiService.configuration.credentials= {"bearerAuth": token};
+    return this.userOpenApiService.likeTattooWork(tattoo_work_id)
   }
 
-  unfavoriteTattooArtist(params: { artist_id: string; context?: HttpContext }): Observable<void> {
-    return new Observable();
+  unfavoriteTattooArtist(tattoo_artist_id:string,token:string): Observable<void> {
+    this.userOpenApiService.configuration.credentials= {"bearerAuth": token};
+    return this.userOpenApiService.unfavoriteTattooArtist(tattoo_artist_id)
   }
 
-  unfavoriteTattooWork(params: { post_id: string; context?: HttpContext }): Observable<void> {
-    return new Observable();
+  unfavoriteTattooWork(tattooWorkId:string,token:string): Observable<void> {
+    this.userOpenApiService.configuration.credentials= {"bearerAuth": token};
+    return this.userOpenApiService.unfavoriteTattooWork(tattooWorkId)
   }
 
-  updateUser(params: { context?: HttpContext; body: UserUpdateRequestDto }): Observable<UserResponseDto> {
-    return new Observable();
+  updateMe(userUpdateRequestDto: UserUpdateRequestDto,token:string): Observable<UserResponseDto> {
+    this.userOpenApiService.configuration.credentials= {"bearerAuth": token};
+    return this.userOpenApiService.updateUser(userUpdateRequestDto)
   }
 
-  userPriceInterval(params: { id: string; context?: HttpContext }): Observable<TattooArtistPriceInterval> {
-    return new Observable<TattooArtistPriceInterval>();
-  }
-
-  get rootUrl(): string {
-    return "";
+  userPriceInterval(user_id:string): Observable<TattooArtistPriceInterval> {
+    return this.userOpenApiService.userPriceInterval(user_id)
   }
 
 }

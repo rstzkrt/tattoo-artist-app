@@ -203,10 +203,61 @@ components:
           type: array
           items:
             type: string
-        madeById:
+        madeBy:
+          $ref: '#/components/schemas/MadeByInfo'
+
+    MadeByInfo:
+      type: object
+      properties:
+        id:
           type: string
           format: uuid
+        uid:
+          type: string
+          description: id for firebase auth
+        firstName:
+          type: string
+        lastName:
+          type: string
+        avatarUrl:
+          type: string
+        birthDate:
+          type: string
+          format: date
+        email:
+          type: string
+        hasArtistPage:
+          type: boolean
+        workDays:
+          type: array
+          items:
+            $ref: '#/components/schemas/WorkingDays'
+        averageRating:
+          type: number
+        phoneNumber:
+          type: string
+        street:
+          type: string
+        city:
+          type: string
+        country:
+          type: string
+        state:
+          type: string
+        postalCode:
+          type: string
+        otherInformation:
+          type: string
 
+    WorkingDays:
+      enum:
+        - MONDAY
+        - TUESDAY
+        - WEDNESDAY
+        - THURSDAY
+        - FRIDAY
+        - SATURDAY
+        - SUNDAY
     Currency:
       enum:
         - AED

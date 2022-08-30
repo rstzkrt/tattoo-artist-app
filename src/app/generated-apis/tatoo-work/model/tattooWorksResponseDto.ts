@@ -9,6 +9,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { MadeByInfo } from './madeByInfo';
 import { Currency } from './currency';
 
 
@@ -23,6 +24,6 @@ export interface TattooWorksResponseDto {
     like_number?: number;
     coverPhoto?: string;
     photos?: Array<string>;
-    madeById?: string;
+    madeBy?: MadeByInfo;
 }
 
