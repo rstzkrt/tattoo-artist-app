@@ -44,17 +44,12 @@ export class ChatComponent implements OnInit, AfterViewInit {
 
   @Input()
   channel!: Channel;
-
   showDialog = false;
-
   userSearchField = new FormControl();
-
   availableUsers$!: Observable<UserResponse<DefaultStreamChatGenerics>[]>;
-
   @Output()
   saved = new EventEmitter<string>();
   channelName = new FormControl();
-
   channelList:Channel[];
 
   constructor(
@@ -66,7 +61,6 @@ export class ChatComponent implements OnInit, AfterViewInit {
     private chatClientService: ChatClientService,
     private routeCurr: ActivatedRoute
   ) {}
-
 
   async ngOnInit() {
     this.streamI18nService.setTranslation();
@@ -94,20 +88,15 @@ export class ChatComponent implements OnInit, AfterViewInit {
       startWith(''),
       switchMap(queryString => this.chatClientService.autocompleteUsers(queryString)))
 
-    const filter = {type: 'messaging', id: {$in: [this.routeCurr.snapshot.paramMap.get('id')]}, members: {$in: [ this.auth.getCurrentUser().uid ]}};
-
+    let channel_id=this.routeCurr.snapshot.paramMap.get('id');
+    const filter = {type: 'messaging', id: {$eq: channel_id}, members: {$in: [ this.auth.getCurrentUser().uid ]}};
+    console.log(filter)
     await this.chatService.chatClient.queryChannels(filter, {last_message_at: -1}, {
       watch: false,
       state: true,
     }).then(data => {
       this.activateChannel(data[0])
     }).catch(err => err);
-
-    const filter1 = {type: 'messaging', members: {$in: [ this.auth.getCurrentUser().uid ]}};
-
-    this.channelList = await this.chatClientService.chatClient.queryChannels(filter1, {last_message_at: -1}, {state: true, watch: true});
-
-    console.log(this.channelList[0]);
   }
 
   ngAfterViewInit(): void {
@@ -132,6 +121,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
   // }
 
   activateChannel(channel: Channel<DefaultStreamChatGenerics>) {
+    console.log(channel)
     // if (channel.getClient()){
     //   channel.getClient().disconnect()
     // }
