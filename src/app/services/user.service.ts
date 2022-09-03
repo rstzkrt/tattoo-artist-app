@@ -33,13 +33,7 @@ export class UserService{
     return this.userOpenApiService.getUserById(id);
   }
 
-  getUserByUId(id:string): Observable<UserResponseDto> {
-    return this.userOpenApiService.getUserByUId(id);
-  }
-
   createArtistAccount(tattooArtistAccReqDto: TattooArtistAccReqDto,token:string): Observable<User> {
-    // let token:string;
-    // this.authService.firebaseUser.getIdToken().then(r =>token=r )
     this.userOpenApiService.configuration.credentials= {"bearerAuth": token};
     return this.userOpenApiService.createArtistAccount(tattooArtistAccReqDto);
   }

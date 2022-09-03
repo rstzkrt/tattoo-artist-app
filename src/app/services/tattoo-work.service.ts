@@ -27,8 +27,8 @@ export class TattooWorkService{
     return this.tattooWorkService.deleteTattooWork(id)
   }
 
-  getAllTattooWorks(country?: string, price?: number): Observable<Array<TattooWorksResponseDto>> {
-    return this.tattooWorkService.getAllTattooWorks(country,price)
+  getAllTattooWorks(page: number,size: number,price?: number,country?: string): Observable<Array<TattooWorksResponseDto>> {
+    return this.tattooWorkService.getAllTattooWorks(page,size,country,price)
   }
 
   getTattooWorkById(id: string): Observable<TattooWorksResponseDto> {

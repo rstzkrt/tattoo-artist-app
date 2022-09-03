@@ -1,13 +1,12 @@
 import {Injectable} from '@angular/core';
 import {User} from "../common/user";
 import firebase from "firebase/compat/app";
-import {Observable, Observer} from "rxjs";
+import {Observable} from "rxjs";
 import {AngularFireAuth} from "@angular/fire/compat/auth";
 import {UserService} from "./user.service";
 import {HttpClient} from "@angular/common/http";
 import {AngularFireFunctions} from "@angular/fire/compat/functions";
 import {StreamChat, TokenOrProvider} from "stream-chat";
-import {ChatClientService} from "stream-chat-angular";
 import {environment} from "../../environments/environment";
 
 @Injectable({
@@ -26,11 +25,13 @@ export class AuthService {
               private firebaseFunctions: AngularFireFunctions,) {
 
     this.afAuth.authState.subscribe(user => {
+      console.log(user)
       this.firebaseUser = user;
       if (user) {
         user.getIdToken().then((token) => {
           userService.fetchAuthenticatedUser(token).subscribe(data => {
             this.authenticatedUser = data;
+            console.log(this.authenticatedUser)
           }, error => console.error(error))
         })
       }

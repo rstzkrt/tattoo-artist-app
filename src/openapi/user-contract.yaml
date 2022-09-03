@@ -36,7 +36,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-# every user will be created as client first ,so we pass client request dto to request body
     post:
       operationId: createUser
       description: add user
@@ -59,30 +58,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-  /users/by-uid/{id}:
-    get:
-      operationId: getUserByUId
-      description: get user
-      parameters:
-        - in: path
-          name: id
-          description: user id
-          required: true
-          schema:
-            type: string
-      responses:
-        200:
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/UserResponseDto'
-        default:
-          description: error payload
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
   /users/{id}:
     get:
       operationId: getUserById
@@ -94,7 +69,6 @@ paths:
           required: true
           schema:
             type: string
-            format: uuid
       responses:
         200:
           description: OK

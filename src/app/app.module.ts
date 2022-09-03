@@ -48,7 +48,17 @@ import { FirstLoginCheckDialogComponent } from './components/first-login-check-d
 const routes: Routes = [
   // { path: '**', redirectTo:'home', component: HomePageComponent},
   { path: 'me', component: MyProfileComponent},
-  { path: 'chat/:id', component: ChatComponent},
+  { path: 'chat/:id',
+    component: ChatComponent ,
+    // loadChildren: () => {
+    //   import('@angular/fire/auth').then(m => m.authState)
+    //   import('@angular/fire/auth').then(m => m.AuthModule)
+    //   import('@angular/fire/auth').then(m => m.AuthModule)
+    //   import('@angular/fire/auth').then(m => m.AuthModule)
+    //   import('@angular/fire/compat/firestore').then(m => m.AngularFirestoreModule)
+    //   return import('@angular/fire/auth').then(m => m.AuthModule)
+    // },
+  },
   { path: 'users/:id', component: UserProfileComponent},
   { path: 'home', component: HomePageComponent}
 ];
@@ -68,6 +78,11 @@ const routes: Routes = [
   ],
   imports: [
     BrowserModule,
+    AngularFireAuthModule,
+    AngularFirestoreModule,
+    AngularFireStorageModule,
+    AngularFireDatabaseModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig),
     TranslateModule.forRoot(),
     StreamAutocompleteTextareaModule,
     StreamChatModule,
@@ -83,11 +98,6 @@ const routes: Routes = [
     MatIconModule,
     MatFormFieldModule,
     MatInputModule,
-    AngularFireAuthModule,
-    AngularFirestoreModule,
-    AngularFireStorageModule,
-    AngularFireDatabaseModule,
-    AngularFireModule.initializeApp(environment.firebaseConfig),
     MatButtonToggleModule,
     HttpClientModule,
     AngularFireFunctionsModule,
@@ -102,7 +112,6 @@ const routes: Routes = [
     MatDividerModule,
     MatDatepickerModule,
     MatNativeDateModule,
-
   ],
   providers: [{ provide: REGION, useValue: 'europe-central2' }],
   bootstrap: [AppComponent]

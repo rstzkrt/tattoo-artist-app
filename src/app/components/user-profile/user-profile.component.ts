@@ -16,7 +16,7 @@ import {AngularFireFunctions} from "@angular/fire/compat/functions";
 })
 export class UserProfileComponent implements OnInit {
 
-  user:User;
+  user:User=new User();
 
   constructor(public userService: UserService,
               public authService: AuthService,

@@ -219,15 +219,23 @@ export class DefaultService {
 
     /**
      * get all tattooWorks
+     * @param page 
+     * @param size 
      * @param country country
      * @param price country
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getAllTattooWorks(country?: string, price?: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<Array<TattooWorksResponseDto>>;
-    public getAllTattooWorks(country?: string, price?: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<Array<TattooWorksResponseDto>>>;
-    public getAllTattooWorks(country?: string, price?: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<Array<TattooWorksResponseDto>>>;
-    public getAllTattooWorks(country?: string, price?: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
+    public getAllTattooWorks(page: number, size: number, country?: string, price?: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<Array<TattooWorksResponseDto>>;
+    public getAllTattooWorks(page: number, size: number, country?: string, price?: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<Array<TattooWorksResponseDto>>>;
+    public getAllTattooWorks(page: number, size: number, country?: string, price?: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<Array<TattooWorksResponseDto>>>;
+    public getAllTattooWorks(page: number, size: number, country?: string, price?: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
+        if (page === null || page === undefined) {
+            throw new Error('Required parameter page was null or undefined when calling getAllTattooWorks.');
+        }
+        if (size === null || size === undefined) {
+            throw new Error('Required parameter size was null or undefined when calling getAllTattooWorks.');
+        }
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
         if (country !== undefined && country !== null) {
@@ -237,6 +245,14 @@ export class DefaultService {
         if (price !== undefined && price !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
             <any>price, 'price');
+        }
+        if (page !== undefined && page !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>page, 'page');
+        }
+        if (size !== undefined && size !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>size, 'size');
         }
 
         let localVarHeaders = this.defaultHeaders;

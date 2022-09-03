@@ -11,16 +11,17 @@ import {TattooWorksResponseDto} from "../../generated-apis/tatoo-work";
 })
 export class HomePageComponent implements OnInit {
 
-   tattooWorkList:Array<TattooWorksResponseDto>=new Array<TattooWorksResponseDto>()
+  tattooWorkList: Array<TattooWorksResponseDto> = new Array<TattooWorksResponseDto>()
+  page: number=1;
+  size: number=1;
+  price:number=0;
 
-  constructor(public userService:UserService, public authService:AuthService,private tattooWorkService:TattooWorkService) {
-
-     this.tattooWorkService.getAllTattooWorks().subscribe((data)=>{
-      this.tattooWorkList=data
-      console.log(this.tattooWorkList.length)
+  constructor(public userService: UserService, public authService: AuthService, private tattooWorkService: TattooWorkService) {
+    this.tattooWorkService.getAllTattooWorks(this.page,this.size,this.price).subscribe((data) => {
+      this.tattooWorkList = data
     })
-
   }
+
   ngOnInit(): void {
   }
 }

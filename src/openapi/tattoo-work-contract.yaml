@@ -21,6 +21,16 @@ paths:
           required: false
           schema:
             type: number
+        - in: query
+          name: page
+          required: true
+          schema:
+            type: integer
+        - in: query
+          name: size
+          required: true
+          schema:
+            type: integer
       responses:
         200:
           description: OK
