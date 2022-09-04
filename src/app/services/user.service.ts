@@ -58,8 +58,8 @@ export class UserService{
     return this.userOpenApiService.favoriteTattooWork(tattoo_work_id)
   }
 
-  getAllUsers(firstName?: string, lastName?: string): Observable<Array<UserResponseDto>> {
-    return this.userOpenApiService.getAllUsers(firstName,lastName)
+  getAllUsers(page: number,size: number,firstName?: string, lastName?: string): Observable<Array<UserResponseDto>> {
+    return this.userOpenApiService.getAllUsers(page,size,firstName,lastName)
   }
 
   likeTattooWork(tattoo_work_id:string,token:string): Observable<void> {

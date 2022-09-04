@@ -8,6 +8,8 @@ import {HttpClient} from "@angular/common/http";
 import {AngularFireFunctions} from "@angular/fire/compat/functions";
 import {StreamChat, TokenOrProvider} from "stream-chat";
 import {environment} from "../../environments/environment";
+import {LoginDialogComponent} from "../components/login-dialog/login-dialog.component";
+import {MatDialog} from "@angular/material/dialog";
 
 @Injectable({
   providedIn: 'root'
@@ -18,11 +20,12 @@ export class AuthService {
   firebaseUser: firebase.User;
   requestBodyUser: User = new User();
   idToken: Observable<string | null>;
-
+  dialogRef:any;
   constructor(private afAuth: AngularFireAuth,
               private userService: UserService,
               private httpClient: HttpClient,
-              private firebaseFunctions: AngularFireFunctions,) {
+              private firebaseFunctions: AngularFireFunctions,
+              public dialog: MatDialog) {
 
     this.afAuth.authState.subscribe(user => {
       console.log(user)
@@ -56,7 +59,7 @@ export class AuthService {
         this.requestBodyUser.avatarUrl = res.user.photoURL;
         if (res.user.displayName.split(" ").length === 1) {
           this.requestBodyUser.firstName = res.user.displayName;
-          this.requestBodyUser.lastName = res.user.displayName;
+          this.requestBodyUser.lastName = "";
         } else {
           this.requestBodyUser.firstName = res.user.displayName.split(" ")[0];
           this.requestBodyUser.lastName = res.user.displayName.split(" ")[length];
@@ -86,13 +89,16 @@ export class AuthService {
           );
           console.log(data)
         });
-
-
         console.log("Login Success")
+        this.dialogRef.close()
       }
     ).catch(err => {
       console.log(err)
     })
+  }
+
+  signUpDialog() {
+    this.dialogRef= this.dialog.open(LoginDialogComponent);
   }
 
   logout() {

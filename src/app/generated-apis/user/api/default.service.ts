@@ -549,15 +549,23 @@ export class DefaultService {
 
     /**
      * get users
+     * @param page 
+     * @param size 
      * @param firstName user firstname
      * @param lastName user lastname
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getAllUsers(firstName?: string, lastName?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<Array<UserResponseDto>>;
-    public getAllUsers(firstName?: string, lastName?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<Array<UserResponseDto>>>;
-    public getAllUsers(firstName?: string, lastName?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<Array<UserResponseDto>>>;
-    public getAllUsers(firstName?: string, lastName?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
+    public getAllUsers(page: number, size: number, firstName?: string, lastName?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<Array<UserResponseDto>>;
+    public getAllUsers(page: number, size: number, firstName?: string, lastName?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<Array<UserResponseDto>>>;
+    public getAllUsers(page: number, size: number, firstName?: string, lastName?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<Array<UserResponseDto>>>;
+    public getAllUsers(page: number, size: number, firstName?: string, lastName?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
+        if (page === null || page === undefined) {
+            throw new Error('Required parameter page was null or undefined when calling getAllUsers.');
+        }
+        if (size === null || size === undefined) {
+            throw new Error('Required parameter size was null or undefined when calling getAllUsers.');
+        }
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
         if (firstName !== undefined && firstName !== null) {
@@ -567,6 +575,14 @@ export class DefaultService {
         if (lastName !== undefined && lastName !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
             <any>lastName, 'lastName');
+        }
+        if (page !== undefined && page !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>page, 'page');
+        }
+        if (size !== undefined && size !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>size, 'size');
         }
 
         let localVarHeaders = this.defaultHeaders;

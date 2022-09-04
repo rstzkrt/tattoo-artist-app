@@ -1,12 +1,6 @@
-<!--<div *ngFor="let channel of channelList ">-->
-<!--  <div>-->
-<!--    {{channel.state.messageSets[0].messages[channel.state.messageSets[0].messages.length-1].text}}-->
-<!--  </div>-->
-<!--</div>-->
-
 <section class="chat" *ngIf="chatIsReady; else unavailable">
+  <stream-channel-list></stream-channel-list>
   <stream-channel>
-      <stream-channel-list></stream-channel-list>
     <stream-channel-header></stream-channel-header>
     <stream-message-list></stream-message-list>
     <stream-notification-list></stream-notification-list>
@@ -15,12 +9,21 @@
 </section>
 
 <ng-template #unavailable>
+  <mat-spinner></mat-spinner>
+
   <div class="chat-notification">Chat is not available...</div>
 </ng-template>
 
-<!--<ng-template #channelPreview let-channel="channel">-->
-<!--  <section (click)="activateChannel(channel)">-->
-<!--    <h1>{{channel.data?.name}}</h1>-->
-<!--    <div>{{channel?.state?.messages.at(-1)?.text}}</div>-->
-<!--  </section>-->
-<!--</ng-template>-->
+<ng-template #channelPreview let-channel="channel">
+  <section (click)="activateChannel(channel)">
+      <mat-card routerLink="/chats/{{channel.id}}" *ngIf="channel?.state?.members | filterMembers: auth.authenticatedUser.uid; let member">
+
+        <mat-card-header>
+          <img mat-card-avatar src="{{member.image}}" style="background-size: cover;cursor: pointer">
+          <mat-card-title>{{channel.data?.name}}</mat-card-title>
+          <mat-card-subtitle>{{channel?.state?.messages.at(-1)?.text}}</mat-card-subtitle>
+        </mat-card-header>
+
+      </mat-card>
+  </section>
+</ng-template>

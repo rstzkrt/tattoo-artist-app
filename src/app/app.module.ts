@@ -1,10 +1,10 @@
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import {NgModule} from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
 
-import { AppComponent } from './app.component';
-import { UserProfileComponent } from './components/user-profile/user-profile.component';
-import { CreateArtistPageComponent } from './components/create-artist-page/create-artist-page.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {AppComponent} from './app.component';
+import {UserProfileComponent} from './components/user-profile/user-profile.component';
+import {CreateArtistPageComponent} from './components/create-artist-page/create-artist-page.component';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatSliderModule} from "@angular/material/slider";
 import {MatPaginatorModule} from "@angular/material/paginator";
@@ -16,7 +16,7 @@ import {MatSidenavModule} from "@angular/material/sidenav";
 import {MatIconModule} from "@angular/material/icon";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
-import { TattooWorkListComponent } from './components/tattoo-work-list/tattoo-work-list.component';
+import {TattooWorkListComponent} from './components/tattoo-work-list/tattoo-work-list.component';
 import {AngularFireModule} from "@angular/fire/compat";
 import {environment} from "../environments/environment";
 import {AngularFireAuthModule} from "@angular/fire/compat/auth";
@@ -25,9 +25,9 @@ import {AngularFireDatabaseModule} from "@angular/fire/compat/database";
 import {AngularFirestoreModule} from "@angular/fire/compat/firestore";
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
 import {HttpClientModule} from "@angular/common/http";
-import { TranslateModule } from '@ngx-translate/core';
-import { StreamChatModule, StreamAutocompleteTextareaModule } from 'stream-chat-angular';
-import { ChatComponent } from './components/chat/chat.component';
+import {TranslateModule} from '@ngx-translate/core';
+import {StreamChatModule, StreamAutocompleteTextareaModule} from 'stream-chat-angular';
+import {ChatComponent} from './components/chat/chat.component';
 import {AuthModule} from "@angular/fire/auth";
 import {AngularFireFunctionsModule, REGION} from "@angular/fire/compat/functions";
 import {RouterModule, Routes} from "@angular/router";
@@ -35,36 +35,30 @@ import {ReactiveFormsModule} from "@angular/forms";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {MatNativeDateModule, MatOptionModule} from "@angular/material/core";
 import {MatButtonModule} from "@angular/material/button";
-import { HomePageComponent } from './components/home-page/home-page.component';
-import { MyProfileComponent } from './components/my-profile/my-profile.component';
+import {HomePageComponent} from './components/home-page/home-page.component';
+import {MyProfileComponent} from './components/my-profile/my-profile.component';
 import {MatBadgeModule} from "@angular/material/badge";
-import { LoginDialogComponent } from './components/login-dialog/login-dialog.component';
-import { MatDialogModule} from "@angular/material/dialog";
+import {LoginDialogComponent} from './components/login-dialog/login-dialog.component';
+import {MatDialogModule} from "@angular/material/dialog";
 import {MatDividerModule} from "@angular/material/divider";
 import {MatDatepickerModule} from "@angular/material/datepicker";
-import { FirstLoginDialogComponent } from './components/first-login-dialog/first-login-dialog.component';
-import { FirstLoginCheckDialogComponent } from './components/first-login-check-dialog/first-login-check-dialog.component';
+import {MatChipsModule} from "@angular/material/chips";
+import {FilterMembersPipe} from "./components/chat/filter.pipe";
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 
 const routes: Routes = [
-  // { path: '**', redirectTo:'home', component: HomePageComponent},
-  { path: 'me', component: MyProfileComponent},
-  { path: 'chat/:id',
-    component: ChatComponent ,
-    // loadChildren: () => {
-    //   import('@angular/fire/auth').then(m => m.authState)
-    //   import('@angular/fire/auth').then(m => m.AuthModule)
-    //   import('@angular/fire/auth').then(m => m.AuthModule)
-    //   import('@angular/fire/auth').then(m => m.AuthModule)
-    //   import('@angular/fire/compat/firestore').then(m => m.AngularFirestoreModule)
-    //   return import('@angular/fire/auth').then(m => m.AuthModule)
-    // },
-  },
-  { path: 'users/:id', component: UserProfileComponent},
-  { path: 'home', component: HomePageComponent}
+  {path: 'me', component: MyProfileComponent},
+  {path: 'chats', component: ChatComponent},
+  {path: 'chats/:id', component: ChatComponent},
+  {path: 'users/:id', component: UserProfileComponent},
+  {path: 'home', component: HomePageComponent},
+  {path: '', redirectTo: 'home', pathMatch: 'full'},
+  {path: '**', redirectTo: 'home', pathMatch: 'full'}
 ];
 
 @NgModule({
   declarations: [
+    FilterMembersPipe,
     AppComponent,
     UserProfileComponent,
     CreateArtistPageComponent,
@@ -72,9 +66,7 @@ const routes: Routes = [
     ChatComponent,
     HomePageComponent,
     MyProfileComponent,
-    LoginDialogComponent,
-    FirstLoginDialogComponent,
-    FirstLoginCheckDialogComponent
+    LoginDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -112,8 +104,10 @@ const routes: Routes = [
     MatDividerModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatChipsModule,
+    MatProgressSpinnerModule,
   ],
-  providers: [{ provide: REGION, useValue: 'europe-central2' }],
+  providers: [{provide: REGION, useValue: 'europe-central2'}],
   bootstrap: [AppComponent]
 })
 export class AppModule {

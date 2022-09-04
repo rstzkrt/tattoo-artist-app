@@ -66,3 +66,8 @@
     </mat-card>
   </div>
 </div>
+
+<footer style="margin-top: auto">
+  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" [pageSize]="5" [length]="totalElements" (page)="nextPage($event)"> </mat-paginator>
+</footer>
+

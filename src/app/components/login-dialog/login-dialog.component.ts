@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {AngularFireAuth} from "@angular/fire/compat/auth";
 import {AuthService} from "../../services/auth.service";
 import {MatDialog} from "@angular/material/dialog";
-import {FirstLoginDialogComponent} from "../first-login-dialog/first-login-dialog.component";
 
 @Component({
   selector: 'app-login-dialog',
@@ -16,8 +14,5 @@ export class LoginDialogComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  openDialog() {
-    this.dialog.open(FirstLoginDialogComponent);
-  }
 
 }

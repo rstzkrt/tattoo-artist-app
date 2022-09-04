@@ -65,10 +65,10 @@ export class UserProfileComponent implements OnInit {
           // console.log("if")
           const channel = client.channel('messaging', { members: [this.authService.getCurrentUser().uid, receiverUser.uid]});
           await channel.create();
-          await this.router.navigateByUrl("/chat/" + channel.id)
+          await this.router.navigateByUrl("/chats/" + channel.id)
         } else {
           // console.log("else1")
-          await this.router.navigateByUrl("/chat/" + check[0].id)
+          await this.router.navigateByUrl("/chats/" + check[0].id)
         }
       });
 
