@@ -45,12 +45,16 @@ import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatChipsModule} from "@angular/material/chips";
 import {FilterMembersPipe} from "./components/chat/filter.pipe";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import { CreateArtistAccountFormComponent } from './components/create-artist-account-form/create-artist-account-form.component';
+import {MatTabsModule} from "@angular/material/tabs";
+import {MatSelectModule} from "@angular/material/select";
 
 const routes: Routes = [
   {path: 'me', component: MyProfileComponent},
   {path: 'chats', component: ChatComponent},
   {path: 'chats/:id', component: ChatComponent},
   {path: 'users/:id', component: UserProfileComponent},
+  {path: 'artist-account-form', component: CreateArtistAccountFormComponent},
   {path: 'home', component: HomePageComponent},
   {path: '', redirectTo: 'home', pathMatch: 'full'},
   {path: '**', redirectTo: 'home', pathMatch: 'full'}
@@ -66,7 +70,8 @@ const routes: Routes = [
     ChatComponent,
     HomePageComponent,
     MyProfileComponent,
-    LoginDialogComponent
+    LoginDialogComponent,
+    CreateArtistAccountFormComponent
   ],
   imports: [
     BrowserModule,
@@ -106,6 +111,8 @@ const routes: Routes = [
     MatNativeDateModule,
     MatChipsModule,
     MatProgressSpinnerModule,
+    MatTabsModule,
+    MatSelectModule,
   ],
   providers: [{provide: REGION, useValue: 'europe-central2'}],
   bootstrap: [AppComponent]

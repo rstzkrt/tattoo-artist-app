@@ -1,15 +1,38 @@
-
+<mat-toolbar color="primary">
+  <section>
+      <mat-chip-list aria-label=" selection">
+        <mat-chip color="primary">
+            Poland
+          <button matChipRemove>
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </mat-chip>
+        <mat-chip color="primary">
+          Germany
+          <button matChipRemove>
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </mat-chip>
+        <mat-chip color="primary">
+          Italy
+          <button matChipRemove>
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </mat-chip>
+      </mat-chip-list>
+  </section>
+</mat-toolbar>
 
 <div fxLayout="row wrap" style="margin-left: 50px" >
   <div fxFlex style="padding-bottom: 30px" *ngFor="let tattooWork of tattooWorkList">
 
-    <mat-card *ngIf="tattooWork.madeBy.id!==authService.authenticatedUser.id" style="width: 500px;">
+    <mat-card *ngIf="tattooWork.madeBy.id!==authService.authenticatedUser.id" style="width: 550px;">
       <mat-card-header>
         <img mat-card-avatar routerLink="/users/{{tattooWork.madeBy.id}}" src="{{tattooWork.madeBy.avatarUrl}}" style="background-size: cover;cursor: pointer">
         <mat-card-title>{{tattooWork.madeBy.firstName}}</mat-card-title>
         <mat-card-subtitle>{{tattooWork.madeBy.city? tattooWork.madeBy.city:"nowhere"}}</mat-card-subtitle>
       </mat-card-header>
-      <img mat-card-image style="object-fit:cover; height: 80%" src="{{tattooWork.coverPhoto}}">
+      <img mat-card-image style="object-fit:cover; height: 100%" src="{{tattooWork.coverPhoto}}">
       <mat-card-content>
 
         <mat-button-toggle>
@@ -25,8 +48,8 @@
       </mat-card-content>
 
       <mat-card-actions>
-        <form style="min-width: 150px; max-width: 500px;width: 100%;" *ngIf="tattooWork.clientId===authService.authenticatedUser.id">
-          <mat-form-field style="width: 100%;">
+        <form style="min-width: 150px; max-width: 520px;width: 100%;" *ngIf="tattooWork.clientId===authService.authenticatedUser.id">
+          <mat-form-field >
             <mat-label>Leave a comment <mat-icon>add</mat-icon></mat-label>
             <input matInput>
           </mat-form-field>
@@ -57,7 +80,7 @@
 
       <mat-card-actions>
         <form style="min-width: 150px; max-width: 500px;width: 100%;" *ngIf="tattooWork.clientId===authService.authenticatedUser.id">
-          <mat-form-field style="width: 100%;">
+          <mat-form-field>
             <mat-label>Leave a comment <mat-icon>add</mat-icon></mat-label>
             <input matInput>
           </mat-form-field>
