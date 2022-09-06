@@ -3,5 +3,13 @@
 
 
 <mat-button-toggle (click)="handleSendMessage()">
-  <mat-icon>message</mat-icon>send message now to->  {{user.uid}}
+  <mat-icon>message</mat-icon>send message now to ->    {{user.uid}}
 </mat-button-toggle>
+
+<div *ngIf="user.hasArtistPage===false">
+  user doesnt artist page
+</div>
+
+<div *ngIf="user.hasArtistPage===true">
+  user has artist page
+</div>
