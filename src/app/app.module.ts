@@ -3,7 +3,6 @@ import {BrowserModule} from '@angular/platform-browser';
 
 import {AppComponent} from './app.component';
 import {UserProfileComponent} from './components/user-profile/user-profile.component';
-import {CreateArtistPageComponent} from './components/create-artist-page/create-artist-page.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatSliderModule} from "@angular/material/slider";
@@ -48,12 +47,18 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import { CreateArtistAccountFormComponent } from './components/create-artist-account-form/create-artist-account-form.component';
 import {MatTabsModule} from "@angular/material/tabs";
 import {MatSelectModule} from "@angular/material/select";
+import { PostTattooWorkComponent } from './components/post-tattoo-work/post-tattoo-work.component';
+import { EditTattooWorkComponent } from './components/edit-tattoo-work/edit-tattoo-work.component';
+import { EditProfileComponent } from './components/edit-profile/edit-profile.component';
 
 const routes: Routes = [
   {path: 'me', component: MyProfileComponent},
+  {path: 'me-edit', component: EditProfileComponent},
   {path: 'chats', component: ChatComponent},
   {path: 'chats/:id', component: ChatComponent},
   {path: 'users/:id', component: UserProfileComponent},
+  {path: 'post', component: PostTattooWorkComponent},
+  {path: 'edit-tattoo-work/:id', component: EditTattooWorkComponent},
   {path: 'artist-account-form', component: CreateArtistAccountFormComponent},
   {path: 'home', component: HomePageComponent},
   {path: '', redirectTo: 'home', pathMatch: 'full'},
@@ -65,13 +70,15 @@ const routes: Routes = [
     FilterMembersPipe,
     AppComponent,
     UserProfileComponent,
-    CreateArtistPageComponent,
     TattooWorkListComponent,
     ChatComponent,
     HomePageComponent,
     MyProfileComponent,
     LoginDialogComponent,
-    CreateArtistAccountFormComponent
+    CreateArtistAccountFormComponent,
+    PostTattooWorkComponent,
+    EditTattooWorkComponent,
+    EditProfileComponent
   ],
   imports: [
     BrowserModule,

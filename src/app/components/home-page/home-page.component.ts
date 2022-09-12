@@ -4,6 +4,7 @@ import {AuthService} from "../../services/auth.service";
 import {TattooWorkService} from "../../services/tattoo-work.service";
 import {TattooWorksResponseDto} from "../../generated-apis/tatoo-work";
 import {PageEvent} from "@angular/material/paginator";
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'app-home-page',
@@ -16,7 +17,11 @@ export class HomePageComponent implements OnInit {
   totalElements: number = 0;
   price:number=0;
 
-  constructor(public userService: UserService, public authService: AuthService, private tattooWorkService: TattooWorkService) {
+  constructor(public userService: UserService,
+              public authService: AuthService,
+              private tattooWorkService: TattooWorkService,
+              private tattooService:TattooWorkService,
+              private router:ActivatedRoute) {
 
   }
 
@@ -27,9 +32,11 @@ export class HomePageComponent implements OnInit {
   private getTattoos(page:number,size:number) {
     this.tattooWorkService.getAllTattooWorks(page,size,this.price)
       .subscribe(data => {
+
           // for (let i = 0; i < 100; i++) {
           //   data[i]=data[1]
           // }
+
           this.tattooWorkList = data;
           this.totalElements = data.length;//
         }
@@ -42,5 +49,13 @@ export class HomePageComponent implements OnInit {
     let page = event.pageIndex;
     let size = event.pageSize;
     this.getTattoos(page,size);
+  }
+
+  delete(id:string){
+    this.authService.getCurrentUser().getIdToken(true).then(token=>{
+      this.tattooService.deleteTattooWork(id,token).subscribe(data=>{
+        console.log(data)
+      })
+    })
   }
 }

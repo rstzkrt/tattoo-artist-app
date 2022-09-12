@@ -7,7 +7,7 @@ import {ClientReqDto} from "../generated/user/models/client-req-dto";
 import {UserUpdateRequestDto} from "../generated/user/models/user-update-request-dto";
 import {TattooArtistPriceInterval} from "../generated/user/models/tattoo-artist-price-interval";
 import {User} from "../common/user";
-import {DefaultService} from "../generated-apis/user";
+import {DefaultService, TattooWorksResponseDto} from "../generated-apis/user";
 
 @Injectable({
   providedIn: 'root'
@@ -38,6 +38,11 @@ export class UserService{
     return this.userOpenApiService.createArtistAccount(tattooArtistAccReqDto);
   }
 
+  getTattooWorks(token:string) : Observable<Array<TattooWorksResponseDto>>{
+    this.userOpenApiService.configuration.credentials= {"bearerAuth": token};
+    return this.userOpenApiService.getTattooWorks();
+
+  }
   deleteMyAccount(token:string): Observable<void> {
     this.userOpenApiService.configuration.credentials= {"bearerAuth": token};
     return this.userOpenApiService.deleteMe()

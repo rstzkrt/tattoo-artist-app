@@ -21,6 +21,7 @@ export class AuthService {
   requestBodyUser: User = new User();
   idToken: Observable<string | null>;
   dialogRef:any;
+
   constructor(private afAuth: AngularFireAuth,
               private userService: UserService,
               private httpClient: HttpClient,
@@ -42,7 +43,6 @@ export class AuthService {
   }
 
   getCurrentUser() {
-    console.log(this.firebaseUser.uid)
     return this.firebaseUser;
   }
 

@@ -4,18 +4,19 @@
                width: 200px;
                border-radius: 50%;" src="{{user.photoURL}}">
     <br>
-    <mat-button-toggle routerLink="/artist-account-form">
+    <mat-button-toggle routerLink="/artist-account-form" *ngIf="authService.authenticatedUser.hasArtistPage===false">
       <mat-icon>add</mat-icon>
       Create an artist page
     </mat-button-toggle>
     <br>
-    <mat-button-toggle>
+    <mat-button-toggle routerLink="/me-edit">
       Update Profile
     </mat-button-toggle>
+    <br>
+    <mat-button-toggle routerLink="/post" >
+      Post a Tattoo Work
+    </mat-button-toggle>
   </section>
-  <h1 style="text-align: center">{{user.displayName}}</h1>
-  <h1 style="text-align: center">{{user.displayName}}</h1>
-  <h1 style="text-align: center">{{user.displayName}}</h1>
   <h1 style="text-align: center">{{user.displayName}}</h1>
 </mat-card>
 
@@ -43,8 +44,44 @@
     <mat-toolbar>
       My Tattoo Works
     </mat-toolbar>
-    <div style="background-color: #a3ff5e">
+    <div >
+      <div fxLayout="row wrap" style="margin-left: 50px" >
+        <div fxFlex style="padding-bottom: 30px" *ngFor="let tattooWork of myTattooWorks">
+          <mat-card style="width: 520px;">
+            <mat-card-header>
+              <img mat-card-avatar routerLink="/users/{{tattooWork.madeBy.id}}" src="{{tattooWork.madeBy.avatarUrl}}" style="background-size: cover;cursor: pointer">
+              <mat-card-title>{{tattooWork.madeBy.firstName}}</mat-card-title>
+              <mat-card-subtitle>{{tattooWork.madeBy.city? tattooWork.madeBy.city:"nowhere"}}</mat-card-subtitle>
+            </mat-card-header>
+            <img mat-card-image style="object-fit:cover; height: 80%" src="{{tattooWork.coverPhoto}}">
+            <mat-card-content>
 
+              <mat-button-toggle>
+                like : {{tattooWork.like_number}}
+              </mat-button-toggle>
+
+              <mat-button-toggle>
+                dislike: {{tattooWork.dislike_number}}
+              </mat-button-toggle>
+
+              <h2>{{tattooWork.description}}</h2>
+              <h2>value: {{tattooWork.price | currency: tattooWork.currency}}</h2>
+            </mat-card-content>
+
+            <mat-card-actions>
+              <form style="min-width: 150px; max-width: 500px;width: 100%;" *ngIf="tattooWork.clientId===authService.authenticatedUser.id">
+                <mat-form-field>
+                  <mat-label>Leave a comment <mat-icon>add</mat-icon></mat-label>
+                  <input matInput>
+                </mat-form-field>
+              </form>
+            </mat-card-actions>
+            <button mat-flat-button routerLink="/edit-tattoo-work/{{tattooWork.id}}">Edit</button>
+            <button mat-flat-button (click)="delete(tattooWork.id)" >Delete</button>
+
+          </mat-card>
+        </div>
+      </div>
     </div>
   </mat-tab>
 

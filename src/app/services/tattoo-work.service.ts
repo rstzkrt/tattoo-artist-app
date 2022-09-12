@@ -19,11 +19,13 @@ export class TattooWorkService{
     tattooWorkService.configuration.basePath=this._rootUrl;
   }
 
-  createTattooWork(tattooWorkPostRequestDto: TattooWorkPostRequestDto): Observable<TattooWorksResponseDto> {
+  createTattooWork(tattooWorkPostRequestDto: TattooWorkPostRequestDto,token:string): Observable<TattooWorksResponseDto> {
+    this.tattooWorkService.configuration.credentials= {"bearerAuth": token};
     return this.tattooWorkService.createTattooWork(tattooWorkPostRequestDto);
   }
 
-  deleteTattooWork(id: string): Observable<any> {
+  deleteTattooWork(id: string,token:string): Observable<any> {
+    this.tattooWorkService.configuration.credentials= {"bearerAuth": token};
     return this.tattooWorkService.deleteTattooWork(id)
   }
 
@@ -35,7 +37,8 @@ export class TattooWorkService{
     return this.tattooWorkService.getTattooWorkById(id)
   }
 
-  patchTattooWork(id: string, tattooWorkPatchRequestDto: TattooWorkPatchRequestDto): Observable<TattooWorksResponseDto> {
+  patchTattooWork(id: string, tattooWorkPatchRequestDto: TattooWorkPatchRequestDto,token:string): Observable<TattooWorksResponseDto> {
+    this.tattooWorkService.configuration.credentials= {"bearerAuth": token};
     return this.tattooWorkService.patchTattooWork(id,tattooWorkPatchRequestDto)
   }
 }

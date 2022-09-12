@@ -17,7 +17,7 @@ export class CreateArtistAccountFormComponent implements OnInit {
   constructor(private formBuilder: FormBuilder,
               private authService: AuthService,
               private userService: UserService,
-              private route:Router) {
+              private route: Router) {
   }
 
   ngOnInit(): void {

@@ -19,6 +19,5 @@ export interface TattooWorkPostRequestDto {
     coverPhoto?: string;
     photos?: Array<string>;
     clientId?: string;
-    madeById?: string;
 }
 
