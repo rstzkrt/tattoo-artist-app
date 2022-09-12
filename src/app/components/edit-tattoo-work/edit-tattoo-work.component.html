@@ -1,0 +1,36 @@
+<p>edit-tattoo-work works!</p>
+<div style="text-align: center">
+  <mat-card style="margin-left: 30%;margin-right: 30%;">
+    <form *ngIf="patchTattooWorkFormGroup" [formGroup]="patchTattooWorkFormGroup" (ngSubmit)="update()">
+      <div formGroupName="patchTattooWork">
+        <mat-form-field appearance="fill" color="warn">
+          <mat-label>Description</mat-label>
+          <input matInput formControlName="description" required>
+        </mat-form-field>
+        <br>
+        <mat-form-field appearance="fill" color="warn">
+          <mat-label>Price</mat-label>
+          <input matInput formControlName="price" required>
+        </mat-form-field>
+        <br>
+        <mat-form-field appearance="fill" color="warn">
+          <mat-label>Currency</mat-label>
+          <input matInput placeholder="PLN,EUR" formControlName="currency" required>
+        </mat-form-field>
+        <br>
+        <mat-form-field appearance="fill" color="warn">
+          <mat-label>Cover Photo</mat-label>
+          <input matInput formControlName="coverPhoto" required>
+        </mat-form-field>
+        <br>
+<!--        <mat-form-field appearance="fill" color="warn">-->
+<!--          <mat-label>photos</mat-label>-->
+<!--          <input matInput formControlName="photos" required>-->
+<!--        </mat-form-field>-->
+        <br>
+      </div>
+      <button mat-button mat-flat-button color="accent" (submit)="update()">UPDATE</button>
+      <button mat-button mat-flat-button color="warn" routerLink="/me">Cancel</button>
+    </form>
+  </mat-card>
+</div>
