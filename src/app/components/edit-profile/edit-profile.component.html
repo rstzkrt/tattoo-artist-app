@@ -1,0 +1,72 @@
+<div style="text-align: center">
+  <mat-card style="margin-left: 30%;margin-right: 30%;">
+    <form *ngIf="updateProfileFormGroup" [formGroup]="updateProfileFormGroup" (ngSubmit)="submit()">
+      <div formGroupName="updateProfile">
+        <mat-form-field appearance="fill" color="warn">
+          <mat-label>First name</mat-label>
+          <input matInput placeholder="name" formControlName="firstName" required>
+        </mat-form-field>
+        <br>
+        <mat-form-field appearance="fill" color="warn">
+          <mat-label>LastName</mat-label>
+          <input matInput formControlName="lastName" required>
+        </mat-form-field>
+        <br>
+        <mat-form-field appearance="fill" color="warn">
+          <mat-label>avatar url</mat-label>
+          <input matInput placeholder="1231233" formControlName="avatarUrl" required>
+        </mat-form-field>
+        <br>
+        <mat-form-field appearance="fill" color="warn">
+          <mat-label>Enter Phone Number</mat-label>
+          <input matInput placeholder="1231233" formControlName="phoneNumber" required>
+        </mat-form-field>
+        <br>
+        <mat-form-field appearance="fill" color="warn">
+          <mat-label>Choose your working days</mat-label>
+          <input matInput placeholder="Saturday,Sunday" formControlName="workDays" required>
+        </mat-form-field>
+        <br><br><br><br>
+        <mat-form-field appearance="fill" color="warn">
+          <mat-label>Enter Street</mat-label>
+          <input matInput placeholder="street-name" formControlName="street" required>
+        </mat-form-field>
+        <br>
+        <mat-form-field appearance="fill" color="warn">
+          <mat-label>Enter city</mat-label>
+          <input matInput placeholder="example@example.com" formControlName="city" required>
+        </mat-form-field>
+        <br>
+        <mat-form-field appearance="fill" color="warn">
+          <mat-label>Enter country</mat-label>
+          <input matInput placeholder="example@example.com" formControlName="country" required>
+        </mat-form-field>
+        <br>
+        <mat-form-field appearance="fill" color="warn">
+          <mat-label>Enter state</mat-label>
+          <input matInput placeholder="example@example.com" formControlName="state" required>
+        </mat-form-field>
+        <br>
+        <mat-form-field appearance="fill" color="warn">
+          <mat-label>Enter postal code</mat-label>
+          <input matInput placeholder="03-123" formControlName="postalCode" required>
+        </mat-form-field>
+        <br>
+        <mat-form-field appearance="fill" color="warn">
+          <mat-label>Enter additional information</mat-label>
+          <input matInput placeholder="Tattoo Studio.." formControlName="otherInformation" required>
+        </mat-form-field>
+        <br>
+        <mat-form-field appearance="fill">
+          <mat-label>Choose birth date</mat-label>
+          <input formControlName="birthDate" matInput [matDatepicker]="picker">
+          <mat-hint>MM/DD/YYYY</mat-hint>
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <button mat-button mat-flat-button color="accent" (submit)="submit()">update</button>
+      <button mat-button mat-flat-button color="warn" routerLink="/me">Cancel</button>
+    </form>
+  </mat-card>
+</div>
