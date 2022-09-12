@@ -1,0 +1,40 @@
+<mat-card style="border-radius: 500px">
+  <h1 style="text-align: center">CREATE TATTOO ARTIST ACCOUNT</h1>
+</mat-card>
+<br><br><br><br>
+<div style="text-align: center">
+
+  <mat-card style="margin-left: 30%;margin-right: 30%;">
+    <form [formGroup]="postTattooWorkFormGroup" (ngSubmit)="submit()">
+      <div formGroupName="postTattooWork">
+        <mat-form-field appearance="fill" color="warn">
+          <mat-label>Description</mat-label>
+          <input matInput formControlName="description" required>
+        </mat-form-field>
+        <br>
+        <mat-form-field appearance="fill" color="warn">
+          <mat-label>Price</mat-label>
+          <input matInput formControlName="price" required>
+        </mat-form-field>
+        <br>
+        <mat-form-field appearance="fill" color="warn">
+          <mat-label>Currency</mat-label>
+          <input matInput placeholder="PLN,EUR" formControlName="currency" required>
+        </mat-form-field>
+        <br>
+        <mat-form-field appearance="fill" color="warn">
+          <mat-label>Cover Photo</mat-label>
+          <input matInput formControlName="coverPhoto" required>
+        </mat-form-field>
+        <br>
+        <mat-form-field appearance="fill" color="warn">
+          <mat-label>Client</mat-label>
+          <input matInput formControlName="clientId" required>
+        </mat-form-field>
+        <br>
+      </div>
+      <button mat-button mat-flat-button color="accent" (submit)="submit()">Create</button>
+      <button mat-button mat-flat-button color="warn" routerLink="/me">Cancel</button>
+    </form>
+  </mat-card>
+</div>
