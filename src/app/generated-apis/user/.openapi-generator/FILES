@@ -13,6 +13,7 @@ model/errorResponse.ts
 model/models.ts
 model/tattooArtistAccReqDto.ts
 model/tattooArtistPriceInterval.ts
+model/tattooWorksResponseDto.ts
 model/userResponseDto.ts
 model/userUpdateRequestDto.ts
 model/workingDays.ts

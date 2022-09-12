@@ -48,6 +48,8 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
     post:
       operationId: createTattooWork
+      security:
+        - bearerAuth: [ ]
       description: create
       requestBody:
         required: true
@@ -96,6 +98,8 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
     delete:
       operationId: deleteTattooWork
+      security:
+        - bearerAuth: [ ]
       description: delete
       parameters:
         - in: path
@@ -115,6 +119,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
     patch:
+      security:
+        - bearerAuth: [ ]
       operationId: patchTattooWork
       description: patch
       requestBody:
@@ -145,8 +151,12 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
 components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
   schemas:
-
     TattooWorkPostRequestDto:
       type: object
       properties:
@@ -163,9 +173,6 @@ components:
           items:
             type: string
         clientId:
-          type: string
-          format: uuid
-        madeById:
           type: string
           format: uuid
 

@@ -336,6 +336,26 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+  /users/me/tattooworks:
+    get:
+      security:
+        - bearerAuth: [ ]
+      operationId: getTattooWorks
+      responses:
+        200:
+          description: ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TattooWorksResponseDto'
+        default:
+          description: error payload
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
   /users/{id}/price-interval:
     get:
       operationId: userPriceInterval
@@ -369,6 +389,37 @@ components:
       bearerFormat: JWT
 
   schemas:
+    TattooWorksResponseDto:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        description:
+          type: string
+        clientId:
+          type: string
+          format: uuid
+        price:
+          type: number
+        commentId:
+          type: string
+          format: uuid
+        currency:
+          $ref: '#/components/schemas/Currency'
+        dislike_number:
+          type: integer
+        like_number:
+          type: integer
+        coverPhoto:
+          type: string
+        photos:
+          type: array
+          items:
+            type: string
+        madeBy:
+          $ref: '#/components/schemas/MadeByInfo'
+
     UserUpdateRequestDto:
       type: object
       properties:
