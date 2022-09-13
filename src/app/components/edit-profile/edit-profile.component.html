@@ -18,13 +18,20 @@
         </mat-form-field>
         <br>
         <mat-form-field appearance="fill" color="warn">
+          <mat-label>Email</mat-label>
+          <input matInput formControlName="email" required>
+        </mat-form-field>
+        <br>
+        <mat-form-field appearance="fill" color="warn">
           <mat-label>Enter Phone Number</mat-label>
           <input matInput placeholder="1231233" formControlName="phoneNumber" required>
         </mat-form-field>
         <br>
-        <mat-form-field appearance="fill" color="warn">
-          <mat-label>Choose your working days</mat-label>
-          <input matInput placeholder="Saturday,Sunday" formControlName="workDays" required>
+        <mat-form-field appearance="fill">
+          <mat-label>DAYS</mat-label>
+          <mat-select formControlName="workDays" multiple>
+            <mat-option *ngFor="let day of days" [value]="day">{{day}}</mat-option>
+          </mat-select>
         </mat-form-field>
         <br><br><br><br>
         <mat-form-field appearance="fill" color="warn">

@@ -47,11 +47,11 @@
           <img mat-card-image style="object-fit:cover; height: 80%" src="{{tattooWork.coverPhoto}}">
           <mat-card-content>
 
-            <mat-button-toggle>
+            <mat-button-toggle (click)="likeTattooWork(tattooWork.id)">
               like : {{tattooWork.like_number}}
             </mat-button-toggle>
 
-            <mat-button-toggle>
+            <mat-button-toggle (click)="disLikeTattooWork(tattooWork.id)">
               dislike: {{tattooWork.dislike_number}}
             </mat-button-toggle>
 
@@ -78,11 +78,11 @@
           <img mat-card-image style="object-fit:cover; height: 80%" src="{{tattooWork.coverPhoto}}">
           <mat-card-content>
 
-            <mat-button-toggle>
+            <mat-button-toggle (click)="likeTattooWork(tattooWork.id)">
               like : {{tattooWork.like_number}}
             </mat-button-toggle>
 
-            <mat-button-toggle>
+            <mat-button-toggle (click)="disLikeTattooWork(tattooWork.id)">
               dislike: {{tattooWork.dislike_number}}
             </mat-button-toggle>
 

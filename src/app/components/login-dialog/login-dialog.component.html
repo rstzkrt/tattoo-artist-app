@@ -35,7 +35,8 @@
 
   <div style="padding-left: 1%">
     <h2 style="text-align: center">Register</h2>
-    <form style="width: 400px">
+
+    <form *ngIf="emailSignUpFormGroup" [formGroup]="emailSignUpFormGroup" (ngSubmit)="submit()" style="width: 400px">
       <mat-form-field style="width: 400px;" color="accent">
         <mat-label>Display Name</mat-label>
         <input type="text" matInput formControlName="displayName" placeholder="Display Name" style="width: 400px">
@@ -51,9 +52,10 @@
         <input type="password" matInput formControlName="password" placeholder="Password" style="width: 400px;">
       </mat-form-field>
       <br>
-      <button style="text-align: center" mat-raised-button color="accent">Create Account</button>
+      <button style="text-align: center" mat-raised-button color="accent" (click)="submit()">Create Account</button>
       <br>
     </form>
+
   </div>
 </div>
 

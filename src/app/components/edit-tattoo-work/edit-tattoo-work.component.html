@@ -13,11 +13,26 @@
           <input matInput formControlName="price" required>
         </mat-form-field>
         <br>
-        <mat-form-field appearance="fill" color="warn">
+        <mat-form-field  appearance="fill">
           <mat-label>Currency</mat-label>
-          <input matInput placeholder="PLN,EUR" formControlName="currency" required>
+          <input type="text"
+                 placeholder="Pick one"
+                 aria-label="Number"
+                 matInput
+                 formControlName="currency"
+                 [matAutocomplete]="auto">
+          <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+            <mat-option *ngFor="let option of filteredOptions | async " [value]="option">
+              {{option}}
+            </mat-option>
+          </mat-autocomplete>
         </mat-form-field>
         <br>
+<!--        <mat-form-field appearance="fill" color="warn">-->
+<!--          <mat-label>Currency</mat-label>-->
+<!--          <input matInput placeholder="PLN,EUR" formControlName="currency" required>-->
+<!--        </mat-form-field>-->
+<!--        <br>-->
         <mat-form-field appearance="fill" color="warn">
           <mat-label>Cover Photo</mat-label>
           <input matInput formControlName="coverPhoto" required>

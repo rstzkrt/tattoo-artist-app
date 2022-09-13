@@ -1,14 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup} from "@angular/forms";
-import {TattooWorkService} from "../../services/tattoo-work.service";
-import {ActivatedRoute, Route, Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {AuthService} from "../../services/auth.service";
 import {UserService} from "../../services/user.service";
-import {signOut, user} from "@angular/fire/auth";
-import {User} from "../../common/user";
 import {AngularFireAuth} from "@angular/fire/compat/auth";
-import {TattooWorkPatchRequestDto} from "../../generated-apis/tatoo-work";
-import {UserUpdateRequestDto} from "../../generated-apis/user";
+import {UserUpdateRequestDto, WorkingDays} from "../../generated-apis/user";
 import {MatDialog} from "@angular/material/dialog";
 
 @Component({
@@ -19,6 +15,8 @@ import {MatDialog} from "@angular/material/dialog";
 export class EditProfileComponent implements OnInit {
 
   updateProfileFormGroup:FormGroup
+  days: WorkingDays[]=["SUNDAY","MONDAY","TUESDAY","WEDNESDAY","THURSDAY","FRIDAY","SATURDAY"]
+
   constructor(private userService: UserService,
               private aRouter: ActivatedRoute,
               private authService: AuthService,
@@ -38,6 +36,7 @@ export class EditProfileComponent implements OnInit {
                avatarUrl: new FormControl(user.avatarUrl),
                phoneNumber: new FormControl(user.phoneNumber),
                workDays: new FormControl(user.workDays),
+               email: new FormControl(user.email),
                street: new FormControl(user.street),
                city: new FormControl(user.city),
                country: new FormControl(user.country),
@@ -53,6 +52,7 @@ export class EditProfileComponent implements OnInit {
 
   submit() {
     let userUpdate: UserUpdateRequestDto = this.updateProfileFormGroup.get('updateProfile').value;
+
     this.authService.getCurrentUser().getIdToken().then(token => {
       this.userService.updateMe(userUpdate,token).subscribe(data => {
         console.log(data)

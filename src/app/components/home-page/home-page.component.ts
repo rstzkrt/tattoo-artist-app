@@ -58,4 +58,20 @@ export class HomePageComponent implements OnInit {
       })
     })
   }
+
+  likeTattooWork(id:string){
+    this.authService.getCurrentUser().getIdToken(true).then(token=>{
+      this.userService.likeTattooWork(id,token).subscribe(()=>{
+          console.log("like")
+      })
+    })
+  }
+
+  disLikeTattooWork(id:string) {
+    this.authService.getCurrentUser().getIdToken(true).then(token=>{
+      this.userService.dislikeTattooWork(id,token).subscribe(()=>{
+        console.log("dislike")
+      })
+    })
+  }
 }
