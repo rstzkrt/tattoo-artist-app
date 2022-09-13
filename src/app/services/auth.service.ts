@@ -10,6 +10,8 @@ import {StreamChat, TokenOrProvider} from "stream-chat";
 import {environment} from "../../environments/environment";
 import {LoginDialogComponent} from "../components/login-dialog/login-dialog.component";
 import {MatDialog} from "@angular/material/dialog";
+import { getAuth, deleteUser } from "firebase/auth";
+
 
 @Injectable({
   providedIn: 'root'
@@ -39,6 +41,16 @@ export class AuthService {
           }, error => console.error(error))
         })
       }
+    });
+  }
+
+  deleteAccount(){
+    const auth = getAuth();
+    const user = auth.currentUser;
+    deleteUser(user).then(() => {
+      console.log("deleted")
+    }).catch((error) => {
+      console.log(error)
     });
   }
 

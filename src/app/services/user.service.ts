@@ -90,5 +90,4 @@ export class UserService{
   userPriceInterval(user_id:string): Observable<TattooArtistPriceInterval> {
     return this.userOpenApiService.userPriceInterval(user_id)
   }
-
 }
