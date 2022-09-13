@@ -430,6 +430,8 @@ components:
         birthDate:
           type: string
           format: date
+        email:
+          type: string
         avatarUrl:
           type: string
         phoneNumber:
