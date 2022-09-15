@@ -90,4 +90,14 @@ export class UserService{
   userPriceInterval(user_id:string): Observable<TattooArtistPriceInterval> {
     return this.userOpenApiService.userPriceInterval(user_id)
   }
+
+  getFavoriteTattooWorks(token:string): Observable<TattooWorksResponseDto[]>{
+    this.userOpenApiService.configuration.credentials= {"bearerAuth": token};
+    return this.userOpenApiService.getFavoriteTattooWorks();
+  }
+
+  getFavoriteTattooArtists(token:string): Observable<UserResponseDto[]>{
+    this.userOpenApiService.configuration.credentials= {"bearerAuth": token};
+    return this.userOpenApiService.getFavoriteTattooArtists();
+  }
 }

@@ -18,7 +18,8 @@ import { getAuth, deleteUser } from "firebase/auth";
 })
 export class AuthService {
 
-  authenticatedUser: User = new User();
+  userObservable: Observable<User>
+  authenticatedUser: User
   firebaseUser: firebase.User;
   requestBodyUser: User = new User();
   idToken: Observable<string | null>;
@@ -35,6 +36,7 @@ export class AuthService {
       this.firebaseUser = user;
       if (user) {
         user.getIdToken().then((token) => {
+          this.userObservable=userService.fetchAuthenticatedUser(token)
           userService.fetchAuthenticatedUser(token).subscribe(data => {
             this.authenticatedUser = data;
             console.log(this.authenticatedUser)

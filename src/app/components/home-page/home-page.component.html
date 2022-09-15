@@ -1,50 +1,68 @@
 <mat-toolbar color="primary">
   <section>
-      <mat-chip-list aria-label=" selection">
-        <mat-chip color="primary">
-            Poland
-          <button matChipRemove>
-            <mat-icon>cancel</mat-icon>
-          </button>
-        </mat-chip>
-        <mat-chip color="primary">
-          Germany
-          <button matChipRemove>
-            <mat-icon>cancel</mat-icon>
-          </button>
-        </mat-chip>
-        <mat-chip color="primary">
-          Italy
-          <button matChipRemove>
-            <mat-icon>cancel</mat-icon>
-          </button>
-        </mat-chip>
-      </mat-chip-list>
+    <mat-chip-list aria-label=" selection">
+      <mat-chip color="primary">
+        Poland
+        <button matChipRemove>
+          <mat-icon>cancel</mat-icon>
+        </button>
+      </mat-chip>
+      <mat-chip color="primary">
+        Germany
+        <button matChipRemove>
+          <mat-icon>cancel</mat-icon>
+        </button>
+      </mat-chip>
+      <mat-chip color="primary">
+        Italy
+        <button matChipRemove>
+          <mat-icon>cancel</mat-icon>
+        </button>
+      </mat-chip>
+    </mat-chip-list>
   </section>
 </mat-toolbar>
 
 <mat-tab-group color="primary" backgroundColor="primary" mat-align-tabs="center">
 
   <mat-tab label="TattooWork">
+
     <mat-toolbar>
       <form>
         <mat-form-field>
           <span matPrefix></span>
-          <input type="tel" matInput placeholder="Search" name= "search">
-          <button matSuffix mat-button><mat-icon>search</mat-icon></button>
+          <input type="tel" matInput placeholder="Search" name="search">
+          <button matSuffix mat-button>
+            <mat-icon>search</mat-icon>
+          </button>
         </mat-form-field>
       </form>
     </mat-toolbar>
-    <div fxLayout="row wrap" style="margin-left: 50px" >
-      <div fxFlex style="padding-bottom: 30px" *ngFor="let tattooWork of tattooWorkList">
 
-        <mat-card *ngIf="tattooWork.madeBy.id!==authService.authenticatedUser.id" style="width: 520px;">
+    <div *ngIf="authService.userObservable| async as user" fxLayout="row wrap" style="margin-left: 50px">
+      <div fxFlex style="padding-bottom: 30px" *ngFor="let tattooWork of tattooWorkList | async ">
+
+        <mat-card *ngIf="tattooWork.madeBy.id!==user.id" style="width: 520px;">
           <mat-card-header>
-            <img mat-card-avatar routerLink="/users/{{tattooWork.madeBy.id}}" src="{{tattooWork.madeBy.avatarUrl}}" style="background-size: cover;cursor: pointer">
+
+            <section *ngIf="observableUser | async as user" style="margin-left: auto">
+              <button matTooltip="favorite" *ngIf="!user.favoriteTattooWorkIds.includes(tattooWork.id)"
+                      (click)="favoriteTattooWork(tattooWork.id)" mat-icon-button color="accent">
+                <mat-icon>favorite</mat-icon>
+              </button>
+              <button matTooltip="unFavorite" *ngIf="user.favoriteTattooWorkIds.includes(tattooWork.id)"
+                      (click)="unFavoriteTattooWork(tattooWork.id)" mat-icon-button color="accent">
+                <mat-icon>block</mat-icon>
+              </button>
+            </section>
+
+            <img mat-card-avatar routerLink="/users/{{tattooWork.madeBy.id}}" src="{{tattooWork.madeBy.avatarUrl}}"
+                 style="background-size: cover;cursor: pointer">
             <mat-card-title>{{tattooWork.madeBy.firstName}}</mat-card-title>
-            <mat-card-subtitle>{{tattooWork.madeBy.city? tattooWork.madeBy.city:"nowhere"}}</mat-card-subtitle>
+            <mat-card-subtitle>{{tattooWork.madeBy.city ? tattooWork.madeBy.city : "nowhere"}}</mat-card-subtitle>
           </mat-card-header>
-          <img mat-card-image style="object-fit:cover; height: 80%" src="{{tattooWork.coverPhoto}}">
+          <img routerLink="/tattoo-work/{{tattooWork.id}}" mat-card-image
+               style=" cursor: pointer; object-fit:cover; height: 80%" src="{{tattooWork.coverPhoto}}">
           <mat-card-content>
 
             <mat-button-toggle (click)="likeTattooWork(tattooWork.id)">
@@ -60,22 +78,40 @@
           </mat-card-content>
 
           <mat-card-actions>
-            <form style="min-width: 150px; max-width: 520px;width: 100%;" *ngIf="tattooWork.clientId===authService.authenticatedUser.id">
-              <mat-form-field >
-                <mat-label>Leave a comment <mat-icon>add</mat-icon></mat-label>
+            <form style="min-width: 150px; max-width: 520px;width: 100%;"
+                  *ngIf="tattooWork.clientId===authService.authenticatedUser.id">
+              <mat-form-field>
+                <mat-label>Leave a comment
+                  <mat-icon>add</mat-icon>
+                </mat-label>
                 <input matInput>
               </mat-form-field>
             </form>
           </mat-card-actions>
         </mat-card>
 
-        <mat-card *ngIf="tattooWork.madeBy.id===authService.authenticatedUser.id" matBadge="*" matBadgeSize="large" matBadgeColor="warn" style="width: 520px;">
+        <mat-card *ngIf="tattooWork.madeBy.id===authService.authenticatedUser.id" matBadge="*" matBadgeSize="large"
+                  matBadgeColor="warn" style="width: 520px;">
           <mat-card-header>
-            <img mat-card-avatar routerLink="/users/{{tattooWork.madeBy.id}}" src="{{tattooWork.madeBy.avatarUrl}}" style="background-size: cover;cursor: pointer">
+
+            <section *ngIf="observableUser | async as user" style="margin-left: auto">
+              <button matTooltip="favorite" *ngIf="!user.favoriteTattooWorkIds.includes(tattooWork.id)"
+                      (click)="favoriteTattooWork(tattooWork.id)" mat-icon-button color="accent">
+                <mat-icon>favorite</mat-icon>
+              </button>
+              <button matTooltip="unFavorite" *ngIf="user.favoriteTattooWorkIds.includes(tattooWork.id)"
+                      (click)="unFavoriteTattooWork(tattooWork.id)" mat-icon-button color="accent">
+                <mat-icon>block</mat-icon>
+              </button>
+            </section>
+
+            <img mat-card-avatar routerLink="/users/{{tattooWork.madeBy.id}}" src="{{tattooWork.madeBy.avatarUrl}}"
+                 style="background-size: cover;cursor: pointer">
             <mat-card-title>{{tattooWork.madeBy.firstName}}</mat-card-title>
-            <mat-card-subtitle>{{tattooWork.madeBy.city? tattooWork.madeBy.city:"nowhere"}}</mat-card-subtitle>
+            <mat-card-subtitle>{{tattooWork.madeBy.city ? tattooWork.madeBy.city : "nowhere"}}</mat-card-subtitle>
           </mat-card-header>
-          <img mat-card-image style="object-fit:cover; height: 80%" src="{{tattooWork.coverPhoto}}">
+          <img routerLink="/tattoo-work/{{tattooWork.id}}" mat-card-image
+               style=" cursor: pointer; object-fit:cover; height: 80%" src="{{tattooWork.coverPhoto}}">
           <mat-card-content>
 
             <mat-button-toggle (click)="likeTattooWork(tattooWork.id)">
@@ -91,16 +127,16 @@
           </mat-card-content>
 
           <mat-card-actions>
-            <form style="min-width: 150px; max-width: 500px;width: 100%;" *ngIf="tattooWork.clientId===authService.authenticatedUser.id">
+            <form style="min-width: 150px; max-width: 500px;width: 100%;"
+                  *ngIf="tattooWork.clientId===authService.authenticatedUser.id">
               <mat-form-field>
-                <mat-label>Leave a comment <mat-icon>add</mat-icon></mat-label>
+                <mat-label>Leave a comment
+                  <mat-icon>add</mat-icon>
+                </mat-label>
                 <input matInput>
               </mat-form-field>
             </form>
           </mat-card-actions>
-          <!--      <button mat-flat-button routerLink="/edit-tattoo-work/{{tattooWork.id}}">Edit</button>-->
-          <!--      <button mat-flat-button (click)="delete(tattooWork.id)" >Delete</button>-->
-
         </mat-card>
       </div>
     </div>
@@ -111,13 +147,49 @@
       <form>
         <mat-form-field>
           <span matPrefix></span>
-          <input type="tel" matInput placeholder="Search" name= "search">
-          <button matSuffix mat-button><mat-icon>search</mat-icon></button>
+          <input type="tel" matInput placeholder="Search" name="search">
+          <button matSuffix mat-button>
+            <mat-icon>search</mat-icon>
+          </button>
         </mat-form-field>
       </form>
     </mat-toolbar>
+
+    <div *ngIf="authService.userObservable| async as authUser" fxLayout="row wrap" style="margin-left: 50px">
+      <div fxFlex style="padding-bottom: 30px" *ngFor="let user of userList | async ">
+
+        <mat-card style="width: 520px;">
+          <mat-card-header>
+
+            <section style="margin-left: auto">
+              <button matTooltip="favorite" *ngIf="!authUser.favoriteArtistIds.includes(user.id)"
+                      (click)="favoriteTattooArtist(user.id)" mat-icon-button color="accent">
+                <mat-icon>favorite</mat-icon>
+              </button>
+              <button matTooltip="unFavorite" *ngIf="authUser.favoriteArtistIds.includes(user.id)"
+                      (click)="unFavoriteTattooArtist(user.id)" mat-icon-button color="accent">
+                <mat-icon>block</mat-icon>
+              </button>
+            </section>
+
+            <mat-card-title>{{user.firstName}}</mat-card-title>
+            <mat-card-subtitle>{{user.city ? user.city : "nowhere"}}</mat-card-subtitle>
+          </mat-card-header>
+          <img routerLink="/users/{{user.id}}" mat-card-image style=" cursor: pointer; object-fit:cover; height: 80%" src="{{user.avatarUrl}}">
+
+          <mat-card-content>
+
+            <h2>rating : {{user.averageRating}}</h2>
+            <h2>working days: {{user.workDays}}</h2>
+          </mat-card-content>
+        </mat-card>
+
+      </div>
+    </div>
   </mat-tab>
 </mat-tab-group>
+
 <footer style="margin-top: auto">
-  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" [pageSize]="5" [length]="totalElements" (page)="nextPage($event)"> </mat-paginator>
+  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" [pageSize]="5" [length]="totalElements"
+                 (page)="nextPage($event)"></mat-paginator>
 </footer>
