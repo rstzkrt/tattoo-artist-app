@@ -7,6 +7,7 @@ import {User} from "stream-chat";
 })
 export class FilterMembersPipe implements PipeTransform {
   transform(members: any, authenticatedUserUid: string): User {
+    if(Object.keys(members).length<2) return members;
     if (!members || !authenticatedUserUid) return members;
     const otherUserUid = Object.keys(members).filter(
       (key) => key !== authenticatedUserUid
