@@ -1,0 +1,61 @@
+<div *ngIf="tattooWork |async as tattooWork" >
+<mat-sidenav-container style="height: 1200px">
+  <mat-sidenav style="width: 600px" #sidenav mode="side">
+    <br>
+    <img routerLink="/users/{{tattooWork.madeBy.id}}"
+         style="margin-left: 33%;
+         height: 200px;
+          cursor: pointer;
+          width: 200px;
+          border-radius: 50%;" src="{{tattooWork.madeBy.avatarUrl}}">
+    <p style="text-align: center">{{tattooWork.madeBy.firstName}} {{tattooWork.madeBy.lastName}}</p>
+    <br>
+    <h2  style="text-align: center">Contact</h2>
+    <p style="text-align: center">{{tattooWork.madeBy.phoneNumber}}</p>
+    <p style="text-align: center">{{tattooWork.madeBy.email}}</p>
+    <br>
+    <h2  style="text-align: center">Average Rating</h2>
+    <p style="text-align: center">{{tattooWork.madeBy.street}}</p>
+    <br>
+    <h2  style="text-align: center">Address</h2>
+    <p style="text-align: center">{{tattooWork.madeBy.city}}</p>
+    <p style="text-align: center">{{tattooWork.madeBy.country}}</p>
+    <p style="text-align: center">{{tattooWork.madeBy.postalCode}}</p>
+    <p style="text-align: center">{{tattooWork.madeBy.otherInformation}}</p>
+    <p style="text-align: center">{{tattooWork.madeBy.state}}</p>
+    <p style="text-align: center">{{tattooWork.madeBy.street}}</p>
+
+
+    <button (click)="handleSendMessage(tattooWork.madeBy.id)" mat-flat-button color="accent" style="width: 100%">Send direct message to owner</button>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <button *ngIf="!sidenav.opened" mat-button (click)="sidenav.toggle()"><mat-icon>arrow_forward_ios_new</mat-icon></button>
+    <button *ngIf="sidenav.opened" mat-button (click)="sidenav.toggle()"><mat-icon>arrow_back_ios_new</mat-icon></button>
+
+    <div style="margin-left: 5%;">
+      <img  style="width: 1000px; height: 500px;" src="{{tattooWork.coverPhoto}}">
+      <h1>Description: {{tattooWork.description}}</h1>
+      <h1>Price: {{tattooWork.price}} {{tattooWork.currency}}</h1>
+      <h1>Like: {{tattooWork.like_number}}</h1>
+      <h1>Dislike: {{tattooWork.dislike_number}}</h1>
+      <h1>Comment</h1>
+      <mat-card style="width: 1000px">
+        <mat-chip-avatar>
+          <img src="favicon.ico" alt="">
+        </mat-chip-avatar>
+        asdasd / rating ekle
+      </mat-card>
+      <br>
+      <form *ngIf="tattooWork.clientId===authService.authenticatedUser.id">
+
+        <mat-form-field style="width: 1000px;">
+          <mat-label >Leave a comment</mat-label>
+          <input matInput>
+        </mat-form-field>
+      </form>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+
+</div>

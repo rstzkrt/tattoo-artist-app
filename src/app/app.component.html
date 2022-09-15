@@ -1,6 +1,6 @@
 <header style="height: 275px">
   <div>
-    <mat-toolbar style="height: 275px">
+    <mat-toolbar style="height: 275px" *ngIf="authService.userObservable| async as user">
       <section *ngIf="authService.firebaseUser!==null" style="margin-left: 5%; margin-top: 20px">
         <img routerLink="/me"
              mat-card-image
@@ -9,7 +9,7 @@
                width: 200px;
                border-radius: 10%;
                 cursor: pointer;"
-             src="{{authService.authenticatedUser.avatarUrl}}">
+             src="{{user.avatarUrl}}">
         <p style="text-align: center">{{authService.authenticatedUser.firstName + " " + authService.authenticatedUser.lastName}}</p>
       </section>
 
@@ -28,9 +28,3 @@
 <body>
 <router-outlet></router-outlet>
 </body>
-
-<footer style="margin-top: 100%">
-  <mat-toolbar style="height: 250px">
-    footer
-  </mat-toolbar>
-</footer>

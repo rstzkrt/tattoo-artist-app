@@ -50,10 +50,15 @@ import {MatSelectModule} from "@angular/material/select";
 import { PostTattooWorkComponent } from './components/post-tattoo-work/post-tattoo-work.component';
 import { EditTattooWorkComponent } from './components/edit-tattoo-work/edit-tattoo-work.component';
 import { EditProfileComponent } from './components/edit-profile/edit-profile.component';
+import {MatTooltipModule} from "@angular/material/tooltip";
+import { TattooWorkDetailPageComponent } from './components/tattoo-work-detail-page/tattoo-work-detail-page.component';
+import {MatCarouselModule,MatCarousel} from "ng-mat-carousel";
+import {MatCheckboxModule} from "@angular/material/checkbox";
 
 const routes: Routes = [
   {path: 'me', component: MyProfileComponent},
   {path: 'me-edit', component: EditProfileComponent},
+  {path: 'tattoo-work/:id', component: TattooWorkDetailPageComponent},
   {path: 'chats', component: ChatComponent},
   {path: 'chats/:id', component: ChatComponent},
   {path: 'users/:id', component: UserProfileComponent},
@@ -78,7 +83,8 @@ const routes: Routes = [
     CreateArtistAccountFormComponent,
     PostTattooWorkComponent,
     EditTattooWorkComponent,
-    EditProfileComponent
+    EditProfileComponent,
+    TattooWorkDetailPageComponent
   ],
   imports: [
     BrowserModule,
@@ -120,6 +126,9 @@ const routes: Routes = [
     MatProgressSpinnerModule,
     MatTabsModule,
     MatSelectModule,
+    MatTooltipModule,
+    MatCarouselModule.forRoot(),
+    MatCheckboxModule
   ],
   providers: [{provide: REGION, useValue: 'europe-central2'}],
   bootstrap: [AppComponent]
