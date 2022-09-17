@@ -38,7 +38,8 @@ export class ChatComponent implements OnInit, AfterViewInit {
     this.channel_id = this.routeCurr.snapshot.paramMap.get('id');
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
+
     this.afAuth.authState.subscribe(user => {
       const filter = {type: 'messaging', id: {$eq: this.channel_id}, members: {$in: [user.uid]}};
       this.streamI18nService.setTranslation();
@@ -56,7 +57,6 @@ export class ChatComponent implements OnInit, AfterViewInit {
                   })
                 }
                 this.chatIsReady = true
-
               })
           })
       })

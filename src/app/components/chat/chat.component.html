@@ -1,5 +1,6 @@
 <section class="chat" *ngIf="chatIsReady; else unavailable">
-  <stream-channel-list></stream-channel-list>
+<!--  <stream-channel-list></stream-channel-list>-->
+<app-cahnnel-list></app-cahnnel-list>
   <stream-channel fxFlex="row" style="height: 500px">
     <stream-channel-header></stream-channel-header>
     <stream-message-list></stream-message-list>
@@ -13,14 +14,6 @@
   <div>Chat is not available...</div>
 </ng-template>
 
-<ng-template #channelPreview let-channel="channel">
-  <section (click)="activateChannel(channel)">
-      <mat-card routerLink="/chats/{{channel.id}}" *ngIf="channel?.state?.members | filterMembers: auth.authenticatedUser.uid; let member">
-        <mat-card-header>
-          <img mat-card-avatar src="{{member.image}}" style="background-size: cover;cursor: pointer">
-          <mat-card-title>{{member.name}}</mat-card-title>
-          <mat-card-subtitle>{{channel?.state?.messages.at(-1)?.text}}</mat-card-subtitle>
-        </mat-card-header>
-      </mat-card>
-  </section>
-</ng-template>
+<!--<ng-template #channelPreview let-channel="channel">-->
+<!--  -->
+<!--</ng-template>-->
