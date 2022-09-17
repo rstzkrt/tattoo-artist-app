@@ -1,0 +1,21 @@
+<div *ngFor="let ch of channels">
+  <section *ngIf="activatedChannel!==ch" (click)="activateChannel(ch)">
+    <mat-card  routerLink="/chats/{{ch.id}}" *ngIf="ch?.state?.members | filterMembers: authService.authenticatedUser.uid; let member">
+      <mat-card-header>
+        <img mat-card-avatar src="{{member.image}}" style="background-size: cover;cursor: pointer">
+        <mat-card-title>{{member.name}}</mat-card-title>
+        <mat-card-subtitle>{{ch?.state?.latestMessages[ch?.state?.latestMessages.length-1]?.text}}</mat-card-subtitle>
+      </mat-card-header>
+    </mat-card>
+  </section>
+
+  <section *ngIf="activatedChannel===ch">
+    <mat-card id="mat-card-active" routerLink="/chats/{{ch.id}}" *ngIf="ch?.state?.members | filterMembers: authService.authenticatedUser.uid; let member">
+      <mat-card-header>
+        <img mat-card-avatar src="{{member.image}}" style="background-size: cover;cursor: pointer">
+        <mat-card-title>{{member.name}}</mat-card-title>
+        <mat-card-subtitle>{{ch?.state?.latestMessages[ch?.state?.latestMessages.length-1]?.text}}</mat-card-subtitle>
+      </mat-card-header>
+    </mat-card>
+  </section>
+</div>
