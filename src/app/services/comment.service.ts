@@ -16,7 +16,8 @@ export class CommentService{
     return this.commentService.createComment(tattooWorkId,commentRequestDto);
   }
 
-  deleteCommentById(commentId: string): Observable<any> {
+  deleteCommentById(commentId: string,token:string): Observable<any> {
+    this.commentService.configuration.credentials= {"bearerAuth": token};
     return this.commentService.deleteCommentById(commentId)
   }
 
@@ -28,7 +29,7 @@ export class CommentService{
     return this.commentService.getCommentById(commentId)
   }
 
-  getCommentsByTattooWorkId(tattooWorkId: string): Observable<Array<CommentResponseDto>> {
-    return this.commentService.getCommentsByTattooWorkId(tattooWorkId)
+  getCommentByTattooWorkId(tattooWorkId: string): Observable<CommentResponseDto> {
+    return this.commentService.getCommentByTattooWorkId(tattooWorkId)
   }
 }

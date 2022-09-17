@@ -9,7 +9,10 @@
       Create an artist page
     </mat-button-toggle>
     <br>
-    <mat-button-toggle routerLink="/me-edit">
+    <mat-button-toggle *ngIf="authenticatedUser.hasArtistPage" routerLink="/me-edit">
+      Update Profile
+    </mat-button-toggle>
+    <mat-button-toggle *ngIf="!authenticatedUser.hasArtistPage" routerLink="/me-edit-basic">
       Update Profile
     </mat-button-toggle>
     <mat-button-toggle (click)="deleteAccount()">
@@ -21,7 +24,11 @@
     </mat-button-toggle>
   </section>
   <h1 style="text-align: center">{{user.displayName}}</h1>
-  <h2 style="text-align: center" *ngIf=" priceInterval | async as priceIntervalObject">{{priceIntervalObject.maxTattooWorkPrice}} {{priceIntervalObject.maxTattooWorkPriceCurrency}}  - {{priceIntervalObject. minTattooWorkPrice}} {{priceIntervalObject.minTattooWorkPriceCurrency}} </h2>
+  <h2 style="text-align: center" *ngIf=" priceInterval | async as priceIntervalObject">
+    <h3>
+      {{priceIntervalObject.maxTattooWorkPrice}} {{priceIntervalObject.maxTattooWorkPriceCurrency}}  - {{priceIntervalObject. minTattooWorkPrice}} {{priceIntervalObject.minTattooWorkPriceCurrency}}
+    </h3>
+  </h2>
 </mat-card>
 
 <mat-tab-group color="primary" backgroundColor="primary" mat-align-tabs="center">

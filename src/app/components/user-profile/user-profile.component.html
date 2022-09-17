@@ -1,11 +1,149 @@
-<mat-button-toggle (click)="handleSendMessage()">
+<button mat-flat-button color="accent" (click)="handleSendMessage()">
   <mat-icon>message</mat-icon>send message now to ->    {{user.uid}}
-</mat-button-toggle>
+</button>
 
-<div *ngIf="user.hasArtistPage===false">
-  user doesnt artist page
+<div *ngIf="!user.hasArtistPage">
+  <mat-sidenav-container style="height: 1200px">
+    <mat-sidenav-content>
+      <h1 style="text-align: center">{{user.firstName}} {{user.lastName}}</h1>
+      <img style="margin-left: 25%; width: 50%; height: 50%" src="{{user.avatarUrl}}" >
+      <h1 style="text-align: center">user doesnt have an artist page</h1>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
 </div>
 
-<div *ngIf="user.hasArtistPage===true">
-  user has artist page
+
+<div *ngIf="user.hasArtistPage">
+  <mat-sidenav-container style="height: 1200px">
+    <mat-sidenav style="width: 600px" #sidenav mode="side">
+      <br><br>
+      <h1 style="text-align: center">Reviews</h1>
+
+      <form *ngIf="reviewFormGroup" [formGroup]="reviewFormGroup" (ngSubmit)="submit()">
+        <div formGroupName="reviewGroup">
+          <mat-form-field appearance="fill" color="accent">
+            <mat-label>Leave a review</mat-label>
+            <input matInput formControlName="message" required>
+          </mat-form-field>
+
+          <mat-form-field appearance="fill">
+            <mat-label>Review Type</mat-label>
+            <mat-select formControlName="reviewType" >
+              <mat-option *ngFor="let reviewType of reviewTypes" [value]="reviewType">{{reviewType}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <button mat-button mat-flat-button color="accent" (submit)="submit()">Send</button>
+        </div>
+      </form>
+      <hr>
+
+      <div *ngFor="let review of userReviews">
+        <mat-card>
+          <mat-card-title-group>
+            <mat-card-title>{{review.postedBy.firstName}}{{review.postedBy.lastName}}</mat-card-title>
+            <mat-card-subtitle>{{review.reviewType}}</mat-card-subtitle>
+            <img mat-card-sm-image src="{{review.postedBy.avatarUrl}}" >
+          </mat-card-title-group>
+          <mat-card-content>
+            {{review.message}}
+          </mat-card-content>
+          <mat-card-actions>
+            <section fxFlex="row">
+              <button *ngIf="review.postedBy.id===authService.authenticatedUser.id" mat-flat-button color="warn"  (click)="deleteReview(review.id)">delete</button>
+              <button *ngIf="review.postedBy.id===authService.authenticatedUser.id" mat-flat-button color="accent"  (click)="openDialog(review.id)">update</button>
+            </section>
+            <hr>
+          </mat-card-actions>
+        </mat-card>
+      </div>
+
+
+    </mat-sidenav>
+    <mat-sidenav-content>
+      <button *ngIf="!sidenav.opened" mat-button (click)="sidenav.toggle()"><mat-icon>arrow_forward_ios_new</mat-icon></button>
+      <button *ngIf="sidenav.opened" mat-button (click)="sidenav.toggle()"><mat-icon>arrow_back_ios_new</mat-icon></button>
+      <h1 style="text-align: center">{{user.firstName}} {{user.lastName}}</h1>
+
+      <img style="margin-left: 25%; width: 50%; height: 50%" src="{{user.avatarUrl}}" >
+      <h1 style="text-align: center">email:{{user.email}}</h1>
+      <h1 style="text-align: center">average rating:{{user.averageRating}}</h1>
+      <h1 style="text-align: center">phone number{{user.phoneNumber}}</h1>
+
+      <h1 style="text-align: center">birth date:{{user.birthDate}}</h1>
+      <h1 style="text-align: center">work days:{{user.workDays}}</h1>
+
+      <h1 style="text-align: center">city:{{user.city}}</h1>
+      <h1 style="text-align: center">country:{{user.country}}</h1>
+      <h1 style="text-align: center">state:{{user.state}}</h1>
+      <h1 style="text-align: center">street:{{user.street}}</h1>
+      <h1 style="text-align: center">other information:{{user.otherInformation}}</h1>
+      <h1 style="text-align: center">postal code:{{user.postalCode}}</h1>
+
+      <mat-toolbar color="accent">
+        <h1 style="margin-left: auto; margin-right: auto">{{user.firstName}} {{user.lastName}}` TATTOO WORKS </h1>
+      </mat-toolbar>
+
+      <div fxLayout="row wrap" style="margin-left: 50px">
+        <div fxFlex style="padding-bottom: 30px" *ngFor="let tattooWork of tattooWorkList ">
+          <mat-card style="width: 520px;">
+            <mat-card-header>
+              <section *ngIf="observableUser | async as user"
+                       style="margin-left: auto">
+                <button matTooltip="favorite"
+                        *ngIf="!user.favoriteTattooWorkIds.includes(tattooWork.id)"
+                        (click)="favoriteTattooWork(tattooWork.id)"
+                        mat-icon-button color="accent">
+                  <mat-icon>favorite</mat-icon>
+                </button>
+                <button matTooltip="unFavorite"
+                        *ngIf="user.favoriteTattooWorkIds.includes(tattooWork.id)"
+                        (click)="unFavoriteTattooWork(tattooWork.id)"
+                        mat-icon-button
+                        color="accent">
+                  <mat-icon>block</mat-icon>
+                </button>
+              </section>
+              <img mat-card-avatar
+                   routerLink="/users/{{tattooWork.madeBy.id}}"
+                   src="{{tattooWork.madeBy.avatarUrl}}"
+                   style="background-size: cover;cursor: pointer">
+              <mat-card-title>{{tattooWork.madeBy.firstName}}</mat-card-title>
+              <mat-card-subtitle>{{tattooWork.madeBy.city ? tattooWork.madeBy.city : "nowhere"}}</mat-card-subtitle>
+            </mat-card-header>
+            <img routerLink="/tattoo-work/{{tattooWork.id}}" mat-card-image
+                 style=" cursor: pointer; object-fit:cover; height: 80%" src="{{tattooWork.coverPhoto}}">
+            <mat-card-content>
+              <mat-button-toggle (click)="likeTattooWork(tattooWork.id)">
+                like : {{tattooWork.like_number}}
+              </mat-button-toggle>
+              <mat-button-toggle (click)="disLikeTattooWork(tattooWork.id)">
+                dislike: {{tattooWork.dislike_number}}
+              </mat-button-toggle>
+              <h2>{{tattooWork.description}}</h2>
+              <h2>value: {{tattooWork.price | currency:tattooWork.currency}}</h2>
+            </mat-card-content>
+            <mat-card-actions>
+              <form style="min-width: 150px; max-width: 520px;width: 100%;"
+                    *ngIf="tattooWork.clientId===authService.authenticatedUser.id">
+                <mat-form-field>
+                  <mat-label>Leave a comment
+                    <mat-icon>add</mat-icon>
+                  </mat-label>
+                  <input matInput>
+                </mat-form-field>
+              </form>
+            </mat-card-actions>
+          </mat-card>
+
+        </div>
+      </div>
+      <footer style="margin-top: auto">
+        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"
+                       [pageSize]="5"
+                       [length]="totalElements"
+                       (page)="nextPage($event)">
+        </mat-paginator>
+      </footer>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
 </div>

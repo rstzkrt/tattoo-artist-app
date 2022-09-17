@@ -17,7 +17,8 @@ export class ReviewService{
     return this.reviewService.createReview(receiverId,reviewPostRequestDto);
   }
 
-  deleteReviewById(id: string): Observable<any> {
+  deleteReviewById(id: string,token:string): Observable<any> {
+    this.reviewService.configuration.credentials= {"bearerAuth": token};
     return this.reviewService.deleteReviewById(id)
   }
 

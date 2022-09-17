@@ -52,12 +52,10 @@ export class EditProfileComponent implements OnInit {
 
   submit() {
     let userUpdate: UserUpdateRequestDto = this.updateProfileFormGroup.get('updateProfile').value;
-
     this.authService.getCurrentUser().getIdToken().then(token => {
       this.userService.updateMe(userUpdate,token).subscribe(data => {
         console.log(data)
         if (data){
-          //dialog
           this.router.navigateByUrl('/me').then(r => console.log("updated") )
         }
       })

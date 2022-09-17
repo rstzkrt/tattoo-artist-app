@@ -8,6 +8,7 @@ import {Router} from "@angular/router";
 import {Observable} from "rxjs";
 import {TattooArtistPriceInterval} from "../../generated/user/models/tattoo-artist-price-interval";
 import {User} from "../../common/user";
+import {ReviewService} from "../../services/review.service";
 
 @Component({
   selector: 'app-my-profile',
@@ -21,17 +22,18 @@ export class MyProfileComponent implements OnInit {
   favoriteTattooArtists: Array<UserResponseDto>
   priceInterval: Observable<TattooArtistPriceInterval>
   user: Observable<User>
+  authenticatedUser:User
 
   constructor(public afAuth: AngularFireAuth,
               public authService: AuthService,
               private userService: UserService,
               private tattooService: TattooWorkService,
-              private router: Router) {
+              private router: Router,
+              private reviewService:ReviewService) {
   }
 
   async ngOnInit() {
     await this.authService.getCurrentUser().getIdToken(true).then(async token => {
-      console.log(token)
       await this.userService.getFavoriteTattooWorks(token).subscribe(data =>{
         this.favoriteTattooWorks = data
       })
@@ -40,6 +42,9 @@ export class MyProfileComponent implements OnInit {
       })
       await this.userService.getFavoriteTattooArtists(token).subscribe(data => {
         this.favoriteTattooArtists = data
+      })
+      await this.userService.fetchAuthenticatedUser(token).subscribe(async user => {
+        this.authenticatedUser=user
       })
     })
     this.priceInterval = this.userService.userPriceInterval(this.authService.getCurrentUser().uid)

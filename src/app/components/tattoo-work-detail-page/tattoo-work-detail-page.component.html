@@ -40,20 +40,126 @@
       <h1>Like: {{tattooWork.like_number}}</h1>
       <h1>Dislike: {{tattooWork.dislike_number}}</h1>
       <h1>Comment</h1>
-      <mat-card style="width: 1000px">
-        <mat-chip-avatar>
-          <img src="favicon.ico" alt="">
-        </mat-chip-avatar>
-        asdasd / rating ekle
-      </mat-card>
-      <br>
-      <form *ngIf="tattooWork.clientId===authService.authenticatedUser.id">
 
-        <mat-form-field style="width: 1000px;">
-          <mat-label >Leave a comment</mat-label>
-          <input matInput>
-        </mat-form-field>
-      </form>
+<!--      <swiper-->
+<!--        style="&#45;&#45;swiper-navigation-color: #fff;&#45;&#45;swiper-pagination-color: #fff"-->
+<!--        [spaceBetween]="10"-->
+<!--        [navigation]="true"-->
+<!--        [thumbs]="{ swiper: thumbsSwiper }"-->
+<!--        class="mySwiper2"-->
+<!--      >-->
+<!--        <ng-template swiperSlide-->
+<!--        ><img-->
+<!--          src="https://swiperjs.com/demos/images/nature-1.jpg" /></ng-template-->
+<!--        ><ng-template swiperSlide-->
+<!--      ><img-->
+<!--        src="https://swiperjs.com/demos/images/nature-2.jpg" /></ng-template-->
+<!--      ><ng-template swiperSlide-->
+<!--      ><img-->
+<!--        src="https://swiperjs.com/demos/images/nature-3.jpg" /></ng-template-->
+<!--      ><ng-template swiperSlide-->
+<!--      ><img-->
+<!--        src="https://swiperjs.com/demos/images/nature-4.jpg" /></ng-template-->
+<!--      ><ng-template swiperSlide-->
+<!--      ><img-->
+<!--        src="https://swiperjs.com/demos/images/nature-5.jpg" /></ng-template-->
+<!--      ><ng-template swiperSlide-->
+<!--      ><img-->
+<!--        src="https://swiperjs.com/demos/images/nature-6.jpg" /></ng-template-->
+<!--      ><ng-template swiperSlide-->
+<!--      ><img-->
+<!--        src="https://swiperjs.com/demos/images/nature-7.jpg" /></ng-template-->
+<!--      ><ng-template swiperSlide-->
+<!--      ><img-->
+<!--        src="https://swiperjs.com/demos/images/nature-8.jpg" /></ng-template-->
+<!--      ><ng-template swiperSlide-->
+<!--      ><img-->
+<!--        src="https://swiperjs.com/demos/images/nature-9.jpg" /></ng-template-->
+<!--      ><ng-template swiperSlide-->
+<!--      ><img src="https://swiperjs.com/demos/images/nature-10.jpg"/>-->
+<!--      </ng-template>-->
+<!--      </swiper>-->
+
+<!--      <swiper-->
+<!--        (swiper)="thumbsSwiper = $event"-->
+<!--        [spaceBetween]="10"-->
+<!--        [slidesPerView]="4"-->
+<!--        [freeMode]="true"-->
+<!--        [watchSlidesProgress]="true"-->
+<!--        class="mySwiper"-->
+<!--      >-->
+<!--        <ng-template swiperSlide-->
+<!--        ><img-->
+<!--          src="https://swiperjs.com/demos/images/nature-1.jpg" /></ng-template-->
+<!--        ><ng-template swiperSlide-->
+<!--      ><img-->
+<!--        src="https://swiperjs.com/demos/images/nature-2.jpg" /></ng-template-->
+<!--      ><ng-template swiperSlide-->
+<!--      ><img-->
+<!--        src="https://swiperjs.com/demos/images/nature-3.jpg" /></ng-template-->
+<!--      ><ng-template swiperSlide-->
+<!--      ><img-->
+<!--        src="https://swiperjs.com/demos/images/nature-4.jpg" /></ng-template-->
+<!--      ><ng-template swiperSlide-->
+<!--      ><img-->
+<!--        src="https://swiperjs.com/demos/images/nature-5.jpg" /></ng-template-->
+<!--      ><ng-template swiperSlide-->
+<!--      ><img-->
+<!--        src="https://swiperjs.com/demos/images/nature-6.jpg" /></ng-template-->
+<!--      ><ng-template swiperSlide-->
+<!--      ><img-->
+<!--        src="https://swiperjs.com/demos/images/nature-7.jpg" /></ng-template-->
+<!--      ><ng-template swiperSlide-->
+<!--      ><img-->
+<!--        src="https://swiperjs.com/demos/images/nature-8.jpg" /></ng-template-->
+<!--      ><ng-template swiperSlide-->
+<!--      ><img-->
+<!--        src="https://swiperjs.com/demos/images/nature-9.jpg" /></ng-template-->
+<!--      ><ng-template swiperSlide-->
+<!--      ><img src="https://swiperjs.com/demos/images/nature-10.jpg"-->
+<!--      /></ng-template>-->
+<!--      </swiper>-->
+
+      <div  *ngIf="(tattooWork.clientId===authService.authenticatedUser.id)&&(!tattooWork.commentId)">
+        <form *ngIf="commentFormGroup" [formGroup]="commentFormGroup" (ngSubmit)="submit()">
+          <div formGroupName="commentGroup">
+            <mat-form-field appearance="fill" color="accent">
+              <mat-label>Leave a comment</mat-label>
+              <input matInput formControlName="message" required>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill">
+              <mat-label>Review Type</mat-label>
+              <mat-select formControlName="rate" >
+                <mat-option *ngFor="let rate of rates" [value]="rate">{{rate}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <button mat-button mat-flat-button color="accent" (submit)="submit()">Send</button>
+          </div>
+        </form>
+      </div>
+
+
+      <div style="max-width: 1000px" *ngIf="(comment!==null)">
+        <mat-card>
+          <mat-card-title-group>
+            <mat-card-title>{{comment.postedBy.firstName}}{{comment.postedBy.lastName}}</mat-card-title>
+            <mat-card-subtitle>{{comment.postDate}}</mat-card-subtitle>
+            <mat-card-subtitle>{{comment.rate}}</mat-card-subtitle>
+            <img mat-card-sm-image src="{{comment.postedBy.avatarUrl}}" >
+          </mat-card-title-group>
+          <mat-card-content>
+            {{comment.message}}
+          </mat-card-content>
+          <mat-card-actions>
+            <button *ngIf="comment.postedBy.id===authService.authenticatedUser.id" mat-flat-button color="warn"  (click)="deleteComment(comment.id)">delete</button>
+            <button *ngIf="comment.postedBy.id===authService.authenticatedUser.id" mat-flat-button color="accent"  (click)="editComment(comment.id)">edit</button>
+            <hr>
+          </mat-card-actions>
+        </mat-card>
+
+      </div>
+
     </div>
   </mat-sidenav-content>
 </mat-sidenav-container>

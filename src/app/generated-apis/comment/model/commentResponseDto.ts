@@ -9,12 +9,13 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { UserResponseDto } from './userResponseDto';
 
 
 export interface CommentResponseDto { 
     id?: string;
     postDate?: string;
-    postedBy?: string;
+    postedBy?: UserResponseDto;
     message?: string;
     workId?: string;
     rate?: number;

@@ -9,13 +9,14 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { UserResponseDto } from './userResponseDto';
 import { ReviewType } from './reviewType';
 
 
 export interface ReviewResponseDto { 
     id?: string;
     message?: string;
-    postedBy?: string;
+    postedBy?: UserResponseDto;
     receiver?: string;
     reviewType?: ReviewType;
 }
