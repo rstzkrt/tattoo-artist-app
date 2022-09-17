@@ -1,5 +1,4 @@
 .gitignore
-.openapi-generator-ignore
 README.md
 api.module.ts
 api/api.ts
@@ -14,4 +13,5 @@ model/reviewPatchRequestDto.ts
 model/reviewPostRequestDto.ts
 model/reviewResponseDto.ts
 model/reviewType.ts
+model/userResponseDto.ts
 variables.ts

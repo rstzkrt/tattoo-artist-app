@@ -1,5 +1,4 @@
 .gitignore
-.openapi-generator-ignore
 README.md
 api.module.ts
 api/api.ts
@@ -12,4 +11,5 @@ model/commentPatchRequestDto.ts
 model/commentRequestDto.ts
 model/commentResponseDto.ts
 model/models.ts
+model/userResponseDto.ts
 variables.ts

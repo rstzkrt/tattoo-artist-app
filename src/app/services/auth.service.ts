@@ -10,8 +10,7 @@ import {StreamChat, TokenOrProvider} from "stream-chat";
 import {environment} from "../../environments/environment";
 import {LoginDialogComponent} from "../components/login-dialog/login-dialog.component";
 import {MatDialog} from "@angular/material/dialog";
-import { getAuth, deleteUser } from "firebase/auth";
-
+import {getAuth, deleteUser} from "firebase/auth";
 
 @Injectable({
   providedIn: 'root'
@@ -23,7 +22,7 @@ export class AuthService {
   firebaseUser: firebase.User;
   requestBodyUser: User = new User();
   idToken: Observable<string | null>;
-  dialogRef:any;
+  dialogRef: any;
 
   constructor(private afAuth: AngularFireAuth,
               private userService: UserService,
@@ -36,7 +35,7 @@ export class AuthService {
       this.firebaseUser = user;
       if (user) {
         user.getIdToken().then((token) => {
-          this.userObservable=userService.fetchAuthenticatedUser(token)
+          this.userObservable = userService.fetchAuthenticatedUser(token)
           userService.fetchAuthenticatedUser(token).subscribe(data => {
             this.authenticatedUser = data;
             console.log(this.authenticatedUser)
@@ -46,26 +45,8 @@ export class AuthService {
     });
   }
 
-  deleteAccount(){
-    const auth = getAuth();
-    const user = auth.currentUser;
-    deleteUser(user).then(() => {
-      console.log("deleted")
-    }).catch((error) => {
-      console.log(error)
-    });
-  }
-
-  getCurrentUser() {
-    return this.firebaseUser;
-  }
-
-  getStreamToken(): Observable<TokenOrProvider> {
-    return this.firebaseFunctions
-      .httpsCallable("ext-auth-chat-getStreamUserToken")({});
-  }
-
   async loginWithGoogle() {
+    console.log('login')
     await this.afAuth.signInWithPopup(new firebase.auth.GoogleAuthProvider()).then(
       async res => {
         this.requestBodyUser.uid = res.user.uid
@@ -88,7 +69,6 @@ export class AuthService {
             });
         }
 
-
         let tokenFunction = this.firebaseFunctions.httpsCallable('ext-auth-chat-getStreamUserToken')
         tokenFunction({}).subscribe(async data => {
           const chatClient = StreamChat.getInstance(environment.stream.key);
@@ -98,10 +78,7 @@ export class AuthService {
               id: this.authenticatedUser.uid,
               name: this.authenticatedUser.firstName + " " + this.authenticatedUser.lastName,
               image: this.authenticatedUser.avatarUrl,
-            },
-            data,
-          );
-          console.log(data)
+            }, data);
         });
         console.log("Login Success")
         this.dialogRef.close()
@@ -112,7 +89,7 @@ export class AuthService {
   }
 
   signUpDialog() {
-    this.dialogRef= this.dialog.open(LoginDialogComponent);
+    this.dialogRef = this.dialog.open(LoginDialogComponent);
   }
 
   logout() {
@@ -125,6 +102,26 @@ export class AuthService {
 
     });
     const chatClient = StreamChat.getInstance(environment.stream.key);
-    chatClient.disconnectUser().then(r => {});
+    chatClient.disconnectUser().then(r => {
+    });
+  }
+
+  deleteAccount() {
+    const auth = getAuth();
+    const user = auth.currentUser;
+    deleteUser(user).then(() => {
+      console.log("deleted")
+    }).catch((error) => {
+      console.log(error)
+    });
+  }
+
+  getCurrentUser() {
+    return this.firebaseUser;
+  }
+
+  getStreamToken(): Observable<TokenOrProvider> {
+    return this.firebaseFunctions
+      .httpsCallable("ext-auth-chat-getStreamUserToken")({});
   }
 }

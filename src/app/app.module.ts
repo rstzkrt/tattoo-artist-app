@@ -52,12 +52,16 @@ import { EditTattooWorkComponent } from './components/edit-tattoo-work/edit-tatt
 import { EditProfileComponent } from './components/edit-profile/edit-profile.component';
 import {MatTooltipModule} from "@angular/material/tooltip";
 import { TattooWorkDetailPageComponent } from './components/tattoo-work-detail-page/tattoo-work-detail-page.component';
-import {MatCarouselModule,MatCarousel} from "ng-mat-carousel";
+import {MatCarouselModule} from "ng-mat-carousel";
 import {MatCheckboxModule} from "@angular/material/checkbox";
-
+import { EditProfileBasicComponent } from './components/edit-profile-basic/edit-profile-basic.component';
+import { EditReviewComponent } from './components/edit-review/edit-review.component';
+import { CahnnelListComponent } from './components/cahnnel-list/cahnnel-list.component';
+import { SwiperModule } from 'swiper/angular';
 const routes: Routes = [
   {path: 'me', component: MyProfileComponent},
   {path: 'me-edit', component: EditProfileComponent},
+  {path: 'me-edit-basic', component: EditProfileBasicComponent},//user update without artist page
   {path: 'tattoo-work/:id', component: TattooWorkDetailPageComponent},
   {path: 'chats', component: ChatComponent},
   {path: 'chats/:id', component: ChatComponent},
@@ -84,7 +88,10 @@ const routes: Routes = [
     PostTattooWorkComponent,
     EditTattooWorkComponent,
     EditProfileComponent,
-    TattooWorkDetailPageComponent
+    TattooWorkDetailPageComponent,
+    EditProfileBasicComponent,
+    EditReviewComponent,
+    CahnnelListComponent
   ],
   imports: [
     BrowserModule,
@@ -128,7 +135,8 @@ const routes: Routes = [
     MatSelectModule,
     MatTooltipModule,
     MatCarouselModule.forRoot(),
-    MatCheckboxModule
+    MatCheckboxModule,
+    SwiperModule
   ],
   providers: [{provide: REGION, useValue: 'europe-central2'}],
   bootstrap: [AppComponent]

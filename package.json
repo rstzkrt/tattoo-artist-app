@@ -33,6 +33,7 @@
     "rxjs": "~6.6.0",
     "stream-chat": "^6.9.0",
     "stream-chat-angular": "^4.1.0",
+    "swiper": "^8.4.2",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"
   },

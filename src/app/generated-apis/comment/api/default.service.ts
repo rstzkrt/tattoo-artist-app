@@ -178,6 +178,13 @@ export class DefaultService {
 
         let localVarHeaders = this.defaultHeaders;
 
+        let localVarCredential: string | undefined;
+        // authentication (bearerAuth) required
+        localVarCredential = this.configuration.lookupCredential('bearerAuth');
+        if (localVarCredential) {
+            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
+        }
+
         let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
         if (localVarHttpHeaderAcceptSelected === undefined) {
             // to determine the Accept header
@@ -347,17 +354,17 @@ export class DefaultService {
     }
 
     /**
-     * get comments
+     * get comment
      * @param tattooWorkId tattooWork id
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getCommentsByTattooWorkId(tattooWorkId: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<Array<CommentResponseDto>>;
-    public getCommentsByTattooWorkId(tattooWorkId: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<Array<CommentResponseDto>>>;
-    public getCommentsByTattooWorkId(tattooWorkId: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<Array<CommentResponseDto>>>;
-    public getCommentsByTattooWorkId(tattooWorkId: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
+    public getCommentByTattooWorkId(tattooWorkId: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<CommentResponseDto>;
+    public getCommentByTattooWorkId(tattooWorkId: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<CommentResponseDto>>;
+    public getCommentByTattooWorkId(tattooWorkId: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<CommentResponseDto>>;
+    public getCommentByTattooWorkId(tattooWorkId: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
         if (tattooWorkId === null || tattooWorkId === undefined) {
-            throw new Error('Required parameter tattooWorkId was null or undefined when calling getCommentsByTattooWorkId.');
+            throw new Error('Required parameter tattooWorkId was null or undefined when calling getCommentByTattooWorkId.');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -391,7 +398,7 @@ export class DefaultService {
             }
         }
 
-        return this.httpClient.get<Array<CommentResponseDto>>(`${this.configuration.basePath}/comments/tattooworks/${encodeURIComponent(String(tattooWorkId))}`,
+        return this.httpClient.get<CommentResponseDto>(`${this.configuration.basePath}/comments/tattooworks/${encodeURIComponent(String(tattooWorkId))}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
