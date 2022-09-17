@@ -16,7 +16,7 @@ import {UserResponseDto} from "../../generated-apis/user";
 })
 export class HomePageComponent implements OnInit {
 
-  tattooWorkList: Observable<Array<TattooWorksResponseDto>>
+  tattooWorkList: Array<TattooWorksResponseDto>
   userList: Observable<Array<UserResponseDto>>
   totalElements: number = 0;
   observableUser: Observable<User>;
@@ -28,10 +28,10 @@ export class HomePageComponent implements OnInit {
               public afAuth: AngularFireAuth) {
   }
 
-  ngOnInit() {
-    this.getTattoos(0, 20)
-    this.getUsers(0, 20)
-    this.afAuth.authState.subscribe(data => {
+  async ngOnInit() {
+    await this.getTattoos(0, 20)
+    await this.getUsers(0, 20)
+    await this.afAuth.authState.subscribe(data => {
       data.getIdToken(true).then(token => {
         this.observableUser = this.userService.fetchAuthenticatedUser(token);
       })
@@ -46,8 +46,8 @@ export class HomePageComponent implements OnInit {
   }
 
   private getTattoos(page: number, size: number) {
-    this.tattooWorkList = this.tattooWorkService.getAllTattooWorks(page, size, 0)
-    this.tattooWorkList.subscribe(data => {
+    this.tattooWorkService.getAllTattooWorks(page, size, 0).subscribe(data=>{
+      this.tattooWorkList =data
       this.totalElements = data.length;
     })
   }
@@ -69,6 +69,7 @@ export class HomePageComponent implements OnInit {
   likeTattooWork(id: string) {
     this.authService.getCurrentUser().getIdToken(true).then(token => {
       this.userService.likeTattooWork(id, token).subscribe(() => {
+        this.getTattoos(0, 20)
         console.log("like")
       })
     })
@@ -77,6 +78,7 @@ export class HomePageComponent implements OnInit {
   disLikeTattooWork(id: string) {
     this.authService.getCurrentUser().getIdToken(true).then(token => {
       this.userService.dislikeTattooWork(id, token).subscribe(() => {
+        this.getTattoos(0, 20)
         console.log("dislike")
       })
     })
@@ -85,7 +87,10 @@ export class HomePageComponent implements OnInit {
   favoriteTattooWork(tattoo_work_id: string) {
     this.afAuth.authState.subscribe(data => {
       data.getIdToken(true).then(token => {
-        this.userService.favoriteTattooWork(tattoo_work_id, token).subscribe(() => console.log("favorite"))
+        this.userService.favoriteTattooWork(tattoo_work_id, token).subscribe(() =>{
+          this.observableUser = this.userService.fetchAuthenticatedUser(token);
+          console.log("favorite")
+        })
       })
     })
   }
@@ -93,16 +98,21 @@ export class HomePageComponent implements OnInit {
   unFavoriteTattooWork(tattoo_work_id: string) {
     this.afAuth.authState.subscribe(data => {
       data.getIdToken(true).then(token => {
-        this.userService.unfavoriteTattooWork(tattoo_work_id, token).subscribe(() => console.log("unFavorite"))
+        this.userService.unfavoriteTattooWork(tattoo_work_id, token).subscribe(() =>{
+          this.observableUser = this.userService.fetchAuthenticatedUser(token);
+          console.log("unFavorite")
+        })
       })
     })
   }
 
-
   favoriteTattooArtist(tattoo_artist_id: string) {
     this.afAuth.authState.subscribe(data => {
       data.getIdToken(true).then(token => {
-        this.userService.favoriteTattooArtist(tattoo_artist_id, token).subscribe(() => console.log("favorite"))
+        this.userService.favoriteTattooArtist(tattoo_artist_id, token).subscribe(() => {
+          this.observableUser = this.userService.fetchAuthenticatedUser(token);
+          console.log("favorite")
+        } )
       })
     })
   }
@@ -110,7 +120,10 @@ export class HomePageComponent implements OnInit {
   unFavoriteTattooArtist(tattoo_artist_id: string) {
     this.afAuth.authState.subscribe(data => {
       data.getIdToken(true).then(token => {
-        this.userService.unfavoriteTattooArtist(tattoo_artist_id, token).subscribe(() => console.log("unFavorite"))
+        this.userService.unfavoriteTattooArtist(tattoo_artist_id, token).subscribe(() => {
+          this.observableUser = this.userService.fetchAuthenticatedUser(token);
+          console.log("unFavorite")
+        })
       })
     })
   }
