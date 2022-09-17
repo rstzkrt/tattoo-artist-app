@@ -31,6 +31,8 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
 
     delete:
+      security:
+        - bearerAuth: [ ]
       operationId: deleteReviewById
       description: delete review
       parameters:
@@ -142,6 +144,11 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
 
 components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
   schemas:
     ReviewPatchRequestDto:
       type: object
@@ -171,8 +178,7 @@ components:
         message:
           type: string
         postedBy:
-          type: string
-          format: uuid
+          $ref: "#/components/schemas/UserResponseDto"
         receiver:
           type: string
           format: uuid
@@ -192,3 +198,65 @@ components:
         - POSITIVE
         - NEGATIVE
         - NEUTRAL
+    UserResponseDto:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        uid:
+          type: string
+          description: id for firebase auth
+        firstName:
+          type: string
+        lastName:
+          type: string
+        avatarUrl:
+          type: string
+        birthDate:
+          type: string
+          format: date
+        email:
+          type: string
+        hasArtistPage:
+          type: boolean
+        workDays:
+          type: array
+          items:
+            $ref: '#/components/schemas/WorkingDays'
+        averageRating:
+          type: number
+        phoneNumber:
+          type: string
+        street:
+          type: string
+        city:
+          type: string
+        country:
+          type: string
+        state:
+          type: string
+        postalCode:
+          type: string
+        otherInformation:
+          type: string
+        favoriteArtistIds:
+          type: array
+          items:
+            type: string
+            format: uuid
+        favoriteTattooWorkIds:
+          type: array
+          items:
+            type: string
+            format: uuid
+        commentIds:
+          type: array
+          items:
+            type: string
+            format: uuid
+        tattooWorkIds:
+          type: array
+          items:
+            type: string
+            format: uuid

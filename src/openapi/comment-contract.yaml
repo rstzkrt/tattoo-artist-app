@@ -26,6 +26,8 @@ paths:
                 $ref: '#/components/schemas/CommentResponseDto'
 
     delete:
+      security:
+        - bearerAuth: [ ]
       operationId: deleteCommentById
       description: delete comment by id
       parameters:
@@ -64,10 +66,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CommentResponseDto'
+
   /comments/tattooworks/{tattooWork_id}:
     get:
-      operationId: getCommentsByTattooWorkId
-      description: get comments
+      operationId: getCommentByTattooWorkId
+      description: get comment
       parameters:
         - in: path
           name: tattooWork_id
@@ -82,9 +85,8 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/CommentResponseDto'
+                $ref: '#/components/schemas/CommentResponseDto'
+
     post:
       operationId: createComment
       description: create comment
@@ -111,6 +113,11 @@ paths:
                 $ref: '#/components/schemas/CommentResponseDto'
 
 components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
   schemas:
     CommentPatchRequestDto:
       type: object
@@ -129,6 +136,7 @@ components:
           type: string
         rate:
           type: number
+
     CommentResponseDto:
       type: object
       properties:
@@ -139,8 +147,7 @@ components:
           type: string
           format: date
         postedBy:
-          type: string
-          format: uuid
+          $ref: '#/components/schemas/UserResponseDto'
         message:
           type: string
         workId:
@@ -148,3 +155,66 @@ components:
           format: uuid
         rate:
           type: number
+
+    UserResponseDto:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        uid:
+          type: string
+          description: id for firebase auth
+        firstName:
+          type: string
+        lastName:
+          type: string
+        avatarUrl:
+          type: string
+        birthDate:
+          type: string
+          format: date
+        email:
+          type: string
+        hasArtistPage:
+          type: boolean
+        workDays:
+          type: array
+          items:
+            $ref: '#/components/schemas/WorkingDays'
+        averageRating:
+          type: number
+        phoneNumber:
+          type: string
+        street:
+          type: string
+        city:
+          type: string
+        country:
+          type: string
+        state:
+          type: string
+        postalCode:
+          type: string
+        otherInformation:
+          type: string
+        favoriteArtistIds:
+          type: array
+          items:
+            type: string
+            format: uuid
+        favoriteTattooWorkIds:
+          type: array
+          items:
+            type: string
+            format: uuid
+        commentIds:
+          type: array
+          items:
+            type: string
+            format: uuid
+        tattooWorkIds:
+          type: array
+          items:
+            type: string
+            format: uuid
