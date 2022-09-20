@@ -25,5 +25,7 @@ export interface TattooWorksResponseDto {
     coverPhoto?: string;
     photos?: Array<string>;
     madeBy?: MadeByInfo;
+    disLikerIds?: Array<string>;
+    likerIds?: Array<string>;
 }
 
