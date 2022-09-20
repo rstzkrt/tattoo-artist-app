@@ -1,5 +1,4 @@
-import {UserResponseDto} from "../generated/user/models/user-response-dto";
-import {WorkingDays} from "../generated/user/models/working-days";
+import {UserResponseDto, WorkingDays} from "../generated-apis/user";
 
 export class User implements UserResponseDto{
   avatarUrl?: string;

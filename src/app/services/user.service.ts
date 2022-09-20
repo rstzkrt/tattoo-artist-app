@@ -1,13 +1,15 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpContext} from "@angular/common/http";
+import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {UserResponseDto} from "../generated/user/models/user-response-dto";
-import {TattooArtistAccReqDto} from "../generated/user/models/tattoo-artist-acc-req-dto";
-import {ClientReqDto} from "../generated/user/models/client-req-dto";
-import {UserUpdateRequestDto} from "../generated/user/models/user-update-request-dto";
-import {TattooArtistPriceInterval} from "../generated/user/models/tattoo-artist-price-interval";
 import {User} from "../common/user";
-import {DefaultService, TattooWorksResponseDto} from "../generated-apis/user";
+import {
+  ClientReqDto,
+  DefaultService,
+  TattooArtistAccReqDto, TattooArtistPriceInterval,
+  TattooWorksResponseDto,
+  UserResponseDto,
+  UserUpdateRequestDto
+} from "../generated-apis/user";
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +22,7 @@ export class UserService{
   constructor(private httpClient:HttpClient, private userOpenApiService:DefaultService) {
     userOpenApiService.configuration.basePath=this._rootUrl;
   }
-  registerClient(clientReqDto:ClientReqDto):Observable<UserResponseDto> {
+  createClient(clientReqDto:ClientReqDto):Observable<UserResponseDto> {
     return this.userOpenApiService.createUser(clientReqDto);
   }
 

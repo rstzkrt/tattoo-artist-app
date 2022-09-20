@@ -2,13 +2,14 @@ import {Component, OnInit} from '@angular/core';
 import {AngularFireAuth} from "@angular/fire/compat/auth";
 import {AuthService} from "../../services/auth.service";
 import {UserService} from "../../services/user.service";
-import {TattooWorksResponseDto, UserResponseDto} from "../../generated-apis/user";
+import {TattooArtistPriceInterval, TattooWorksResponseDto, UserResponseDto} from "../../generated-apis/user";
 import {TattooWorkService} from "../../services/tattoo-work.service";
 import {Router} from "@angular/router";
 import {Observable} from "rxjs";
-import {TattooArtistPriceInterval} from "../../generated/user/models/tattoo-artist-price-interval";
 import {User} from "../../common/user";
 import {ReviewService} from "../../services/review.service";
+import {StorageService} from "../../services/storage.service";
+import {ReviewResponseDto} from "../../generated-apis/review";
 
 @Component({
   selector: 'app-my-profile',
@@ -17,61 +18,50 @@ import {ReviewService} from "../../services/review.service";
 })
 export class MyProfileComponent implements OnInit {
 
-  myTattooWorks: Array<TattooWorksResponseDto>
-  favoriteTattooWorks: Array<TattooWorksResponseDto>
-  favoriteTattooArtists: Array<UserResponseDto>
+  myTattooWorks: Observable<Array<TattooWorksResponseDto>>
+  favoriteTattooWorks: Observable<Array<TattooWorksResponseDto>>
+  favoriteTattooArtists: Observable<Array<UserResponseDto>>
   priceInterval: Observable<TattooArtistPriceInterval>
-  user: Observable<User>
-  authenticatedUser:User
+  authenticatedUser: User
+  token: string
+  myReviews: Observable<Array<ReviewResponseDto>>
 
   constructor(public afAuth: AngularFireAuth,
               public authService: AuthService,
               private userService: UserService,
               private tattooService: TattooWorkService,
               private router: Router,
-              private reviewService:ReviewService) {
+              private reviewService: ReviewService,
+              private storageService: StorageService) {
   }
 
-  async ngOnInit() {
-    await this.authService.getCurrentUser().getIdToken(true).then(async token => {
-      await this.userService.getFavoriteTattooWorks(token).subscribe(data =>{
-        this.favoriteTattooWorks = data
-      })
-      await this.userService.getTattooWorks(token).subscribe(data => {
-        this.myTattooWorks = data
-      })
-      await this.userService.getFavoriteTattooArtists(token).subscribe(data => {
-        this.favoriteTattooArtists = data
-      })
-      await this.userService.fetchAuthenticatedUser(token).subscribe(async user => {
-        this.authenticatedUser=user
-      })
-    })
-    this.priceInterval = this.userService.userPriceInterval(this.authService.getCurrentUser().uid)
+  ngOnInit(): void {
+    this.token = this.storageService.getToken()
+    this.authenticatedUser = this.storageService.getUser()
+    if (this.authenticatedUser) {
+      this.priceInterval = this.userService.userPriceInterval(this.authenticatedUser.uid)
+      this.favoriteTattooWorks = this.userService.getFavoriteTattooWorks(this.token)
+      this.myTattooWorks = this.userService.getTattooWorks(this.token)
+      this.favoriteTattooArtists = this.userService.getFavoriteTattooArtists(this.token)
+      this.myReviews = this.reviewService.getAllReviewByUserId(this.authenticatedUser.id)
+    }
   }
 
   deleteTattooWork(id: string) {
-    this.authService.getCurrentUser().getIdToken(true).then(token => {
-      this.tattooService.deleteTattooWork(id, token).subscribe(data => {
-        console.log(data)
-      })
+    this.tattooService.deleteTattooWork(id, this.token).subscribe(data => {
+      console.log(data)
     })
   }
 
   deleteAccount() {
-    this.authService.getCurrentUser().getIdToken(true).then(token => {
-      this.userService.deleteMyAccount(token).subscribe(() => {
-        this.authService.deleteAccount()
-        this.router.navigateByUrl('/home').then()
-      })
+    this.userService.deleteMyAccount(this.token).subscribe(() => {
+      this.authService.deleteAccount()
+      this.storageService.clean()
+      window.location.replace("/home")
     })
   }
 
   unFavoriteTattooArtist(id: string) {
-    this.afAuth.authState.subscribe(data => {
-      data.getIdToken(true).then(token => {
-        this.userService.unfavoriteTattooArtist(id, token).subscribe(() => console.log("unFavorite"))
-      })
-    })
+    this.userService.unfavoriteTattooArtist(id, this.token).subscribe(() => console.log("unFavorite"))
   }
 }

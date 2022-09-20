@@ -43,6 +43,8 @@ paths:
           description: no content
 
     patch:
+      security:
+        - bearerAuth: [ ]
       operationId: editComment
       description: edit comment
       requestBody:

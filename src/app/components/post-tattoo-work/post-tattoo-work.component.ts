@@ -4,6 +4,10 @@ import {TattooWorkPostRequestDto} from "../../generated-apis/tatoo-work";
 import {AuthService} from "../../services/auth.service";
 import {Router} from "@angular/router";
 import {TattooWorkService} from "../../services/tattoo-work.service";
+import {AngularFireStorage, AngularFireStorageReference, AngularFireUploadTask} from "@angular/fire/compat/storage";
+import {Observable} from "rxjs";
+import {finalize} from "rxjs/operators";
+import {StorageService} from "../../services/storage.service";
 
 @Component({
   selector: 'app-post-tattoo-work',
@@ -13,29 +17,44 @@ import {TattooWorkService} from "../../services/tattoo-work.service";
 export class PostTattooWorkComponent implements OnInit {
 
   postTattooWorkFormGroup: FormGroup
+  ref: AngularFireStorageReference;
+  task: AngularFireUploadTask;
+  uploadProgress: Observable<number>;
+  downloadURL: Observable<any>;
+  imageUrlList:string[]=[];
 
   constructor(private formBuilder: FormBuilder,
               private authService: AuthService,
               private tattooWorkService: TattooWorkService,
-              private route:Router) { }
+              private route:Router,
+              private afStorage:AngularFireStorage,private storageService:StorageService){}
+
 
   ngOnInit(): void {
     this.postTattooWorkFormGroup = this.formBuilder.group({
       postTattooWork: this.formBuilder.group({
-        price: new FormControl(''),
-        currency: new FormControl(''),
-        coverPhoto: new FormControl(''),
-        description: ['', Validators.required],
-        clientId: ['', Validators.required],
+        price: new FormControl('',Validators.required),
+        currency: new FormControl('',Validators.required),
+        description: new FormControl('',Validators.required),
+        clientId: new FormControl('',Validators.required),
       })
+    })
+  }
+
+  removeFromPhotos(url:string){
+    this.afStorage.refFromURL(url).delete().subscribe(()=>{
+       this.imageUrlList=this.imageUrlList.filter(url1=>url1!==url)
     })
   }
 
   submit() {
     let tattooWork:TattooWorkPostRequestDto = this.postTattooWorkFormGroup.get('postTattooWork').value;
-    // tattooWork.madeById=this.authService.authenticatedUser.id
-    this.authService.getCurrentUser().getIdToken(true).then((token) => {
-      this.tattooWorkService.createTattooWork(tattooWork, token).subscribe(res => {
+    tattooWork.photos=this.imageUrlList
+    tattooWork.coverPhoto=this.imageUrlList[0]
+    if(tattooWork.photos.length<3){
+      alert("Please choose at least 3 photos")
+    }else {
+      this.tattooWorkService.createTattooWork(tattooWork, this.storageService.getToken()).subscribe(res => {
         console.log(res)
         if(res){
           this.route.navigateByUrl("/me").then()
@@ -43,6 +62,26 @@ export class PostTattooWorkComponent implements OnInit {
       }, error => {
         console.error(error)
       });
-    })
+    }
+  }
+
+  upload(event: any) {
+    const randomId = Math.random().toString(36).substring(2);
+    const fileName = event.target.files[0].name
+    const extension = fileName.substring(fileName.lastIndexOf('.') + 1);
+    this.ref = this.afStorage.ref('/images/' + randomId +"."+ extension +"?alt=media");
+    this.task = this.ref.put(event.target.files[0]);
+    this.uploadProgress = this.task.percentageChanges();
+    this.task.snapshotChanges().pipe(
+      finalize( () => {
+        this.downloadURL =  this.ref.getDownloadURL()
+        // this.imageUrlList.push(this.downloadURL)
+      })
+    ).subscribe(data=>{
+      data.ref.getDownloadURL().then(url=>{
+        this.imageUrlList.push(url)
+      })
+    });
+    console.log(this.imageUrlList.length)
   }
 }

@@ -15,7 +15,6 @@ import {MatSidenavModule} from "@angular/material/sidenav";
 import {MatIconModule} from "@angular/material/icon";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
-import {TattooWorkListComponent} from './components/tattoo-work-list/tattoo-work-list.component';
 import {AngularFireModule} from "@angular/fire/compat";
 import {environment} from "../environments/environment";
 import {AngularFireAuthModule} from "@angular/fire/compat/auth";
@@ -55,11 +54,12 @@ import { TattooWorkDetailPageComponent } from './components/tattoo-work-detail-p
 import {MatCarouselModule} from "ng-mat-carousel";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import { EditProfileBasicComponent } from './components/edit-profile-basic/edit-profile-basic.component';
-import { EditReviewComponent } from './components/edit-review/edit-review.component';
 import { CahnnelListComponent } from './components/cahnnel-list/cahnnel-list.component';
 import { SwiperModule } from 'swiper/angular';
+import {AuthenticationGuard} from "./guards/authentication.guard";
+
 const routes: Routes = [
-  {path: 'me', component: MyProfileComponent},
+  {path: 'me', component: MyProfileComponent,canActivate: [AuthenticationGuard]},
   {path: 'me-edit', component: EditProfileComponent},
   {path: 'me-edit-basic', component: EditProfileBasicComponent},//user update without artist page
   {path: 'tattoo-work/:id', component: TattooWorkDetailPageComponent},
@@ -79,7 +79,6 @@ const routes: Routes = [
     FilterMembersPipe,
     AppComponent,
     UserProfileComponent,
-    TattooWorkListComponent,
     ChatComponent,
     HomePageComponent,
     MyProfileComponent,
@@ -90,7 +89,6 @@ const routes: Routes = [
     EditProfileComponent,
     TattooWorkDetailPageComponent,
     EditProfileBasicComponent,
-    EditReviewComponent,
     CahnnelListComponent
   ],
   imports: [

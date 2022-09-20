@@ -41,18 +41,17 @@
 
     <div fxLayout="row wrap" style="margin-left: 50px">
       <div fxFlex style="padding-bottom: 30px" *ngFor="let tattooWork of tattooWorkList ">
-        <mat-card style="width: 520px;">
+        <mat-card style="width: 520px">
           <mat-card-header>
-            <section *ngIf="observableUser | async as user"
-                     style="margin-left: auto">
+            <section *ngIf="authenticatedUser" style="margin-left: auto">
               <button matTooltip="favorite"
-                      *ngIf="!user.favoriteTattooWorkIds.includes(tattooWork.id)"
+                      *ngIf="!authenticatedUser.favoriteTattooWorkIds.includes(tattooWork.id)"
                       (click)="favoriteTattooWork(tattooWork.id)"
                       mat-icon-button color="accent">
                 <mat-icon>favorite</mat-icon>
               </button>
               <button matTooltip="unFavorite"
-                      *ngIf="user.favoriteTattooWorkIds.includes(tattooWork.id)"
+                      *ngIf="authenticatedUser.favoriteTattooWorkIds.includes(tattooWork.id)"
                       (click)="unFavoriteTattooWork(tattooWork.id)"
                       mat-icon-button
                       color="accent">
@@ -68,27 +67,16 @@
           </mat-card-header>
           <img routerLink="/tattoo-work/{{tattooWork.id}}" mat-card-image
                style=" cursor: pointer; object-fit:cover; height: 80%" src="{{tattooWork.coverPhoto}}">
-          <mat-card-content>
-            <mat-button-toggle (click)="likeTattooWork(tattooWork.id)">
-              like : {{tattooWork.like_number}}
-            </mat-button-toggle>
-            <mat-button-toggle (click)="disLikeTattooWork(tattooWork.id)">
-              dislike: {{tattooWork.dislike_number}}
-            </mat-button-toggle>
+
+          <div fxLayout="row" *ngIf="authenticatedUser">
+            <button [disabled]="tattooWork.likerIds.includes(authenticatedUser.id)" mat-flat-button  color="accent" (click)="likeTattooWork(tattooWork.id)"><mat-icon>thumb_up_off</mat-icon> <h1> {{tattooWork.like_number}}</h1></button>
+            <button [disabled]="tattooWork.disLikerIds.includes(authenticatedUser.id)" mat-flat-button color="accent" (click)="disLikeTattooWork(tattooWork.id)"><mat-icon>thumb_down</mat-icon><h1>{{tattooWork.dislike_number}}</h1></button>
+          </div>
+
+
             <h2>{{tattooWork.description}}</h2>
             <h2>value: {{tattooWork.price | currency:tattooWork.currency}}</h2>
-          </mat-card-content>
-          <mat-card-actions>
-            <form style="min-width: 150px; max-width: 520px;width: 100%;"
-                  *ngIf="tattooWork.clientId===authService.authenticatedUser.id">
-              <mat-form-field>
-                <mat-label>Leave a comment
-                  <mat-icon>add</mat-icon>
-                </mat-label>
-                <input matInput>
-              </mat-form-field>
-            </form>
-          </mat-card-actions>
+
         </mat-card>
       </div>
     </div>
@@ -107,16 +95,16 @@
       </form>
     </mat-toolbar>
 
-    <div *ngIf="authService.userObservable| async as authUser" fxLayout="row wrap" style="margin-left: 50px">
+    <div fxLayout="row wrap" style="margin-left: 50px">
       <div fxFlex style="padding-bottom: 30px" *ngFor="let user of userList | async ">
         <mat-card style="width: 520px;">
           <mat-card-header>
-            <section *ngIf="observableUser | async as observableUser" style="margin-left: auto">
-              <button matTooltip="favorite" *ngIf="!observableUser.favoriteArtistIds.includes(user.id)"
+            <section *ngIf="authenticatedUser" style="margin-left: auto">
+              <button matTooltip="favorite" *ngIf="!authenticatedUser.favoriteArtistIds.includes(user.id)"
                       (click)="favoriteTattooArtist(user.id)" mat-icon-button color="accent">
                 <mat-icon>favorite</mat-icon>
               </button>
-              <button matTooltip="unFavorite" *ngIf="observableUser.favoriteArtistIds.includes(user.id)"
+              <button matTooltip="unFavorite" *ngIf="authenticatedUser.favoriteArtistIds.includes(user.id)"
                       (click)="unFavoriteTattooArtist(user.id)" mat-icon-button color="accent">
                 <mat-icon>block</mat-icon>
               </button>

@@ -54,6 +54,8 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
 
     patch:
+      security:
+        - bearerAuth: [ ]
       operationId: reviewPatchUpdate
       requestBody:
         required: true

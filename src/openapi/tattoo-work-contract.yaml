@@ -222,6 +222,16 @@ components:
             type: string
         madeBy:
           $ref: '#/components/schemas/MadeByInfo'
+        disLikerIds:
+          type: array
+          items:
+            type: string
+            format: uuid
+        likerIds:
+          type: array
+          items:
+            type: string
+            format: uuid
 
     MadeByInfo:
       type: object

@@ -1,20 +1,16 @@
-<mat-card *ngIf="afAuth.authState | async as user" style="border-radius: 500px">
+<div *ngIf="authenticatedUser;else loggedOut">
+
+<mat-card style="border-radius: 500px">
   <section style=" margin-left: 45%">
     <img style=" height: 200px;
                width: 200px;
-               border-radius: 50%;" src="{{user.photoURL}}">
+               border-radius: 50%;" src="{{authenticatedUser.avatarUrl}}">
     <br>
-    <mat-button-toggle routerLink="/artist-account-form" *ngIf="authService.authenticatedUser.hasArtistPage===false">
+    <mat-button-toggle routerLink="/artist-account-form" *ngIf="authenticatedUser.hasArtistPage===false">
       <mat-icon>add</mat-icon>
       Create an artist page
     </mat-button-toggle>
     <br>
-    <mat-button-toggle *ngIf="authenticatedUser.hasArtistPage" routerLink="/me-edit">
-      Update Profile
-    </mat-button-toggle>
-    <mat-button-toggle *ngIf="!authenticatedUser.hasArtistPage" routerLink="/me-edit-basic">
-      Update Profile
-    </mat-button-toggle>
     <mat-button-toggle (click)="deleteAccount()">
       delete account
     </mat-button-toggle>
@@ -23,23 +19,44 @@
       Post a Tattoo Work
     </mat-button-toggle>
   </section>
-  <h1 style="text-align: center">{{user.displayName}}</h1>
+  <h1 style="text-align: center">{{authenticatedUser.firstName}} {{authenticatedUser.lastName}}</h1>
   <h2 style="text-align: center" *ngIf=" priceInterval | async as priceIntervalObject">
     <h3>
-      {{priceIntervalObject.maxTattooWorkPrice}} {{priceIntervalObject.maxTattooWorkPriceCurrency}}  - {{priceIntervalObject. minTattooWorkPrice}} {{priceIntervalObject.minTattooWorkPriceCurrency}}
+      {{priceIntervalObject.maxTattooWorkPrice}} {{priceIntervalObject.maxTattooWorkPriceCurrency}}  - {{priceIntervalObject.minTattooWorkPrice}} {{priceIntervalObject.minTattooWorkPriceCurrency}}
     </h3>
   </h2>
 </mat-card>
 
 <mat-tab-group color="primary" backgroundColor="primary" mat-align-tabs="center">
 
-  <mat-tab label="About">
+  <mat-tab label="Me">
     <mat-toolbar>
-      <div></div>
+      <div>me</div>
     </mat-toolbar>
     <div>
-      content
+      <h1 style="text-align: center">email:{{authenticatedUser.email}}</h1>
+      <h1 style="text-align: center">average rating:{{authenticatedUser.averageRating}}</h1>
+      <h1 style="text-align: center">phone number{{authenticatedUser.phoneNumber}}</h1>
+
+      <h1 style="text-align: center">birth date:{{authenticatedUser.birthDate}}</h1>
+      <h1 style="text-align: center">work days:{{authenticatedUser.workDays}}</h1>
+
+      <h1 style="text-align: center">city:{{authenticatedUser.city}}</h1>
+      <h1 style="text-align: center">country:{{authenticatedUser.country}}</h1>
+      <h1 style="text-align: center">state:{{authenticatedUser.state}}</h1>
+      <h1 style="text-align: center">street:{{authenticatedUser.street}}</h1>
+      <h1 style="text-align: center">other information:{{authenticatedUser.otherInformation}}</h1>
+      <h1 style="text-align: center">postal code:{{authenticatedUser.postalCode}}</h1>
+
+      <mat-button-toggle *ngIf="authenticatedUser.hasArtistPage" routerLink="/me-edit">
+        Update Profile
+      </mat-button-toggle>
+      <mat-button-toggle *ngIf="!authenticatedUser.hasArtistPage" routerLink="/me-edit-basic">
+        Update Profile
+      </mat-button-toggle>
+
     </div>
+
   </mat-tab>
 
   <mat-tab label="Favorite TattooWorks">
@@ -48,7 +65,7 @@
     </mat-toolbar>
     <div>
       <div fxLayout="row wrap" style="margin-left: 50px" >
-        <div fxFlex style="padding-bottom: 30px" *ngFor="let tattooWork1 of favoriteTattooWorks">
+        <div fxFlex style="padding-bottom: 30px" *ngFor="let tattooWork1 of favoriteTattooWorks | async">
           <mat-card style="width: 520px;">
             <mat-card-header>
               <img mat-card-avatar routerLink="/users/{{tattooWork1.madeBy.id}}" src="{{tattooWork1.madeBy.avatarUrl}}" style="background-size: cover;cursor: pointer">
@@ -71,7 +88,7 @@
             </mat-card-content>
 
             <mat-card-actions>
-              <form style="min-width: 150px; max-width: 500px;width: 100%;" *ngIf="tattooWork1.clientId===authService.authenticatedUser.id">
+              <form style="min-width: 150px; max-width: 500px;width: 100%;" *ngIf="tattooWork1.clientId===authenticatedUser.id">
                 <mat-form-field>
                   <mat-label>Leave a comment <mat-icon>add</mat-icon></mat-label>
                   <input matInput>
@@ -92,7 +109,7 @@
     </mat-toolbar>
     <div>
       <div fxLayout="row wrap" style="margin-left: 50px" >
-        <div fxFlex style="padding-bottom: 30px" *ngFor="let tattooWork of myTattooWorks">
+        <div fxFlex style="padding-bottom: 30px" *ngFor="let tattooWork of myTattooWorks | async">
           <mat-card style="width: 520px;">
             <mat-card-header>
               <img mat-card-avatar routerLink="/users/{{tattooWork.madeBy.id}}" src="{{tattooWork.madeBy.avatarUrl}}" style="background-size: cover;cursor: pointer">
@@ -115,7 +132,7 @@
             </mat-card-content>
 
             <mat-card-actions>
-              <form style="min-width: 150px; max-width: 500px;width: 100%;" *ngIf="tattooWork.clientId===authService.authenticatedUser.id">
+              <form style="min-width: 150px; max-width: 500px;width: 100%;" *ngIf="tattooWork.clientId===authenticatedUser.id">
                 <mat-form-field>
                   <mat-label>Leave a comment <mat-icon>add</mat-icon></mat-label>
                   <input matInput>
@@ -136,8 +153,8 @@
       Favorite Tattoo Artists
     </mat-toolbar>
     <div>
-      <div *ngIf="authService.userObservable| async as authUser" fxLayout="row wrap" style="margin-left: 50px">
-        <div fxFlex style="padding-bottom: 30px" *ngFor="let user of favoriteTattooArtists ">
+      <div fxLayout="row wrap" style="margin-left: 50px">
+        <div fxFlex style="padding-bottom: 30px" *ngFor="let user of favoriteTattooArtists | async ">
 
           <mat-card style="width: 520px;">
             <mat-card-header>
@@ -168,9 +185,23 @@
       My Reviews
     </mat-toolbar>
     <div style="background-color: #a3ff5e">
-
+      <div fxFlex="row" *ngFor="let review of myReviews | async">
+        <mat-card>
+          <mat-card-title-group>
+            <mat-card-title>{{review.postedBy.firstName}}{{review.postedBy.lastName}}</mat-card-title>
+            <mat-card-subtitle>{{review.reviewType}}</mat-card-subtitle>
+            <img mat-card-sm-image src="{{review.postedBy.avatarUrl}}" >
+          </mat-card-title-group>
+          <mat-card-content>
+            {{review.message}}
+          </mat-card-content>
+        </mat-card>
+      </div>
     </div>
   </mat-tab>
-
-
 </mat-tab-group>
+</div>
+
+<ng-template #loggedOut>
+  Please login.
+</ng-template>

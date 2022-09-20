@@ -4,6 +4,8 @@ import {Channel} from "stream-chat";
 import {DefaultStreamChatGenerics} from "stream-chat-angular/lib/types";
 import {AngularFireAuth} from "@angular/fire/compat/auth";
 import {AuthService} from "../../services/auth.service";
+import {User} from "../../common/user";
+import {StorageService} from "../../services/storage.service";
 
 @Component({
   selector: 'app-cahnnel-list',
@@ -13,11 +15,15 @@ import {AuthService} from "../../services/auth.service";
 export class CahnnelListComponent implements OnInit {
 
   channels: Channel<DefaultStreamChatGenerics>[]
-
   activatedChannel:Channel<DefaultStreamChatGenerics>
-  //TODO activated channel color change
+  authenticatedUser:User
 
-  constructor(private channelService: ChannelService,private afAuth: AngularFireAuth,public authService:AuthService,private chatService: ChatClientService) {
+  constructor(private channelService: ChannelService,
+              private afAuth: AngularFireAuth,
+              public authService:AuthService,
+              private chatService: ChatClientService,
+              private storageService:StorageService) {
+    this.authenticatedUser=storageService.getUser()
     this.afAuth.authState.subscribe(async (user) => {
       const filter = {type: 'messaging', members: {$in: [user.uid]}};
       this.channels= await this.chatService.chatClient.queryChannels(filter, {last_message_at: -1}, {
@@ -28,6 +34,7 @@ export class CahnnelListComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.authenticatedUser=this.storageService.getUser()
   }
   activateChannel(channel: Channel<DefaultStreamChatGenerics>) {
       this.channelService.setAsActiveChannel(channel);

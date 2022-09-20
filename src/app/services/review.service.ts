@@ -30,7 +30,8 @@ export class ReviewService{
     return this.reviewService.getReviewsById(id)
   }
 
-  reviewPatchUpdate(id: string, reviewPatchRequestDto: ReviewPatchRequestDto): Observable<ReviewResponseDto> {
+  reviewPatchUpdate(id: string, reviewPatchRequestDto: ReviewPatchRequestDto,token:string): Observable<ReviewResponseDto> {
+    this.reviewService.configuration.credentials= {"bearerAuth": token};
     return this.reviewService.reviewPatchUpdate(id,reviewPatchRequestDto)
   }
 }

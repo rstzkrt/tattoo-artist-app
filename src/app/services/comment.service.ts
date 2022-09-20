@@ -21,7 +21,8 @@ export class CommentService{
     return this.commentService.deleteCommentById(commentId)
   }
 
-  editComment(commentId: string, commentPatchRequestDto: CommentPatchRequestDto): Observable<CommentResponseDto> {
+  editComment(commentId: string, commentPatchRequestDto: CommentPatchRequestDto,token:string): Observable<CommentResponseDto> {
+    this.commentService.configuration.credentials= {"bearerAuth": token};
     return this.commentService.editComment(commentId,commentPatchRequestDto)
   }
 
