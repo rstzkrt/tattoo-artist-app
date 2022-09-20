@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {AuthService} from "../../services/auth.service";
 import {UserService} from "../../services/user.service";
-import {TattooArtistAccReqDto} from "../../generated-apis/user";
+import {TattooArtistAccReqDto, WorkingDays} from "../../generated-apis/user";
 import {Router} from "@angular/router";
 
 @Component({
@@ -13,6 +13,7 @@ import {Router} from "@angular/router";
 export class CreateArtistAccountFormComponent implements OnInit {
 
   createArtistAccountFormGroup: FormGroup
+  days: WorkingDays[] = ["SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY"]
 
   constructor(private formBuilder: FormBuilder,
               private authService: AuthService,
@@ -26,12 +27,12 @@ export class CreateArtistAccountFormComponent implements OnInit {
         phoneNumber: new FormControl('', [Validators.required, Validators.minLength(3)]),
         workDays: new FormControl('', [Validators.required, Validators.minLength(3)]),
         street: new FormControl('', [Validators.required, Validators.minLength(3)]),
-        city: ['', Validators.required],
-        country: ['', Validators.required],
-        state: ['', Validators.required],
-        postalCode: ['', Validators.required],
-        otherInformation: ['', Validators.required],
-        dateOfBirth: ['', Validators.required]
+        city: new FormControl('', [Validators.required, Validators.minLength(3)]),
+        country: new FormControl('', [Validators.required, Validators.minLength(3)]),
+        state: new FormControl('', [Validators.required, Validators.minLength(3)]),
+        postalCode: new FormControl('', [Validators.required, Validators.minLength(3)]),
+        otherInformation: new FormControl('', [Validators.required, Validators.minLength(3)]),
+        dateOfBirth: new FormControl('', [Validators.required, Validators.minLength(3)])
       })
     })
   }

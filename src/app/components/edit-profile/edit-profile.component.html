@@ -5,26 +5,30 @@
         <mat-form-field appearance="fill" color="warn">
           <mat-label>First name</mat-label>
           <input matInput placeholder="name" formControlName="firstName" required>
+          <mat-error>FirstName is required!</mat-error>
         </mat-form-field>
         <br>
         <mat-form-field appearance="fill" color="warn">
           <mat-label>LastName</mat-label>
           <input matInput formControlName="lastName" required>
+          <mat-error>LastName is required!</mat-error>
         </mat-form-field>
         <br>
         <mat-form-field appearance="fill" color="warn">
-          <mat-label>avatar url</mat-label>
+          <mat-label>avatar</mat-label>
           <input matInput placeholder="1231233" formControlName="avatarUrl" required>
         </mat-form-field>
         <br>
         <mat-form-field appearance="fill" color="warn">
           <mat-label>Email</mat-label>
-          <input matInput formControlName="email" required>
+          <input matInput readonly formControlName="email">
+          <mat-error>Email is required!</mat-error>
         </mat-form-field>
         <br>
         <mat-form-field appearance="fill" color="warn">
           <mat-label>Enter Phone Number</mat-label>
           <input matInput placeholder="1231233" formControlName="phoneNumber" required>
+          <mat-error>Phone Number is required!</mat-error>
         </mat-form-field>
         <br>
         <mat-form-field appearance="fill">
@@ -32,31 +36,39 @@
           <mat-select formControlName="workDays" multiple>
             <mat-option *ngFor="let day of days" [value]="day">{{day}}</mat-option>
           </mat-select>
+          <mat-error>DAYS are required!</mat-error>
         </mat-form-field>
         <br><br><br><br>
         <mat-form-field appearance="fill" color="warn">
           <mat-label>Enter Street</mat-label>
           <input matInput placeholder="street-name" formControlName="street" required>
+          <mat-error>Street is required!</mat-error>
         </mat-form-field>
         <br>
         <mat-form-field appearance="fill" color="warn">
           <mat-label>Enter city</mat-label>
           <input matInput placeholder="example@example.com" formControlName="city" required>
+          <mat-error>city is required!</mat-error>
         </mat-form-field>
         <br>
         <mat-form-field appearance="fill" color="warn">
           <mat-label>Enter country</mat-label>
           <input matInput placeholder="example@example.com" formControlName="country" required>
+          <mat-error>country is required!</mat-error>
         </mat-form-field>
         <br>
         <mat-form-field appearance="fill" color="warn">
           <mat-label>Enter state</mat-label>
           <input matInput placeholder="example@example.com" formControlName="state" required>
+          <mat-error>state is required!</mat-error>
+
         </mat-form-field>
         <br>
         <mat-form-field appearance="fill" color="warn">
           <mat-label>Enter postal code</mat-label>
           <input matInput placeholder="03-123" formControlName="postalCode" required>
+          <mat-error>Postal code is required!</mat-error>
+
         </mat-form-field>
         <br>
         <mat-form-field appearance="fill" color="warn">
@@ -70,9 +82,10 @@
           <mat-hint>MM/DD/YYYY</mat-hint>
           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
+          <mat-error>Date of birth is required!</mat-error>
         </mat-form-field>
       </div>
-      <button mat-button mat-flat-button color="accent" (submit)="submit()">update</button>
+      <button [disabled]="!updateProfileFormGroup.valid" mat-button mat-flat-button color="accent" (submit)="submit()">update</button>
       <button mat-button mat-flat-button color="warn" routerLink="/me">Cancel</button>
     </form>
   </mat-card>

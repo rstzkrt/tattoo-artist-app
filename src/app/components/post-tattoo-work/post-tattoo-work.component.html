@@ -1,40 +1,62 @@
 <mat-card style="border-radius: 500px">
-  <h1 style="text-align: center">CREATE TATTOO ARTIST ACCOUNT</h1>
+  <h1 style="text-align: center">POST TATTOO WORK</h1>
 </mat-card>
 <br><br><br><br>
 <div style="text-align: center">
+  <div>
+    <mat-card style="margin-left: 30%;margin-right: 30%;">
 
-  <mat-card style="margin-left: 30%;margin-right: 30%;">
-    <form [formGroup]="postTattooWorkFormGroup" (ngSubmit)="submit()">
-      <div formGroupName="postTattooWork">
-        <mat-form-field appearance="fill" color="warn">
-          <mat-label>Description</mat-label>
-          <input matInput formControlName="description" required>
-        </mat-form-field>
-        <br>
-        <mat-form-field appearance="fill" color="warn">
-          <mat-label>Price</mat-label>
-          <input matInput formControlName="price" required>
-        </mat-form-field>
-        <br>
-        <mat-form-field appearance="fill" color="warn">
-          <mat-label>Currency</mat-label>
-          <input matInput placeholder="PLN,EUR" formControlName="currency" required>
-        </mat-form-field>
-        <br>
-        <mat-form-field appearance="fill" color="warn">
-          <mat-label>Cover Photo</mat-label>
-          <input matInput formControlName="coverPhoto" required>
-        </mat-form-field>
-        <br>
-        <mat-form-field appearance="fill" color="warn">
-          <mat-label>Client</mat-label>
-          <input matInput formControlName="clientId" required>
-        </mat-form-field>
-        <br>
+      <mat-label>Choose Photos:</mat-label>
+      <input type="file" (change)="upload($event)" accept=".png,.jpg"/>
+
+      <progress max="100" [value]="(uploadProgress | async)"></progress>
+      <br><br>
+      <div fxLayout="row wrap">
+        <div fxFlex *ngFor="let url of imageUrlList ">
+          <div>
+              <img style="width: 500px;height: 500px; border: 10px solid darkgreen;" matCardImage *ngIf="imageUrlList[0]===url" [src]="url">
+              <img style="width: 500px;height: 500px"  matCardImage *ngIf="imageUrlList[0]!==url" [src]="url">
+              <button (click)="removeFromPhotos(url)" mat-flat-button color="accent">remove</button>
+          </div>
+        </div>
       </div>
-      <button mat-button mat-flat-button color="accent" (submit)="submit()">Create</button>
-      <button mat-button mat-flat-button color="warn" routerLink="/me">Cancel</button>
-    </form>
-  </mat-card>
+      <br>
+
+      <div>
+        <form *ngIf="postTattooWorkFormGroup" [formGroup]="postTattooWorkFormGroup" (ngSubmit)="submit()">
+          <div formGroupName="postTattooWork">
+            <mat-form-field appearance="fill" color="warn">
+              <mat-label>Description</mat-label>
+              <input matInput formControlName="description" required>
+              <mat-error>Description is required!</mat-error>
+            </mat-form-field>
+            <br>
+            <mat-form-field appearance="fill" color="warn">
+              <mat-label>Price</mat-label>
+              <input matInput formControlName="price" required>
+              <mat-error>Price is required !</mat-error>
+            </mat-form-field>
+            <br>
+            <mat-form-field appearance="fill" color="warn">
+              <mat-label>Currency</mat-label>
+              <input matInput placeholder="PLN,EUR" formControlName="currency" required>
+              <mat-error>Currency is required !</mat-error>
+            </mat-form-field>
+            <br>
+            <mat-form-field appearance="fill" color="warn">
+              <mat-label>Client</mat-label>
+              <input matInput formControlName="clientId" required>
+              <mat-error>Client is required !</mat-error>
+            </mat-form-field>
+            <br>
+          </div>
+          <button [disabled]="!postTattooWorkFormGroup.valid" mat-button mat-flat-button color="accent" (submit)="submit()">Create</button>
+          <button mat-button mat-flat-button color="warn" routerLink="/me">Cancel</button>
+        </form>
+      </div>
+
+
+    </mat-card>
+  </div>
+
 </div>

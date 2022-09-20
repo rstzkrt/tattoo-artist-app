@@ -1,51 +1,58 @@
-<p>edit-tattoo-work works!</p>
 <div style="text-align: center">
+  <div>
   <mat-card style="margin-left: 30%;margin-right: 30%;">
-    <form *ngIf="patchTattooWorkFormGroup" [formGroup]="patchTattooWorkFormGroup" (ngSubmit)="update()">
-      <div formGroupName="patchTattooWork">
-        <mat-form-field appearance="fill" color="warn">
-          <mat-label>Description</mat-label>
-          <input matInput formControlName="description" required>
-        </mat-form-field>
-        <br>
-        <mat-form-field appearance="fill" color="warn">
-          <mat-label>Price</mat-label>
-          <input matInput formControlName="price" required>
-        </mat-form-field>
-        <br>
-        <mat-form-field  appearance="fill">
-          <mat-label>Currency</mat-label>
-          <input type="text"
-                 placeholder="Pick one"
-                 aria-label="Number"
-                 matInput
-                 formControlName="currency"
-                 [matAutocomplete]="auto">
-          <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-            <mat-option *ngFor="let option of filteredOptions | async " [value]="option">
-              {{option}}
-            </mat-option>
-          </mat-autocomplete>
-        </mat-form-field>
-        <br>
-<!--        <mat-form-field appearance="fill" color="warn">-->
-<!--          <mat-label>Currency</mat-label>-->
-<!--          <input matInput placeholder="PLN,EUR" formControlName="currency" required>-->
-<!--        </mat-form-field>-->
-<!--        <br>-->
-        <mat-form-field appearance="fill" color="warn">
-          <mat-label>Cover Photo</mat-label>
-          <input matInput formControlName="coverPhoto" required>
-        </mat-form-field>
-        <br>
-<!--        <mat-form-field appearance="fill" color="warn">-->
-<!--          <mat-label>photos</mat-label>-->
-<!--          <input matInput formControlName="photos" required>-->
-<!--        </mat-form-field>-->
-        <br>
+
+    <mat-label>Choose Photos:</mat-label>
+    <input type="file" (change)="upload($event)" accept=".png,.jpg"/>
+
+    <progress max="100" [value]="(uploadProgress | async)"></progress>
+    <br><br>
+    <div fxLayout="row wrap">
+      <div fxFlex *ngFor="let url of tattooWorkPhotos ">
+        <div>
+          <img style="width: 300px;height: 300px; border: 10px solid darkgreen;" matCardImage *ngIf="tattooWorkPhotos[0]===url" [src]="url">
+          <img style="width: 300px;height: 300px"  matCardImage *ngIf="tattooWorkPhotos[0]!==url" [src]="url">
+          <button (click)="removeFromPhotos(url)" mat-flat-button color="accent">remove</button>
+        </div>
       </div>
-      <button mat-button mat-flat-button color="accent" (submit)="update()">UPDATE</button>
-      <button mat-button mat-flat-button color="warn" routerLink="/me">Cancel</button>
-    </form>
+    </div>
+
+    <div>
+      <form *ngIf="patchTattooWorkFormGroup" [formGroup]="patchTattooWorkFormGroup" (ngSubmit)="update()">
+        <div formGroupName="patchTattooWork">
+          <mat-form-field appearance="fill" color="warn">
+            <mat-label>Description</mat-label>
+            <input matInput formControlName="description" required>
+            <mat-error>Description is required!</mat-error>
+          </mat-form-field>
+          <br>
+          <mat-form-field appearance="fill" color="warn">
+            <mat-label>Price</mat-label>
+            <input matInput formControlName="price" required>
+            <mat-error>Price is required!</mat-error>
+          </mat-form-field>
+          <br>
+          <mat-form-field  appearance="fill">
+            <mat-label>Currency</mat-label>
+            <input type="text"
+                   placeholder="Pick one"
+                   aria-label="Number"
+                   matInput
+                   formControlName="currency"
+                   [matAutocomplete]="auto">
+            <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+              <mat-option *ngFor="let option of filteredOptions | async " [value]="option">
+                {{option}}
+              </mat-option>
+            </mat-autocomplete>
+            <mat-error>Currency is required!</mat-error>
+          </mat-form-field>
+        </div>
+        <button [disabled]="!patchTattooWorkFormGroup.valid" mat-button mat-flat-button color="accent" (submit)="update()">UPDATE</button>
+        <button mat-button mat-flat-button color="warn" routerLink="/me">Cancel</button>
+      </form>
+    </div>
+
   </mat-card>
+  </div>
 </div>
