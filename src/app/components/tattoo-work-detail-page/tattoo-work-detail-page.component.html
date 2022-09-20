@@ -1,167 +1,152 @@
-<div *ngIf="tattooWork |async as tattooWork" >
-<mat-sidenav-container style="height: 1200px">
-  <mat-sidenav style="width: 600px" #sidenav mode="side">
-    <br>
-    <img routerLink="/users/{{tattooWork.madeBy.id}}"
-         style="margin-left: 33%;
+<div *ngIf="tattooWork |async as tattooWork">
+  <mat-sidenav-container style="height: 1200px">
+    <mat-sidenav style="width: 600px" #sidenav mode="side">
+      <br>
+      <img routerLink="/users/{{tattooWork.madeBy.id}}"
+           style="margin-left: 33%;
          height: 200px;
           cursor: pointer;
           width: 200px;
           border-radius: 50%;" src="{{tattooWork.madeBy.avatarUrl}}">
-    <p style="text-align: center">{{tattooWork.madeBy.firstName}} {{tattooWork.madeBy.lastName}}</p>
-    <br>
-    <h2  style="text-align: center">Contact</h2>
-    <p style="text-align: center">{{tattooWork.madeBy.phoneNumber}}</p>
-    <p style="text-align: center">{{tattooWork.madeBy.email}}</p>
-    <br>
-    <h2  style="text-align: center">Average Rating</h2>
-    <p style="text-align: center">{{tattooWork.madeBy.street}}</p>
-    <br>
-    <h2  style="text-align: center">Address</h2>
-    <p style="text-align: center">{{tattooWork.madeBy.city}}</p>
-    <p style="text-align: center">{{tattooWork.madeBy.country}}</p>
-    <p style="text-align: center">{{tattooWork.madeBy.postalCode}}</p>
-    <p style="text-align: center">{{tattooWork.madeBy.otherInformation}}</p>
-    <p style="text-align: center">{{tattooWork.madeBy.state}}</p>
-    <p style="text-align: center">{{tattooWork.madeBy.street}}</p>
+      <p style="text-align: center">{{tattooWork.madeBy.firstName}} {{tattooWork.madeBy.lastName}}</p>
+      <br>
+      <h2 style="text-align: center">Contact</h2>
+      <p style="text-align: center">{{tattooWork.madeBy.phoneNumber}}</p>
+      <p style="text-align: center">{{tattooWork.madeBy.email}}</p>
+      <br>
+      <h2 style="text-align: center">Average Rating</h2>
+      <p style="text-align: center">{{tattooWork.madeBy.street}}</p>
+      <br>
+      <h2 style="text-align: center">Address</h2>
+      <p style="text-align: center">{{tattooWork.madeBy.city}}</p>
+      <p style="text-align: center">{{tattooWork.madeBy.country}}</p>
+      <p style="text-align: center">{{tattooWork.madeBy.postalCode}}</p>
+      <p style="text-align: center">{{tattooWork.madeBy.otherInformation}}</p>
+      <p style="text-align: center">{{tattooWork.madeBy.state}}</p>
+      <p style="text-align: center">{{tattooWork.madeBy.street}}</p>
+
+      <button *ngIf="tattooWork.madeBy.id !== authenticatedUser?.id" (click)="handleSendMessage(tattooWork.madeBy.id)" mat-flat-button color="accent" style="width: 100%">Send
+        direct message to owner
+      </button>
+
+    </mat-sidenav>
+
+    <mat-sidenav-content>
+      <button *ngIf="!sidenav.opened" mat-button (click)="sidenav.toggle()">
+        <mat-icon>arrow_forward_ios_new</mat-icon>
+      </button>
+      <button *ngIf="sidenav.opened" mat-button (click)="sidenav.toggle()">
+        <mat-icon>arrow_back_ios_new</mat-icon>
+      </button>
+
+      <button *ngIf="tattooWork.madeBy.id===authenticatedUser?.id" style="margin-left: auto" routerLink="/edit-tattoo-work/{{tattooWork.id}}" mat-flat-button color="primary">edit tattoo work</button>
+      <button *ngIf="tattooWork.madeBy.id===authenticatedUser?.id" style="margin-left: auto" (click)="deleteTattooWork(tattooWork.id)" mat-flat-button color="warn">delete tattoo work</button>
+
+      <div style="margin-left: 5%; ">
+        <swiper
+          style="--swiper-navigation-color: #fff;--swiper-pagination-color: #fff"
+          [autoplay]="true"
+          [navigation]="true"
+          [spaceBetween]="10"
+          [thumbs]="{ swiper: thumbsSwiper }"
+          class="mySwiper2">
+          <ng-template swiperSlide *ngFor="let image of images">
+            <img src="{{image}}" />
+          </ng-template>
+        </swiper>
+        <swiper
+          [freeMode]="true"
+          [slidesPerView]="4"
+          [spaceBetween]="10"
+          (swiper)="thumbsSwiper = $event"
+          [watchSlidesProgress]="true"
+          class="mySwiper">
+          <ng-template swiperSlide *ngFor="let image of images">
+            <img class="img1" src="{{image}}" />
+          </ng-template>
+        </swiper>
+
+        <h1>Description: {{tattooWork.description}}</h1>
+        <h1>Price: {{tattooWork.price}} {{tattooWork.currency}}</h1>
+        <h1>Like: {{tattooWork.like_number}}</h1>
+        <h1>Dislike: {{tattooWork.dislike_number}}</h1>
+
+        <hr>
+        <h1>Comment</h1>
 
 
-    <button (click)="handleSendMessage(tattooWork.madeBy.id)" mat-flat-button color="accent" style="width: 100%">Send direct message to owner</button>
-  </mat-sidenav>
+        <div *ngIf=" (tattooWork.clientId === authenticatedUser?.id) && (comment===null)">
+          <form *ngIf="commentFormGroup" [formGroup]="commentFormGroup" (ngSubmit)="submit()">
+            <div formGroupName="commentGroup">
+              <mat-form-field appearance="fill" color="accent">
+                <mat-label>Update Comment</mat-label>
+                <input matInput formControlName="message" required>
+                <mat-error>Comment is required !</mat-error>
+              </mat-form-field>
+              <mat-form-field style="margin-left: 10px" appearance="fill">
+                <mat-label>Rate</mat-label>
+                <mat-select formControlName="rate">
+                  <mat-option *ngFor="let rate of rates" [value]="rate">{{rate}}</mat-option>
+                </mat-select>
+                <mat-error>Rate is required !</mat-error>
+              </mat-form-field>
+              <button [disabled]="!commentFormGroup.valid" mat-button mat-flat-button color="accent" (submit)="submit()">Send</button>
+            </div>
+          </form>
+        </div>
 
-  <mat-sidenav-content>
-    <button *ngIf="!sidenav.opened" mat-button (click)="sidenav.toggle()"><mat-icon>arrow_forward_ios_new</mat-icon></button>
-    <button *ngIf="sidenav.opened" mat-button (click)="sidenav.toggle()"><mat-icon>arrow_back_ios_new</mat-icon></button>
+        <div style="max-width: 1000px" *ngIf="(comment!==null)&& (comment!==undefined)">
+          <mat-card>
+            <mat-card-title-group>
+              <mat-card-title>{{comment.postedBy.firstName}}{{comment.postedBy.lastName}}</mat-card-title>
+              <mat-card-subtitle>{{comment.postDate}}</mat-card-subtitle>
+              <mat-card-subtitle>{{comment.rate}}</mat-card-subtitle>
+              <img mat-card-sm-image src="{{comment.postedBy.avatarUrl}}">
+            </mat-card-title-group>
+            <mat-card-content>
+              {{comment.message}}
 
-    <div style="margin-left: 5%;">
-      <img  style="width: 1000px; height: 500px;" src="{{tattooWork.coverPhoto}}">
-      <h1>Description: {{tattooWork.description}}</h1>
-      <h1>Price: {{tattooWork.price}} {{tattooWork.currency}}</h1>
-      <h1>Like: {{tattooWork.like_number}}</h1>
-      <h1>Dislike: {{tattooWork.dislike_number}}</h1>
-      <h1>Comment</h1>
+              <br>
+              <div *ngIf="isClicked===true">
+                <hr>
+                <form *ngIf="commentUpdateFormGroup" [formGroup]="commentUpdateFormGroup">
+                  <div formGroupName="commentUpdateGroup">
+                    <mat-form-field appearance="fill" color="accent">
+                      <mat-label>Update Comment</mat-label>
+                      <input matInput formControlName="message" required>
+                      <mat-error>Comment is required !</mat-error>
+                    </mat-form-field>
+                    <mat-form-field style="margin-left: 10px" appearance="fill">
+                      <mat-label>Rate</mat-label>
+                      <mat-select formControlName="rate">
+                        <mat-option *ngFor="let rate of rates" [value]="rate">{{rate}}</mat-option>
+                      </mat-select>
+                      <mat-error>Rate is required !</mat-error>
+                    </mat-form-field>
+                    <button [disabled]="!commentUpdateFormGroup.valid" *ngIf="comment.postedBy.id==authenticatedUser?.id" mat-flat-button
+                            color="accent" (click)="editComment(comment.id)">update
+                    </button>
+                  </div>
+                </form>
+                <hr>
+              </div>
+            </mat-card-content>
+            <mat-card-actions>
 
-<!--      <swiper-->
-<!--        style="&#45;&#45;swiper-navigation-color: #fff;&#45;&#45;swiper-pagination-color: #fff"-->
-<!--        [spaceBetween]="10"-->
-<!--        [navigation]="true"-->
-<!--        [thumbs]="{ swiper: thumbsSwiper }"-->
-<!--        class="mySwiper2"-->
-<!--      >-->
-<!--        <ng-template swiperSlide-->
-<!--        ><img-->
-<!--          src="https://swiperjs.com/demos/images/nature-1.jpg" /></ng-template-->
-<!--        ><ng-template swiperSlide-->
-<!--      ><img-->
-<!--        src="https://swiperjs.com/demos/images/nature-2.jpg" /></ng-template-->
-<!--      ><ng-template swiperSlide-->
-<!--      ><img-->
-<!--        src="https://swiperjs.com/demos/images/nature-3.jpg" /></ng-template-->
-<!--      ><ng-template swiperSlide-->
-<!--      ><img-->
-<!--        src="https://swiperjs.com/demos/images/nature-4.jpg" /></ng-template-->
-<!--      ><ng-template swiperSlide-->
-<!--      ><img-->
-<!--        src="https://swiperjs.com/demos/images/nature-5.jpg" /></ng-template-->
-<!--      ><ng-template swiperSlide-->
-<!--      ><img-->
-<!--        src="https://swiperjs.com/demos/images/nature-6.jpg" /></ng-template-->
-<!--      ><ng-template swiperSlide-->
-<!--      ><img-->
-<!--        src="https://swiperjs.com/demos/images/nature-7.jpg" /></ng-template-->
-<!--      ><ng-template swiperSlide-->
-<!--      ><img-->
-<!--        src="https://swiperjs.com/demos/images/nature-8.jpg" /></ng-template-->
-<!--      ><ng-template swiperSlide-->
-<!--      ><img-->
-<!--        src="https://swiperjs.com/demos/images/nature-9.jpg" /></ng-template-->
-<!--      ><ng-template swiperSlide-->
-<!--      ><img src="https://swiperjs.com/demos/images/nature-10.jpg"/>-->
-<!--      </ng-template>-->
-<!--      </swiper>-->
+              <button *ngIf="comment.postedBy.id===authenticatedUser?.id" mat-flat-button color="warn"
+                      (click)="deleteComment(comment.id)">delete
+              </button>
+              <button *ngIf="comment.postedBy.id===authenticatedUser?.id && isClicked=== false"
+                      mat-flat-button color="accent" (click)="openCommentEditSection(comment.id)">edit
+              </button>
+              <hr>
+            </mat-card-actions>
+          </mat-card>
 
-<!--      <swiper-->
-<!--        (swiper)="thumbsSwiper = $event"-->
-<!--        [spaceBetween]="10"-->
-<!--        [slidesPerView]="4"-->
-<!--        [freeMode]="true"-->
-<!--        [watchSlidesProgress]="true"-->
-<!--        class="mySwiper"-->
-<!--      >-->
-<!--        <ng-template swiperSlide-->
-<!--        ><img-->
-<!--          src="https://swiperjs.com/demos/images/nature-1.jpg" /></ng-template-->
-<!--        ><ng-template swiperSlide-->
-<!--      ><img-->
-<!--        src="https://swiperjs.com/demos/images/nature-2.jpg" /></ng-template-->
-<!--      ><ng-template swiperSlide-->
-<!--      ><img-->
-<!--        src="https://swiperjs.com/demos/images/nature-3.jpg" /></ng-template-->
-<!--      ><ng-template swiperSlide-->
-<!--      ><img-->
-<!--        src="https://swiperjs.com/demos/images/nature-4.jpg" /></ng-template-->
-<!--      ><ng-template swiperSlide-->
-<!--      ><img-->
-<!--        src="https://swiperjs.com/demos/images/nature-5.jpg" /></ng-template-->
-<!--      ><ng-template swiperSlide-->
-<!--      ><img-->
-<!--        src="https://swiperjs.com/demos/images/nature-6.jpg" /></ng-template-->
-<!--      ><ng-template swiperSlide-->
-<!--      ><img-->
-<!--        src="https://swiperjs.com/demos/images/nature-7.jpg" /></ng-template-->
-<!--      ><ng-template swiperSlide-->
-<!--      ><img-->
-<!--        src="https://swiperjs.com/demos/images/nature-8.jpg" /></ng-template-->
-<!--      ><ng-template swiperSlide-->
-<!--      ><img-->
-<!--        src="https://swiperjs.com/demos/images/nature-9.jpg" /></ng-template-->
-<!--      ><ng-template swiperSlide-->
-<!--      ><img src="https://swiperjs.com/demos/images/nature-10.jpg"-->
-<!--      /></ng-template>-->
-<!--      </swiper>-->
-
-      <div  *ngIf="(tattooWork.clientId===authService.authenticatedUser.id)&&(!tattooWork.commentId)">
-        <form *ngIf="commentFormGroup" [formGroup]="commentFormGroup" (ngSubmit)="submit()">
-          <div formGroupName="commentGroup">
-            <mat-form-field appearance="fill" color="accent">
-              <mat-label>Leave a comment</mat-label>
-              <input matInput formControlName="message" required>
-            </mat-form-field>
-
-            <mat-form-field appearance="fill">
-              <mat-label>Review Type</mat-label>
-              <mat-select formControlName="rate" >
-                <mat-option *ngFor="let rate of rates" [value]="rate">{{rate}}</mat-option>
-              </mat-select>
-            </mat-form-field>
-            <button mat-button mat-flat-button color="accent" (submit)="submit()">Send</button>
-          </div>
-        </form>
-      </div>
-
-
-      <div style="max-width: 1000px" *ngIf="(comment!==null)">
-        <mat-card>
-          <mat-card-title-group>
-            <mat-card-title>{{comment.postedBy.firstName}}{{comment.postedBy.lastName}}</mat-card-title>
-            <mat-card-subtitle>{{comment.postDate}}</mat-card-subtitle>
-            <mat-card-subtitle>{{comment.rate}}</mat-card-subtitle>
-            <img mat-card-sm-image src="{{comment.postedBy.avatarUrl}}" >
-          </mat-card-title-group>
-          <mat-card-content>
-            {{comment.message}}
-          </mat-card-content>
-          <mat-card-actions>
-            <button *ngIf="comment.postedBy.id===authService.authenticatedUser.id" mat-flat-button color="warn"  (click)="deleteComment(comment.id)">delete</button>
-            <button *ngIf="comment.postedBy.id===authService.authenticatedUser.id" mat-flat-button color="accent"  (click)="editComment(comment.id)">edit</button>
-            <hr>
-          </mat-card-actions>
-        </mat-card>
+        </div>
 
       </div>
-
-    </div>
-  </mat-sidenav-content>
-</mat-sidenav-container>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
 
 </div>
