@@ -1,12 +1,8 @@
 <h1 style="text-align: center">Sign up/Sign in</h1>
 <div fxLayout="row">
   <div style="padding-right: 1%">
-    <button mat-raised-button color="accent" style="width: 400px">
+    <button (click)="authService.loginWithFacebook()" mat-raised-button color="accent" style="width: 400px">
       Sign up/Login With Facebook
-    </button>
-    <br><br>
-    <button mat-raised-button color="accent" style="width: 400px">
-      Sign up/Login With Twitter
     </button>
     <br><br>
     <button (click)="authService.loginWithGoogle()" mat-raised-button color="accent" style="width: 400px">
@@ -14,21 +10,23 @@
     </button>
     <br><br>
     <h2 style="text-align: center">Login with Email/Password</h2>
-    <form >
+
+    <form *ngIf="loginFormGroup" [formGroup]="loginFormGroup" (ngSubmit)="signIn()" style="width: 400px">
+      <div formGroupName="emailLoginForm">
       <mat-form-field style="width: 400px;" color="accent">
         <mat-label>Email</mat-label>
         <input type="email" matInput formControlName="email" placeholder="email" style="width: 400px;">
-        <mat-error >Enter a valid email</mat-error>
       </mat-form-field>
       <br>
       <mat-form-field style="width: 400px;" color="accent">
         <mat-label>Password</mat-label>
         <input type="password" matInput formControlName="password" placeholder="Password" style="width: 400px;">
-        <mat-error >Password is too short</mat-error>
       </mat-form-field>
       <br>
-      <button mat-raised-button color="accent">Sign In</button>
+      <button (click)="signIn()" mat-raised-button color="accent">Sign In</button>
+      </div>
     </form>
+
   </div>
 
   <mat-divider vertical style="color: blueviolet"></mat-divider>
@@ -36,26 +34,38 @@
   <div style="padding-left: 1%">
     <h2 style="text-align: center">Register</h2>
 
+    <div>
     <form *ngIf="emailSignUpFormGroup" [formGroup]="emailSignUpFormGroup" (ngSubmit)="submit()" style="width: 400px">
-      <mat-form-field style="width: 400px;" color="accent">
-        <mat-label>Display Name</mat-label>
-        <input type="text" matInput formControlName="displayName" placeholder="Display Name" style="width: 400px">
-      </mat-form-field>
-      <br>
-      <mat-form-field style="width: 400px;" color="accent">
-        <mat-label>Email</mat-label>
-        <input type="email" matInput formControlName="email" placeholder="email" style="width: 400px;">
-      </mat-form-field>
-      <br>
-      <mat-form-field style="width: 400px;" color="accent">
-        <mat-label>Password</mat-label>
-        <input type="password" matInput formControlName="password" placeholder="Password" style="width: 400px;">
-      </mat-form-field>
-      <br>
-      <button style="text-align: center" mat-raised-button color="accent" (click)="submit()">Create Account</button>
-      <br>
+      <div formGroupName="emailRegisterForm">
+        <mat-form-field style="width: 400px;" color="accent">
+          <mat-label>first Name</mat-label>
+          <input matInput formControlName="firstName" required>
+          <mat-error>first name is required!</mat-error>
+        </mat-form-field>
+        <br>
+        <mat-form-field style="width: 400px;" color="accent">
+          <mat-label>last Name</mat-label>
+          <input type="text" matInput formControlName="lastName" placeholder="last Name" style="width: 400px">
+          <mat-error>last name is required!</mat-error>
+        </mat-form-field>
+        <br>
+        <mat-form-field style="width: 400px;" color="accent">
+          <mat-label>Email</mat-label>
+          <input type="email" matInput formControlName="email" placeholder="email" style="width: 400px;">
+          <mat-error>Email is required!</mat-error>
+        </mat-form-field>
+        <br>
+        <mat-form-field style="width: 400px;" color="accent">
+          <mat-label>Password</mat-label>
+          <input type="password" matInput formControlName="password" placeholder="Password" style="width: 400px;">
+          <mat-error>Password is required!</mat-error>
+        </mat-form-field>
+        <br>
+        <button [disabled]="!emailSignUpFormGroup.valid" style="text-align: center" mat-raised-button color="accent" (click)="submit()">Create Account</button>
+        <br>
+      </div>
     </form>
-
+  </div>
   </div>
 </div>
 
