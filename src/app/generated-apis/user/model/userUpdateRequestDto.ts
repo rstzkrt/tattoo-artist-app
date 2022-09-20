@@ -16,7 +16,6 @@ export interface UserUpdateRequestDto {
     firstName?: string;
     lastName?: string;
     birthDate?: string;
-    email?: string;
     avatarUrl?: string;
     phoneNumber?: string;
     workDays?: Array<WorkingDays>;

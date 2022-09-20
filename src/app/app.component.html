@@ -12,20 +12,15 @@
              src="{{authenticatedUser.avatarUrl}}">
         <p  style="text-align: center;">{{authenticatedUser.firstName + " " + authenticatedUser.lastName}}</p>
       </section>
-
       <h1 routerLink="/home" style="font-size: 150px;padding-left: 5%;cursor: pointer">TattooArtistApp</h1>
-
       <button *ngIf="!authenticatedUser" (click)="authService.signUpDialog()" mat-button color="warn" ><mat-icon>login</mat-icon>Sign up/Login</button>
       <button *ngIf="authenticatedUser" (click)="authService.logout()" mat-button color="warn" ><mat-icon>logout</mat-icon>Logout</button>
-
       <button mat-button routerLink="/home"><mat-icon>home</mat-icon>home</button>
       <button mat-button *ngIf="authenticatedUser" routerLink="/me"><mat-icon>person</mat-icon>profile</button>
       <button mat-button *ngIf="authenticatedUser" routerLink="/chats"><mat-icon>message</mat-icon>messages</button>
     </mat-toolbar>
   </div>
 </header>
-
-
 <div>
   <router-outlet></router-outlet>
 </div>

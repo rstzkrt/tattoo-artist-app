@@ -4,6 +4,9 @@ import {AuthService} from "../../services/auth.service";
 import {UserService} from "../../services/user.service";
 import {TattooArtistAccReqDto, WorkingDays} from "../../generated-apis/user";
 import {Router} from "@angular/router";
+import {User} from "../../common/user";
+import {StorageService} from "../../services/storage.service";
+import {user} from "@angular/fire/auth";
 
 @Component({
   selector: 'app-create-artist-account-form',
@@ -14,14 +17,19 @@ export class CreateArtistAccountFormComponent implements OnInit {
 
   createArtistAccountFormGroup: FormGroup
   days: WorkingDays[] = ["SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY"]
+  authenticatedUser: User
+  token: string
 
   constructor(private formBuilder: FormBuilder,
               private authService: AuthService,
               private userService: UserService,
-              private route: Router) {
+              private route: Router,
+              private storageService: StorageService) {
   }
 
   ngOnInit(): void {
+    this.token = this.storageService.getToken()
+    this.authenticatedUser = this.storageService.getUser()
     this.createArtistAccountFormGroup = this.formBuilder.group({
       artistAccount: this.formBuilder.group({
         phoneNumber: new FormControl('', [Validators.required, Validators.minLength(3)]),
@@ -39,16 +47,16 @@ export class CreateArtistAccountFormComponent implements OnInit {
 
   submit() {
     let artistAccountRequest:TattooArtistAccReqDto = this.createArtistAccountFormGroup.get('artistAccount').value;
-    artistAccountRequest.workDays=null;//TODO
-    this.authService.getCurrentUser().getIdToken(true).then((token) => {
-        this.userService.createArtistAccount(artistAccountRequest, token).subscribe(res => {
+        this.userService.createArtistAccount(artistAccountRequest, this.token).subscribe(res => {
           console.log(res)
+          this.storageService.saveUser(user)
+          this.authenticatedUser = res
           if(res){
             this.route.navigateByUrl("/home").then()
           }
         }, error => {
           console.error(error)
         });
-      })
+
   }
 }

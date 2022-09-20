@@ -41,8 +41,8 @@
 
     <div fxLayout="row wrap" style="margin-left: 50px">
       <div fxFlex style="padding-bottom: 30px" *ngFor="let tattooWork of tattooWorkList ">
-        <mat-card style="width: 520px">
-          <mat-card-header>
+        <mat-card style="width: 550px">
+          <mat-card-header style="max-height: 250px">
             <section *ngIf="authenticatedUser" style="margin-left: auto">
               <button matTooltip="favorite"
                       *ngIf="!authenticatedUser.favoriteTattooWorkIds.includes(tattooWork.id)"
@@ -55,27 +55,62 @@
                       (click)="unFavoriteTattooWork(tattooWork.id)"
                       mat-icon-button
                       color="accent">
-                <mat-icon>block</mat-icon>
+                <mat-icon>undo</mat-icon>
               </button>
             </section>
             <img mat-card-avatar
                  routerLink="/users/{{tattooWork.madeBy.id}}"
                  src="{{tattooWork.madeBy.avatarUrl}}"
-                 style="background-size: cover;cursor: pointer">
-            <mat-card-title>{{tattooWork.madeBy.firstName}}</mat-card-title>
-            <mat-card-subtitle>{{tattooWork.madeBy.city ? tattooWork.madeBy.city : "nowhere"}}</mat-card-subtitle>
-          </mat-card-header>
-          <img routerLink="/tattoo-work/{{tattooWork.id}}" mat-card-image
-               style=" cursor: pointer; object-fit:cover; height: 80%" src="{{tattooWork.coverPhoto}}">
+                 style="background-size: cover;cursor: pointer ; width: 45%;height: 45%;margin-bottom: 5%">
 
-          <div fxLayout="row" *ngIf="authenticatedUser">
-            <button [disabled]="tattooWork.likerIds.includes(authenticatedUser.id)" mat-flat-button  color="accent" (click)="likeTattooWork(tattooWork.id)"><mat-icon>thumb_up_off</mat-icon> <h1> {{tattooWork.like_number}}</h1></button>
-            <button [disabled]="tattooWork.disLikerIds.includes(authenticatedUser.id)" mat-flat-button color="accent" (click)="disLikeTattooWork(tattooWork.id)"><mat-icon>thumb_down</mat-icon><h1>{{tattooWork.dislike_number}}</h1></button>
+            <mat-card-title><br></mat-card-title>
+            <mat-card-title> {{tattooWork.madeBy.firstName}} {{tattooWork.madeBy.lastName}}</mat-card-title>
+            <mat-card-subtitle><mat-icon>location_on</mat-icon>{{tattooWork.madeBy.country}}</mat-card-subtitle>
+            <mat-card-subtitle><br></mat-card-subtitle>
+            <mat-card-subtitle><mat-icon>apartment</mat-icon> Address:  {{tattooWork.madeBy.city}} , {{tattooWork.madeBy.state}} , {{tattooWork.madeBy.street}} , {{tattooWork.madeBy.postalCode}}</mat-card-subtitle>
+            <mat-card-subtitle><mat-icon>info</mat-icon>Other Information: {{tattooWork.madeBy.otherInformation}}</mat-card-subtitle>
+            <mat-card-subtitle><br></mat-card-subtitle>
+<!--            <mat-card-subtitle>-->
+<!--              <div  fxLayout="row">-->
+<!--                <mat-icon style="margin-left: auto" color="primary">star</mat-icon><h1>{{tattooWork.madeBy.averageRating}}</h1>-->
+<!--              </div>-->
+<!--            </mat-card-subtitle>-->
+          </mat-card-header>
+
+          <div  class="detail">
+            <img  routerLink="/tattoo-work/{{tattooWork.id}}" mat-card-image
+                 style=" cursor: pointer; object-fit:cover ;max-height: 450px" class="my-img" src="{{tattooWork.coverPhoto}}">
+            <div class="middle">
+              <button routerLink="/tattoo-work/{{tattooWork.id}}" mat-flat-button color="accent">See Details</button>
+            </div>
           </div>
 
+          <div fxLayout="row" *ngIf="authenticatedUser">
+            <button style="width: 50%;" [disabled]="tattooWork.likerIds.includes(authenticatedUser.id)" mat-flat-button
+                    color="accent" (click)="likeTattooWork(tattooWork.id)">
+              <mat-icon fxFlex>thumb_up</mat-icon>
+            </button>
 
-            <h2>{{tattooWork.description}}</h2>
-            <h2>value: {{tattooWork.price | currency:tattooWork.currency}}</h2>
+            <button style="margin-left: auto ; width: 50%"
+                    [disabled]="tattooWork.disLikerIds.includes(authenticatedUser.id)"
+                    mat-flat-button color="warn" (click)="disLikeTattooWork(tattooWork.id)">
+              <mat-icon>thumb_down</mat-icon>
+            </button>
+          </div>
+          <div>
+            <button style="width: 50%" mat-button color="accent"><h1
+              style="font-size: 25px">{{tattooWork.like_number}}</h1></button>
+            <button style="width: 50%" mat-button color="warn"><h1
+              style="font-size: 25px">{{tattooWork.dislike_number}}</h1></button>
+          </div>
+
+          <div style="margin-left: 5%" fxLayout="row">
+            <h1>{{tattooWork.description}}</h1>
+            <mat-card style="margin-left: auto"><h1
+              style="margin-left: auto">{{tattooWork.price | currency:tattooWork.currency}}</h1></mat-card>
+
+          </div>
+
 
         </mat-card>
       </div>
@@ -106,13 +141,14 @@
               </button>
               <button matTooltip="unFavorite" *ngIf="authenticatedUser.favoriteArtistIds.includes(user.id)"
                       (click)="unFavoriteTattooArtist(user.id)" mat-icon-button color="accent">
-                <mat-icon>block</mat-icon>
+                <mat-icon>undo</mat-icon>
               </button>
             </section>
             <mat-card-title>{{user.firstName}}</mat-card-title>
             <mat-card-subtitle>{{user.city ? user.city : "nowhere"}}</mat-card-subtitle>
           </mat-card-header>
-          <img routerLink="/users/{{user.id}}" mat-card-image style=" cursor: pointer; object-fit:cover; height: 80%" src="{{user.avatarUrl}}">
+          <img routerLink="/users/{{user.id}}" mat-card-image style=" cursor: pointer; object-fit:cover; height: 80%"
+               src="{{user.avatarUrl}}">
           <mat-card-content>
             <h2>rating : {{user.averageRating}}</h2>
             <h2>working days: {{user.workDays}}</h2>

@@ -189,6 +189,7 @@ export class AuthService {
           this.requestBodyUser.firstName = res.user.displayName.split(" ")[0];
           this.requestBodyUser.lastName = res.user.displayName.split(" ")[length];
         }
+
         if (res.additionalUserInfo.isNewUser) {
           this.userService.createClient(this.requestBodyUser).subscribe(response => {
               console.log(response);
@@ -207,10 +208,11 @@ export class AuthService {
               image: this.requestBodyUser.avatarUrl
             },
             data);
-          window.location.replace('/')
+          window.location.replace('/home')
+          this.dialogRef.close()
         });
         console.log("Login Success")
-        this.dialogRef.close()
+
       }
     ).catch(err => {
       console.log(err)

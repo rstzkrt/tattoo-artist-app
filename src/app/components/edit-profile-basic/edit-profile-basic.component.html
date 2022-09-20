@@ -1,1 +1,35 @@
-<p>edit-profile-basic works!</p>
+<mat-card style="margin-left: 30%;margin-right: 30%;">
+<div>
+  <mat-label>Choose an Avatar Photo:</mat-label>
+  <input type="file" (change)="upload($event)" accept=".png,.jpg"/>
+
+  <progress max="100" [value]="(uploadProgress | async)"></progress>
+  <br><br>
+  <div fxLayout="row wrap">
+    <div fxFlex *ngIf="avatarUrl">
+        <img style="width: 500px;height: 500px; border: 10px solid darkgreen;" matCardImage [src]="avatarUrl">
+        <button (click)="removeFromPhotos(avatarUrl)" mat-flat-button color="accent">remove</button>
+    </div>
+  </div>
+  <br>
+
+<form *ngIf="updateProfileFormGroup" [formGroup]="updateProfileFormGroup" (ngSubmit)="submit()">
+  <div formGroupName="updateProfile">
+    <mat-form-field appearance="fill" color="warn">
+      <mat-label>First name</mat-label>
+      <input matInput placeholder="name" formControlName="firstName" required>
+      <mat-error>FirstName is required!</mat-error>
+    </mat-form-field>
+    <br>
+    <mat-form-field appearance="fill" color="warn">
+      <mat-label>LastName</mat-label>
+      <input matInput formControlName="lastName" required>
+      <mat-error>LastName is required!</mat-error>
+    </mat-form-field>
+  </div>
+  <br>
+  <button [disabled]="!updateProfileFormGroup.valid" mat-button mat-flat-button color="accent" (submit)="submit()">update</button>
+  <button mat-button mat-flat-button color="warn" routerLink="/me">Cancel</button>
+</form>
+</div>
+</mat-card>

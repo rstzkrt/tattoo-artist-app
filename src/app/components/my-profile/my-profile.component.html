@@ -15,7 +15,7 @@
       delete account
     </mat-button-toggle>
     <br>
-    <mat-button-toggle routerLink="/post" >
+    <mat-button-toggle *ngIf="authenticatedUser.hasArtistPage" routerLink="/post" >
       Post a Tattoo Work
     </mat-button-toggle>
   </section>

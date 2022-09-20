@@ -54,10 +54,10 @@ export class MyProfileComponent implements OnInit {
   }
 
   deleteAccount() {
-    this.userService.deleteMyAccount(this.token).subscribe(() => {
-      this.authService.deleteAccount()
-      this.storageService.clean()
-      window.location.replace("/home")
+    this.userService.deleteMyAccount(this.token).subscribe(async () => {
+      await this.authService.deleteAccount()
+      await this.storageService.clean()
+      await window.location.replace("/home")
     })
   }
 

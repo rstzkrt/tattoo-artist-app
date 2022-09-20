@@ -1,4 +1,16 @@
 <div style="text-align: center">
+  <mat-label>Choose Photos:</mat-label>
+  <input type="file" (change)="upload($event)" accept=".png,.jpg"/>
+
+  <progress max="100" [value]="(uploadProgress | async)"></progress>
+  <br><br>
+  <div fxLayout="row wrap">
+    <div fxFlex *ngIf="avatarUrl">
+      <img style="width: 500px;height: 500px; border: 10px solid darkgreen;" matCardImage [src]="avatarUrl">
+      <button (click)="removeFromPhotos(avatarUrl)" mat-flat-button color="accent">remove</button>
+    </div>
+  </div>
+  <br>
   <mat-card style="margin-left: 30%;margin-right: 30%;">
     <form *ngIf="updateProfileFormGroup" [formGroup]="updateProfileFormGroup" (ngSubmit)="submit()">
       <div formGroupName="updateProfile">
@@ -12,11 +24,6 @@
           <mat-label>LastName</mat-label>
           <input matInput formControlName="lastName" required>
           <mat-error>LastName is required!</mat-error>
-        </mat-form-field>
-        <br>
-        <mat-form-field appearance="fill" color="warn">
-          <mat-label>avatar</mat-label>
-          <input matInput placeholder="1231233" formControlName="avatarUrl" required>
         </mat-form-field>
         <br>
         <mat-form-field appearance="fill" color="warn">
