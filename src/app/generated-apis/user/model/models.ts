@@ -5,5 +5,6 @@ export * from './tattooArtistAccReqDto';
 export * from './tattooArtistPriceInterval';
 export * from './tattooWorksResponseDto';
 export * from './userResponseDto';
+export * from './userResponseDtoPageable';
 export * from './userUpdateRequestDto';
 export * from './workingDays';

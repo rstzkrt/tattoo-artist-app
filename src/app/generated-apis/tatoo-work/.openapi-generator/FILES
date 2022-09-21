@@ -13,6 +13,7 @@ model/madeByInfo.ts
 model/models.ts
 model/tattooWorkPatchRequestDto.ts
 model/tattooWorkPostRequestDto.ts
+model/tattooWorkResponsePageable.ts
 model/tattooWorksResponseDto.ts
 model/workingDays.ts
 variables.ts

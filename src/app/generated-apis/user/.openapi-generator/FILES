@@ -15,6 +15,7 @@ model/tattooArtistAccReqDto.ts
 model/tattooArtistPriceInterval.ts
 model/tattooWorksResponseDto.ts
 model/userResponseDto.ts
+model/userResponseDtoPageable.ts
 model/userUpdateRequestDto.ts
 model/workingDays.ts
 variables.ts

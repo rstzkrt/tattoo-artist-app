@@ -1,205 +1,236 @@
 <div *ngIf="authenticatedUser;else loggedOut">
 
-<mat-card style="border-radius: 500px">
-  <section style=" margin-left: 45%">
-    <img style=" height: 200px;
+  <mat-card style="border-radius: 500px">
+    <section style=" margin-left: 45%">
+      <img style=" height: 200px;
                width: 200px;
                border-radius: 50%;" src="{{authenticatedUser.avatarUrl}}">
-    <br>
-    <mat-button-toggle routerLink="/artist-account-form" *ngIf="authenticatedUser.hasArtistPage===false">
-      <mat-icon>add</mat-icon>
-      Create an artist page
-    </mat-button-toggle>
-    <br>
-    <mat-button-toggle (click)="deleteAccount()">
-      delete account
-    </mat-button-toggle>
-    <br>
-    <mat-button-toggle *ngIf="authenticatedUser.hasArtistPage" routerLink="/post" >
-      Post a Tattoo Work
-    </mat-button-toggle>
-  </section>
-  <h1 style="text-align: center">{{authenticatedUser.firstName}} {{authenticatedUser.lastName}}</h1>
-  <h2 style="text-align: center" *ngIf=" priceInterval | async as priceIntervalObject">
-    <h3>
-      {{priceIntervalObject.maxTattooWorkPrice}} {{priceIntervalObject.maxTattooWorkPriceCurrency}}  - {{priceIntervalObject.minTattooWorkPrice}} {{priceIntervalObject.minTattooWorkPriceCurrency}}
-    </h3>
-  </h2>
-</mat-card>
-
-<mat-tab-group color="primary" backgroundColor="primary" mat-align-tabs="center">
-
-  <mat-tab label="Me">
-    <mat-toolbar>
-      <div>me</div>
-    </mat-toolbar>
-    <div>
-      <h1 style="text-align: center">email:{{authenticatedUser.email}}</h1>
-      <h1 style="text-align: center">average rating:{{authenticatedUser.averageRating}}</h1>
-      <h1 style="text-align: center">phone number{{authenticatedUser.phoneNumber}}</h1>
-
-      <h1 style="text-align: center">birth date:{{authenticatedUser.birthDate}}</h1>
-      <h1 style="text-align: center">work days:{{authenticatedUser.workDays}}</h1>
-
-      <h1 style="text-align: center">city:{{authenticatedUser.city}}</h1>
-      <h1 style="text-align: center">country:{{authenticatedUser.country}}</h1>
-      <h1 style="text-align: center">state:{{authenticatedUser.state}}</h1>
-      <h1 style="text-align: center">street:{{authenticatedUser.street}}</h1>
-      <h1 style="text-align: center">other information:{{authenticatedUser.otherInformation}}</h1>
-      <h1 style="text-align: center">postal code:{{authenticatedUser.postalCode}}</h1>
-
-      <mat-button-toggle *ngIf="authenticatedUser.hasArtistPage" routerLink="/me-edit">
-        Update Profile
-      </mat-button-toggle>
-      <mat-button-toggle *ngIf="!authenticatedUser.hasArtistPage" routerLink="/me-edit-basic">
-        Update Profile
-      </mat-button-toggle>
-
+    </section>
+    <h1 style="text-align: center">{{authenticatedUser.firstName}} {{authenticatedUser.lastName}}</h1>
+    <div fxLayout="row">
+      <div fxFlex>
+        <h1 style="text-align: center"><mat-icon>contact_support</mat-icon>Contact</h1>
+        <h3 style="text-align: center"><mat-icon>phone</mat-icon> Phone number :{{authenticatedUser.phoneNumber}}</h3>
+        <h3 style="text-align: center"><mat-icon>email</mat-icon> Email: {{authenticatedUser.email}}</h3>
+      </div>
+      <div fxFlex>
+        <h1 style="text-align: center"><mat-icon>person</mat-icon> Personal</h1>
+        <h3 style="text-align: center"><mat-icon>cake</mat-icon> Age: {{authenticatedUser.birthDate}}</h3>
+        <h3 style="text-align: center"><mat-icon>work</mat-icon> Work Days: {{authenticatedUser.workDays}}</h3>
+      </div>
+      <div fxFlex>
+        <h1 style="text-align: center"><mat-icon>location_on</mat-icon>Address</h1>
+        <h3 style="text-align: center"><mat-icon>phone</mat-icon> Address: {{authenticatedUser.country}}, {{authenticatedUser.city}}, {{authenticatedUser.state}}, {{authenticatedUser.street}}, {{authenticatedUser.postalCode}}</h3>
+        <h3 style="text-align: center"><mat-icon>question_mark</mat-icon> Other Information:  {{authenticatedUser.otherInformation}}</h3>
+      </div>
+      <div fxFlex>
+        <h1 style="text-align: center"><mat-icon>star</mat-icon> Average Rating</h1>
+        <h3 style="text-align: center"><mat-icon>stars</mat-icon> Average Rating: {{authenticatedUser.averageRating}}</h3>
+      </div>
+      <div fxFlex>
+        <h1 style="text-align: center"><mat-icon>price_change</mat-icon> Price Interval</h1>
+        <h3 style="text-align: center" *ngIf=" priceInterval | async as priceIntervalObject">
+          <mat-icon>sell</mat-icon> {{priceIntervalObject.maxTattooWorkPrice}} {{priceIntervalObject.maxTattooWorkPriceCurrency}} - {{priceIntervalObject.minTattooWorkPrice}} {{priceIntervalObject.minTattooWorkPriceCurrency}}
+        </h3>
+      </div>
     </div>
+  </mat-card>
 
-  </mat-tab>
+  <mat-tab-group color="primary" backgroundColor="primary" mat-align-tabs="center">
+    <mat-tab label="Ops">
+      <mat-toolbar>
+        <div>Operations</div>
+      </mat-toolbar>
+      <mat-card>
+        <div fxLayout="row">
 
-  <mat-tab label="Favorite TattooWorks">
-    <mat-toolbar>
-      Favorite Tattoo Works
-    </mat-toolbar>
-    <div>
-      <div fxLayout="row wrap" style="margin-left: 50px" >
-        <div fxFlex style="padding-bottom: 30px" *ngFor="let tattooWork1 of favoriteTattooWorks | async">
-          <mat-card style="width: 520px;">
-            <mat-card-header>
-              <img mat-card-avatar routerLink="/users/{{tattooWork1.madeBy.id}}" src="{{tattooWork1.madeBy.avatarUrl}}" style="background-size: cover;cursor: pointer">
-              <mat-card-title>{{tattooWork1.madeBy.firstName}}</mat-card-title>
-              <mat-card-subtitle>{{tattooWork1.madeBy.city? tattooWork1.madeBy.city:"nowhere"}}</mat-card-subtitle>
-            </mat-card-header>
-            <img mat-card-image style="object-fit:cover; height: 80%" src="{{tattooWork1.coverPhoto}}">
+          <div fxFlex style="margin-left: 14%">
+            <button mat-flat-button style="border-radius: 100%;width: 200px; height: 200px" color="accent"
+                    *ngIf="authenticatedUser.hasArtistPage" routerLink="/me-edit">
+              Update Profile
+            </button>
+            <button fxFlex mat-flat-button style="border-radius: 100%;width: 200px; height: 200px" color="accent"
+                    *ngIf="!authenticatedUser.hasArtistPage" routerLink="/me-edit-basic">
+              Update Profile
+            </button>
+          </div>
+
+          <div fxFlex>
+            <button mat-flat-button style="border-radius: 100%;width: 200px; height: 200px" color="warn"
+                    (click)="deleteAccount()">
+              delete account
+            </button>
+          </div>
+
+          <div fxFlex>
+            <button mat-flat-button style="border-radius: 100%;width: 200px; height: 200px" color="primary"
+                    *ngIf="authenticatedUser.hasArtistPage" routerLink="/post">
+              Post a Tattoo Work
+            </button>
+            <button mat-flat-button style="border-radius: 100%;width: 200px; height: 200px" color="accent"
+                    routerLink="/artist-account-form" *ngIf="authenticatedUser.hasArtistPage===false">
+              <mat-icon>add</mat-icon>
+              Create an artist page
+            </button>
+          </div>
+
+        </div>
+
+      </mat-card>
+    </mat-tab>
+
+
+    <mat-tab label="Favorite TattooWorks">
+      <mat-toolbar>
+        Favorite Tattoo Works
+      </mat-toolbar>
+      <div>
+        <div fxLayout="row wrap" style="margin-left: 50px">
+          <div fxFlex style="padding-bottom: 30px" *ngFor="let tattooWork1 of favoriteTattooWorks | async">
+            <mat-card style="width: 520px;">
+              <mat-card-header>
+                <img mat-card-avatar routerLink="/users/{{tattooWork1.madeBy.id}}"
+                     src="{{tattooWork1.madeBy.avatarUrl}}" style="background-size: cover;cursor: pointer">
+                <mat-card-title>{{tattooWork1.madeBy.firstName}}</mat-card-title>
+                <mat-card-subtitle>{{tattooWork1.madeBy.city ? tattooWork1.madeBy.city : "nowhere"}}</mat-card-subtitle>
+              </mat-card-header>
+              <img mat-card-image style="object-fit:cover; height: 80%" src="{{tattooWork1.coverPhoto}}">
+              <mat-card-content>
+
+                <mat-button-toggle>
+                  like : {{tattooWork1.like_number}}
+                </mat-button-toggle>
+
+                <mat-button-toggle>
+                  dislike: {{tattooWork1.dislike_number}}
+                </mat-button-toggle>
+
+                <h2>{{tattooWork1.description}}</h2>
+                <h2>value: {{tattooWork1.price | currency: tattooWork1.currency}}</h2>
+              </mat-card-content>
+
+              <mat-card-actions>
+                <form style="min-width: 150px; max-width: 500px;width: 100%;"
+                      *ngIf="tattooWork1.clientId===authenticatedUser.id">
+                  <mat-form-field>
+                    <mat-label>Leave a comment
+                      <mat-icon>add</mat-icon>
+                    </mat-label>
+                    <input matInput>
+                  </mat-form-field>
+                </form>
+              </mat-card-actions>
+
+            </mat-card>
+          </div>
+        </div>
+      </div>
+
+    </mat-tab>
+
+    <mat-tab label="My TattooWorks">
+      <mat-toolbar>
+        My Tattoo Works
+      </mat-toolbar>
+      <div>
+        <div fxLayout="row wrap" style="margin-left: 50px">
+          <div fxFlex style="padding-bottom: 30px" *ngFor="let tattooWork of myTattooWorks | async">
+            <mat-card style="width: 520px;">
+              <mat-card-header>
+                <img mat-card-avatar routerLink="/users/{{tattooWork.madeBy.id}}" src="{{tattooWork.madeBy.avatarUrl}}"
+                     style="background-size: cover;cursor: pointer">
+                <mat-card-title>{{tattooWork.madeBy.firstName}}</mat-card-title>
+                <mat-card-subtitle>{{tattooWork.madeBy.city ? tattooWork.madeBy.city : "nowhere"}}</mat-card-subtitle>
+              </mat-card-header>
+              <img mat-card-image style="object-fit:cover; height: 80%" src="{{tattooWork.coverPhoto}}">
+              <mat-card-content>
+
+                <mat-button-toggle>
+                  like : {{tattooWork.like_number}}
+                </mat-button-toggle>
+
+                <mat-button-toggle>
+                  dislike: {{tattooWork.dislike_number}}
+                </mat-button-toggle>
+
+                <h2>{{tattooWork.description}}</h2>
+                <h2>value: {{tattooWork.price | currency: tattooWork.currency}}</h2>
+              </mat-card-content>
+
+              <mat-card-actions>
+                <form style="min-width: 150px; max-width: 500px;width: 100%;"
+                      *ngIf="tattooWork.clientId===authenticatedUser.id">
+                  <mat-form-field>
+                    <mat-label>Leave a comment
+                      <mat-icon>add</mat-icon>
+                    </mat-label>
+                    <input matInput>
+                  </mat-form-field>
+                </form>
+              </mat-card-actions>
+              <button mat-flat-button routerLink="/edit-tattoo-work/{{tattooWork.id}}">Edit</button>
+              <button mat-flat-button (click)="deleteTattooWork(tattooWork.id)">Delete</button>
+
+            </mat-card>
+          </div>
+        </div>
+      </div>
+    </mat-tab>
+
+    <mat-tab label="Favorite Tattoo Artists">
+      <mat-toolbar>
+        Favorite Tattoo Artists
+      </mat-toolbar>
+      <div>
+        <div fxLayout="row wrap" style="margin-left: 50px">
+          <div fxFlex style="padding-bottom: 30px" *ngFor="let user of favoriteTattooArtists | async ">
+
+            <mat-card style="width: 520px;">
+              <mat-card-header>
+
+                <button matTooltip="unFavorite" style="margin-left: auto" (click)="unFavoriteTattooArtist(user.id)"
+                        mat-icon-button color="accent">
+                  <mat-icon>block</mat-icon>
+                </button>
+
+                <mat-card-title>{{user.firstName}}</mat-card-title>
+                <mat-card-subtitle>{{user.city ? user.city : "nowhere"}}</mat-card-subtitle>
+              </mat-card-header>
+              <img routerLink="/users/{{user.id}}" mat-card-image
+                   style=" cursor: pointer; object-fit:cover; height: 80%" src="{{user.avatarUrl}}">
+
+              <mat-card-content>
+
+                <h2>rating : {{user.averageRating}}</h2>
+                <h2>working days: {{user.workDays}}</h2>
+              </mat-card-content>
+            </mat-card>
+
+          </div>
+        </div>
+      </div>
+    </mat-tab>
+
+    <mat-tab label="Taken Reviews">
+      <mat-toolbar>
+        My Reviews
+      </mat-toolbar>
+      <div style="background-color: #a3ff5e">
+        <div fxFlex="row" *ngFor="let review of myReviews | async">
+          <mat-card>
+            <mat-card-title-group>
+              <mat-card-title>{{review.postedBy.firstName}}{{review.postedBy.lastName}}</mat-card-title>
+              <mat-card-subtitle>{{review.reviewType}}</mat-card-subtitle>
+              <img mat-card-sm-image src="{{review.postedBy.avatarUrl}}">
+            </mat-card-title-group>
             <mat-card-content>
-
-              <mat-button-toggle>
-                like : {{tattooWork1.like_number}}
-              </mat-button-toggle>
-
-              <mat-button-toggle>
-                dislike: {{tattooWork1.dislike_number}}
-              </mat-button-toggle>
-
-              <h2>{{tattooWork1.description}}</h2>
-              <h2>value: {{tattooWork1.price | currency: tattooWork1.currency}}</h2>
+              {{review.message}}
             </mat-card-content>
-
-            <mat-card-actions>
-              <form style="min-width: 150px; max-width: 500px;width: 100%;" *ngIf="tattooWork1.clientId===authenticatedUser.id">
-                <mat-form-field>
-                  <mat-label>Leave a comment <mat-icon>add</mat-icon></mat-label>
-                  <input matInput>
-                </mat-form-field>
-              </form>
-            </mat-card-actions>
-
           </mat-card>
         </div>
       </div>
-    </div>
-
-  </mat-tab>
-
-  <mat-tab label="My TattooWorks">
-    <mat-toolbar>
-      My Tattoo Works
-    </mat-toolbar>
-    <div>
-      <div fxLayout="row wrap" style="margin-left: 50px" >
-        <div fxFlex style="padding-bottom: 30px" *ngFor="let tattooWork of myTattooWorks | async">
-          <mat-card style="width: 520px;">
-            <mat-card-header>
-              <img mat-card-avatar routerLink="/users/{{tattooWork.madeBy.id}}" src="{{tattooWork.madeBy.avatarUrl}}" style="background-size: cover;cursor: pointer">
-              <mat-card-title>{{tattooWork.madeBy.firstName}}</mat-card-title>
-              <mat-card-subtitle>{{tattooWork.madeBy.city? tattooWork.madeBy.city:"nowhere"}}</mat-card-subtitle>
-            </mat-card-header>
-            <img mat-card-image style="object-fit:cover; height: 80%" src="{{tattooWork.coverPhoto}}">
-            <mat-card-content>
-
-              <mat-button-toggle>
-                like : {{tattooWork.like_number}}
-              </mat-button-toggle>
-
-              <mat-button-toggle>
-                dislike: {{tattooWork.dislike_number}}
-              </mat-button-toggle>
-
-              <h2>{{tattooWork.description}}</h2>
-              <h2>value: {{tattooWork.price | currency: tattooWork.currency}}</h2>
-            </mat-card-content>
-
-            <mat-card-actions>
-              <form style="min-width: 150px; max-width: 500px;width: 100%;" *ngIf="tattooWork.clientId===authenticatedUser.id">
-                <mat-form-field>
-                  <mat-label>Leave a comment <mat-icon>add</mat-icon></mat-label>
-                  <input matInput>
-                </mat-form-field>
-              </form>
-            </mat-card-actions>
-            <button mat-flat-button routerLink="/edit-tattoo-work/{{tattooWork.id}}">Edit</button>
-            <button mat-flat-button (click)="deleteTattooWork(tattooWork.id)" >Delete</button>
-
-          </mat-card>
-        </div>
-      </div>
-    </div>
-  </mat-tab>
-
-  <mat-tab label="Favorite Tattoo Artists">
-    <mat-toolbar>
-      Favorite Tattoo Artists
-    </mat-toolbar>
-    <div>
-      <div fxLayout="row wrap" style="margin-left: 50px">
-        <div fxFlex style="padding-bottom: 30px" *ngFor="let user of favoriteTattooArtists | async ">
-
-          <mat-card style="width: 520px;">
-            <mat-card-header>
-
-              <button matTooltip="unFavorite" style="margin-left: auto" (click)="unFavoriteTattooArtist(user.id)" mat-icon-button color="accent">
-                <mat-icon>block</mat-icon>
-              </button>
-
-              <mat-card-title>{{user.firstName}}</mat-card-title>
-              <mat-card-subtitle>{{user.city ? user.city : "nowhere"}}</mat-card-subtitle>
-            </mat-card-header>
-            <img routerLink="/users/{{user.id}}" mat-card-image style=" cursor: pointer; object-fit:cover; height: 80%" src="{{user.avatarUrl}}">
-
-            <mat-card-content>
-
-              <h2>rating : {{user.averageRating}}</h2>
-              <h2>working days: {{user.workDays}}</h2>
-            </mat-card-content>
-          </mat-card>
-
-        </div>
-      </div>
-    </div>
-  </mat-tab>
-
-  <mat-tab label="My Reviews">
-    <mat-toolbar>
-      My Reviews
-    </mat-toolbar>
-    <div style="background-color: #a3ff5e">
-      <div fxFlex="row" *ngFor="let review of myReviews | async">
-        <mat-card>
-          <mat-card-title-group>
-            <mat-card-title>{{review.postedBy.firstName}}{{review.postedBy.lastName}}</mat-card-title>
-            <mat-card-subtitle>{{review.reviewType}}</mat-card-subtitle>
-            <img mat-card-sm-image src="{{review.postedBy.avatarUrl}}" >
-          </mat-card-title-group>
-          <mat-card-content>
-            {{review.message}}
-          </mat-card-content>
-        </mat-card>
-      </div>
-    </div>
-  </mat-tab>
-</mat-tab-group>
+    </mat-tab>
+  </mat-tab-group>
 </div>
 
 <ng-template #loggedOut>

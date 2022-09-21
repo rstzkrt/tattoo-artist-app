@@ -7,9 +7,8 @@ import {PageEvent} from "@angular/material/paginator";
 import {Observable} from "rxjs";
 import {AngularFireAuth} from "@angular/fire/compat/auth";
 import {User} from "../../common/user";
-import {UserResponseDto} from "../../generated-apis/user";
+import {UserResponseDto, UserResponseDtoPageable} from "../../generated-apis/user";
 import {StorageService} from "../../services/storage.service";
-import {user} from "@angular/fire/auth";
 
 @Component({
   selector: 'app-home-page',
@@ -19,8 +18,9 @@ import {user} from "@angular/fire/auth";
 export class HomePageComponent implements OnInit {
 
   tattooWorkList: Array<TattooWorksResponseDto>
-  userList: Observable<Array<UserResponseDto>>
-  totalElements: number = 0;
+  userList: Array<UserResponseDto>
+  TattooWorkTotalElements: number = 0;
+  TattooArtistTotalElements: number = 0;
   token: string
   authenticatedUser: User;
 
@@ -35,25 +35,32 @@ export class HomePageComponent implements OnInit {
   ngOnInit(): void {
     this.token = this.storageService.getToken()
     this.authenticatedUser = this.storageService.getUser()
-    this.getTattoos(0, 20)
     this.getUsers(0, 20)
+    this.getTattoos(0, 20)
   }
 
   private getUsers(page: number, size: number) {
-    this.userList = this.userService.getAllUsers(page, size)
-    this.userList.subscribe(data => {
-      this.totalElements = data.length;
+     this.userService.getAllUsers(page, size).subscribe(data => {
+      this.userList = data.tattooArtists
+      this.TattooArtistTotalElements = data.totalElements;
     })
   }
 
   private getTattoos(page: number, size: number) {
-    this.tattooWorkService.getAllTattooWorks(page, size, 0).subscribe(data => {
-      this.tattooWorkList = data
-      this.totalElements = data.length;
+    this.tattooWorkService.getAllTattooWorks(page, size, 0)
+      .subscribe(data => {
+      this.tattooWorkList = data.tattooWorks
+      this.TattooWorkTotalElements = data.totalElements;
     })
   }
 
-  nextPage(event: PageEvent) {
+  nextPageUser(event: PageEvent) {
+    let page = event.pageIndex;
+    let size = event.pageSize;
+    this.getUsers(page, size);
+  }
+
+  nextPageTattooWork(event: PageEvent) {
     let page = event.pageIndex;
     let size = event.pageSize;
     this.getTattoos(page, size);

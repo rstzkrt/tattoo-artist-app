@@ -37,9 +37,9 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/UserResponseDto'
+#                type: array
+#                items:
+                  $ref: '#/components/schemas/UserResponseDtoPageable'
         default:
           description: error payload
           content:
@@ -607,6 +607,15 @@ components:
           $ref: '#/components/schemas/Currency'
         maxTattooWorkPriceCurrency:
           $ref: '#/components/schemas/Currency'
+
+    UserResponseDtoPageable:
+      properties:
+        totalElements:
+          type: integer
+        tattooArtists:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserResponseDto'
 
     WorkingDays:
       enum:

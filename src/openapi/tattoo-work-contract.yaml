@@ -37,9 +37,9 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/TattooWorksResponseDto'
+#                type: array
+#                items:
+                $ref: '#/components/schemas/TattooWorkResponsePageable'
         default:
           description: error payload
           content:
@@ -232,6 +232,15 @@ components:
           items:
             type: string
             format: uuid
+
+    TattooWorkResponsePageable:
+      properties:
+        totalElements:
+          type: integer
+        tattooWorks:
+          type: array
+          items:
+            $ref: '#/components/schemas/TattooWorksResponseDto'
 
     MadeByInfo:
       type: object

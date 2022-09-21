@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {
   DefaultService,
   TattooWorkPatchRequestDto,
-  TattooWorkPostRequestDto,
+  TattooWorkPostRequestDto, TattooWorkResponsePageable,
   TattooWorksResponseDto
 } from "../generated-apis/tatoo-work";
 import {Observable} from "rxjs";
@@ -29,7 +29,7 @@ export class TattooWorkService{
     return this.tattooWorkService.deleteTattooWork(id)
   }
 
-  getAllTattooWorks(page: number,size: number,price?: number,country?: string): Observable<Array<TattooWorksResponseDto>> {
+  getAllTattooWorks(page: number,size: number,price?: number,country?: string): Observable<TattooWorkResponsePageable> {
     return this.tattooWorkService.getAllTattooWorks(page,size,country,price)
   }
 

@@ -31,6 +31,8 @@ import { TattooWorksResponseDto } from '../model/tattooWorksResponseDto';
 // @ts-ignore
 import { UserResponseDto } from '../model/userResponseDto';
 // @ts-ignore
+import { UserResponseDtoPageable } from '../model/userResponseDtoPageable';
+// @ts-ignore
 import { UserUpdateRequestDto } from '../model/userUpdateRequestDto';
 
 // @ts-ignore
@@ -558,9 +560,9 @@ export class DefaultService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getAllUsers(page: number, size: number, firstName?: string, lastName?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<Array<UserResponseDto>>;
-    public getAllUsers(page: number, size: number, firstName?: string, lastName?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<Array<UserResponseDto>>>;
-    public getAllUsers(page: number, size: number, firstName?: string, lastName?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<Array<UserResponseDto>>>;
+    public getAllUsers(page: number, size: number, firstName?: string, lastName?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<UserResponseDtoPageable>;
+    public getAllUsers(page: number, size: number, firstName?: string, lastName?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<UserResponseDtoPageable>>;
+    public getAllUsers(page: number, size: number, firstName?: string, lastName?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<UserResponseDtoPageable>>;
     public getAllUsers(page: number, size: number, firstName?: string, lastName?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
         if (page === null || page === undefined) {
             throw new Error('Required parameter page was null or undefined when calling getAllUsers.');
@@ -618,7 +620,7 @@ export class DefaultService {
             }
         }
 
-        return this.httpClient.get<Array<UserResponseDto>>(`${this.configuration.basePath}/users`,
+        return this.httpClient.get<UserResponseDtoPageable>(`${this.configuration.basePath}/users`,
             {
                 context: localVarHttpContext,
                 params: localVarQueryParameters,

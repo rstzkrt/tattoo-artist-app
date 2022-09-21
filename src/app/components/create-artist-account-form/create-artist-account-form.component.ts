@@ -49,8 +49,9 @@ export class CreateArtistAccountFormComponent implements OnInit {
     let artistAccountRequest:TattooArtistAccReqDto = this.createArtistAccountFormGroup.get('artistAccount').value;
         this.userService.createArtistAccount(artistAccountRequest, this.token).subscribe(res => {
           console.log(res)
+          this.storageService.clean()
           this.storageService.saveUser(user)
-          this.authenticatedUser = res
+          this.authenticatedUser = this.storageService.getUser()
           if(res){
             this.route.navigateByUrl("/home").then()
           }

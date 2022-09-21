@@ -71,8 +71,8 @@ export class UserProfileComponent implements OnInit {
 
   private getTattoos(page: number, size: number) {
     this.tattooWorkService.getAllTattooWorks(page, size, 0).subscribe(data => {
-      this.tattooWorkList = data.filter(tattooWork => tattooWork.madeBy.id === this.target_uid)
-      this.totalElements = data.length;
+      this.tattooWorkList = data.tattooWorks.filter(tattooWork => tattooWork.madeBy.id === this.target_uid)
+      this.totalElements = data.totalElements;
     })
   }
 
