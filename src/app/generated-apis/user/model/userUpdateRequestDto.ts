@@ -9,6 +9,9 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { Language } from './language';
+import { TattooStyle } from './tattooStyle';
+import { Gender } from './gender';
 import { WorkingDays } from './workingDays';
 
 
@@ -25,5 +28,9 @@ export interface UserUpdateRequestDto {
     state?: string;
     postalCode?: string;
     otherInformation?: string;
+    careerDescription?: string;
+    gender?: Gender;
+    tattooStyles?: Array<TattooStyle>;
+    languages?: Array<Language>;
 }
 

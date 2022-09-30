@@ -9,6 +9,8 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { Language } from './language';
+import { Gender } from './gender';
 import { WorkingDays } from './workingDays';
 
 
@@ -37,5 +39,8 @@ export interface UserResponseDto {
     favoriteTattooWorkIds?: Array<string>;
     commentIds?: Array<string>;
     tattooWorkIds?: Array<string>;
+    careerDescription?: string;
+    gender?: Gender;
+    languages?: Array<Language>;
 }
 

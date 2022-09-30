@@ -2,7 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {AngularFireAuth} from "@angular/fire/compat/auth";
 import {AuthService} from "../../services/auth.service";
 import {UserService} from "../../services/user.service";
-import {TattooArtistPriceInterval, TattooWorksResponseDto, UserResponseDto} from "../../generated-apis/user";
+import {TattooArtistPriceInterval, UserResponseDto} from "../../generated-apis/user";
+import {TattooWorksResponseDto} from "../../generated-apis/tatoo-work";
 import {TattooWorkService} from "../../services/tattoo-work.service";
 import {Router} from "@angular/router";
 import {Observable} from "rxjs";
@@ -55,13 +56,59 @@ export class MyProfileComponent implements OnInit {
 
   deleteAccount() {
     this.userService.deleteMyAccount(this.token).subscribe(async () => {
-      await this.authService.deleteAccount()
-      await this.storageService.clean()
-      await window.location.replace("/home")
+       this.authService.deleteAccount()
+       this.storageService.clean()
+       window.location.replace("/home")
     })
   }
 
-  unFavoriteTattooArtist(id: string) {
-    this.userService.unfavoriteTattooArtist(id, this.token).subscribe(() => console.log("unFavorite"))
+  fetchUser(): void{
+    this.userService.fetchAuthenticatedUser(this.token).subscribe(user=>{
+      this.storageService.saveUser(user)
+      this.authenticatedUser=user
+    })
+  }
+
+  likeTattooWork(id: string) {
+    this.userService.likeTattooWork(id, this.token).subscribe(() => {
+      this.fetchUser()
+      console.log("like")
+    })
+  }
+
+  disLikeTattooWork(id: string) {
+    this.token = this.storageService.getToken()
+    this.userService.dislikeTattooWork(id, this.token).subscribe(() => {
+      this.fetchUser()
+      console.log("dislike")
+    })
+  }
+
+  favoriteTattooWork(tattoo_work_id: string) {
+    this.userService.favoriteTattooWork(tattoo_work_id, this.token).subscribe(() => {
+      this.fetchUser()
+      console.log("favorite")
+    })
+  }
+
+  unFavoriteTattooWork(tattoo_work_id: string) {
+    this.userService.unfavoriteTattooWork(tattoo_work_id, this.token).subscribe(() => {
+      this.fetchUser()
+      console.log("unFavorite")
+    })
+  }
+
+  favoriteTattooArtist(tattoo_artist_id: string) {
+    this.userService.favoriteTattooArtist(tattoo_artist_id, this.token).subscribe(() => {
+      this.fetchUser()
+      console.log("favorite")
+    })
+  }
+
+  unFavoriteTattooArtist(tattoo_artist_id: string) {
+    this.userService.unfavoriteTattooArtist(tattoo_artist_id, this.token).subscribe(() => {
+      this.fetchUser()
+      console.log("unFavorite")
+    })
   }
 }

@@ -10,9 +10,9 @@ import {StreamChat, TokenOrProvider} from "stream-chat";
 import {environment} from "../../environments/environment";
 import {EmailLoginReq, Login, LoginDialogComponent} from "../components/login-dialog/login-dialog.component";
 import {MatDialog} from "@angular/material/dialog";
-import {getAuth} from "firebase/auth";
 import {StorageService} from "./storage.service";
 import {Router} from "@angular/router";
+import {getMatIconFailedToSanitizeLiteralError} from "@angular/material/icon";
 
 @Injectable({
   providedIn: 'root'
@@ -137,10 +137,7 @@ export class AuthService {
           this.requestBodyUser.firstName = res.user.displayName.split(" ")[0];
           this.requestBodyUser.lastName = res.user.displayName.split(" ")[length];
         }
-
-        console.log(0)
         if (res.additionalUserInfo.isNewUser) {
-          console.log(1)
           this.userService.createClient(this.requestBodyUser)
             .subscribe(response => {
               console.log(response);
@@ -148,8 +145,6 @@ export class AuthService {
               console.log(error);
             });
         }
-        console.log(2)
-
         let tokenFunction = this.firebaseFunctions.httpsCallable('ext-auth-chat-getStreamUserToken')
         tokenFunction({}).subscribe(async data => {
           const chatClient = StreamChat.getInstance(environment.stream.key);
@@ -160,20 +155,14 @@ export class AuthService {
               image: this.requestBodyUser.avatarUrl
             },
             data);
-          console.log(4)
           window.location.replace('/')
-          console.log(5)
-
         });
         console.log("Login Success")
         this.dialogRef.close()
-        console.log(6)
       }
     ).catch(err => {
-      console.log(7)
       console.log(err)
     })
-    console.log(8)
   }
 
   async loginWithGoogle() {
@@ -208,11 +197,10 @@ export class AuthService {
               image: this.requestBodyUser.avatarUrl
             },
             data);
+          await this.dialogRef.close()
           window.location.replace('/home')
-          this.dialogRef.close()
         });
         console.log("Login Success")
-
       }
     ).catch(err => {
       console.log(err)
@@ -234,12 +222,14 @@ export class AuthService {
       window.location.replace('/home')
     });
     const chatClient = StreamChat.getInstance(environment.stream.key);
-    chatClient.disconnectUser().then(r => {
-    });
+    chatClient.disconnectUser().then(r => {});
   }
 
   deleteAccount() {
-    this.afAuth.currentUser.then(user => user?.delete())
+    this.afAuth.currentUser.then(user =>{
+      console.log(user)
+      user?.delete().then(()=>console.log("USER REMOVED FROM FIREBASE"))
+    })
   }
 
   getCurrentUser() {

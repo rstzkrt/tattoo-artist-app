@@ -11,6 +11,7 @@
  */
 import { MadeByInfo } from './madeByInfo';
 import { Currency } from './currency';
+import { TattooStyle } from './tattooStyle';
 
 
 export interface TattooWorksResponseDto { 
@@ -25,5 +26,6 @@ export interface TattooWorksResponseDto {
     coverPhoto?: string;
     photos?: Array<string>;
     madeBy?: MadeByInfo;
+    tattooStyle?: TattooStyle;
 }
 

@@ -10,6 +10,7 @@
  * Do not edit the class manually.
  */
 import { Currency } from './currency';
+import { TattooStyle } from './tattooStyle';
 
 
 export interface TattooWorkPostRequestDto { 
@@ -19,5 +20,6 @@ export interface TattooWorkPostRequestDto {
     coverPhoto?: string;
     photos?: Array<string>;
     clientId?: string;
+    tattooStyle?: TattooStyle;
 }
 

@@ -6,7 +6,7 @@ import {
   ClientReqDto,
   DefaultService,
   TattooArtistAccReqDto, TattooArtistPriceInterval,
-  TattooWorksResponseDto,
+  TattooWorksResponseDto, UserDocumentDto,
   UserResponseDto, UserResponseDtoPageable,
   UserUpdateRequestDto
 } from "../generated-apis/user";
@@ -63,6 +63,10 @@ export class UserService{
   favoriteTattooWork(tattoo_work_id:string,token:string): Observable<UserResponseDto> {
     this.userOpenApiService.configuration.credentials= {"bearerAuth": token};
     return this.userOpenApiService.favoriteTattooWork(tattoo_work_id)
+  }
+
+  searchUsers(query:string,city?:string,country?:string ,isTattooArtist?:boolean,averageRating?:number): Observable<UserDocumentDto[]> {
+    return this.userOpenApiService.searchUsers(query,city,country,isTattooArtist,averageRating)
   }
 
   getAllUsers(page: number,size: number,firstName?: string, lastName?: string): Observable<UserResponseDtoPageable> {

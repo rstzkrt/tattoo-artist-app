@@ -1,6 +1,7 @@
-import {UserResponseDto, WorkingDays} from "../generated-apis/user";
+import {Gender, Language, TattooStyle, UserResponseDto, WorkingDays} from "../generated-apis/user";
 
 export class User implements UserResponseDto{
+  languages?: Array<Language>;
   avatarUrl?: string;
   averageRating?: number;
   birthDate?: string;
@@ -22,4 +23,7 @@ export class User implements UserResponseDto{
   tattooWorkIds?: Array<string>;
   uid?: string;
   workDays?: Array<WorkingDays>;
+  careerDescription?: string;
+  gender?: Gender;
+  tattooStyles?: Array<TattooStyle>;
 }

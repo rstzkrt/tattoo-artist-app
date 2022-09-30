@@ -43,9 +43,17 @@
               <mat-error>Currency is required !</mat-error>
             </mat-form-field>
             <br>
-            <mat-form-field appearance="fill" color="warn">
+            <mat-form-field appearance="fill">
+              <mat-label>Tattoo styles you make</mat-label>
+              <mat-select formControlName="tattooStyle" required>
+                <mat-option *ngFor="let style of tattooStyles" [value]="style">{{style}}</mat-option>
+              </mat-select>
+              <mat-error>tattoo style is required!</mat-error>
+            </mat-form-field>
+            <br>
+            <mat-form-field style="width: 400px" appearance="fill" color="warn">
               <mat-label>Client</mat-label>
-              <input matInput formControlName="clientId" required>
+              <input matInput formControlName="clientId" required [matAutocomplete]="auto" >
               <mat-error>Client is required !</mat-error>
             </mat-form-field>
             <br>
@@ -53,9 +61,17 @@
           <button [disabled]="!postTattooWorkFormGroup.valid" mat-button mat-flat-button color="accent" (submit)="submit()">Create</button>
           <button mat-button mat-flat-button color="warn" routerLink="/me">Cancel</button>
         </form>
+
+        <mat-autocomplete #auto="matAutocomplete">
+          <mat-option *ngFor="let user of autocompleteList | async " [value]="user.id">
+            <div fxLayout="row">
+              <img  fxFlex style="height: 50px; margin-top: auto ; margin-bottom: auto ;" matCardImage src="{{user.avatarUrl}}">
+              <h3 fxFlex style="margin-top: auto ; margin-bottom: auto ;margin-left: 10%;" >{{user.fullName}}</h3>
+            </div>
+          </mat-option>
+        </mat-autocomplete>
+
       </div>
-
-
     </mat-card>
   </div>
 

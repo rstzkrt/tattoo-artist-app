@@ -10,10 +10,14 @@ index.ts
 model/clientReqDto.ts
 model/currency.ts
 model/errorResponse.ts
+model/gender.ts
+model/language.ts
 model/models.ts
 model/tattooArtistAccReqDto.ts
 model/tattooArtistPriceInterval.ts
+model/tattooStyle.ts
 model/tattooWorksResponseDto.ts
+model/userDocumentDto.ts
 model/userResponseDto.ts
 model/userResponseDtoPageable.ts
 model/userUpdateRequestDto.ts

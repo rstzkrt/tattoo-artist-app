@@ -13,7 +13,7 @@ export const environment = {
     appId: "1:508136722118:web:472340433ea1a028c511c7"
   },
   stream: {
-    key: 'gv4rbgbxjbp6'
+    key: 'rgktfw92g4p6'
   }
 };
 

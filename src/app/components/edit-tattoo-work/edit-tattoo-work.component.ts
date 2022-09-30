@@ -4,7 +4,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {AuthService} from "../../services/auth.service";
 import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
 import {TattooWorkPatchRequestDto} from "../../generated-apis/tatoo-work";
-import {Currency} from "../../generated-apis/user";
+import {Currency, TattooStyle} from "../../generated-apis/user";
 import {Observable} from "rxjs";
 import {finalize, map, startWith} from "rxjs/operators";
 import {AngularFireStorage, AngularFireStorageReference, AngularFireUploadTask} from "@angular/fire/compat/storage";
@@ -26,6 +26,7 @@ export class EditTattooWorkComponent implements OnInit {
   ref: AngularFireStorageReference;
   task: AngularFireUploadTask;
   uploadProgress: Observable<number>;
+  tattooStyles: TattooStyle[]= ["TRIBAL", TattooStyle.Tribal,TattooStyle.AsianOriental,TattooStyle.Biomechanical,TattooStyle.DotWork,TattooStyle.Script,"BLACK_AND_GREY",TattooStyle.NewSchool,"OLD_SCHOOL",TattooStyle.Portraits,"WATERCOLOUR",TattooStyle.Realistic];
 
   constructor(private tattooService: TattooWorkService,
               private router: ActivatedRoute,
@@ -48,7 +49,8 @@ export class EditTattooWorkComponent implements OnInit {
           price: new FormControl(tattooWork.price),
           currency: new FormControl(tattooWork.currency),
           coverPhoto: new FormControl(tattooWork.coverPhoto),
-          description: new FormControl(tattooWork.description)
+          description: new FormControl(tattooWork.description),
+          tattooStyle:new FormControl(tattooWork.tattooStyle)
         })
       })
       this.filteredOptions = this.patchTattooWorkFormGroup.get('patchTattooWork').get('currency').valueChanges.pipe(

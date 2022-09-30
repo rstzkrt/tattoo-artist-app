@@ -3,14 +3,17 @@ import {ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot, UrlTree} from 
 import {MatDialog} from "@angular/material/dialog";
 import {LoginDialogComponent} from "../components/login-dialog/login-dialog.component";
 import {StorageService} from "../services/storage.service";
+import {AngularFireAuth} from "@angular/fire/compat/auth";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthenticationGuard implements CanActivate {
+
   constructor(
     private dialog: MatDialog,
-    private storage:StorageService) {
+    private storage:StorageService,
+    private afAuth:AngularFireAuth) {
   }
 
   async canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean | UrlTree> {

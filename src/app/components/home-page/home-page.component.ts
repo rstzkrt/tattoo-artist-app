@@ -4,11 +4,12 @@ import {AuthService} from "../../services/auth.service";
 import {TattooWorkService} from "../../services/tattoo-work.service";
 import {TattooWorksResponseDto} from "../../generated-apis/tatoo-work";
 import {PageEvent} from "@angular/material/paginator";
-import {Observable} from "rxjs";
 import {AngularFireAuth} from "@angular/fire/compat/auth";
 import {User} from "../../common/user";
-import {UserResponseDto, UserResponseDtoPageable} from "../../generated-apis/user";
 import {StorageService} from "../../services/storage.service";
+import {Router} from "@angular/router";
+import {UserDocumentDto, UserResponseDto} from "../../generated-apis/user";
+import {Observable, of} from "rxjs";
 
 @Component({
   selector: 'app-home-page',
@@ -18,30 +19,32 @@ import {StorageService} from "../../services/storage.service";
 export class HomePageComponent implements OnInit {
 
   tattooWorkList: Array<TattooWorksResponseDto>
-  userList: Array<UserResponseDto>
+  userList: Observable<Array<UserResponseDto>>
   TattooWorkTotalElements: number = 0;
   TattooArtistTotalElements: number = 0;
   token: string
   authenticatedUser: User;
+  filteredUsers:Map<string,UserDocumentDto>=new Map<string, UserDocumentDto>();
 
   constructor(public userService: UserService,
               public authService: AuthService,
               private tattooWorkService: TattooWorkService,
               private tattooService: TattooWorkService,
               public afAuth: AngularFireAuth,
-              private storageService: StorageService) {
+              private storageService: StorageService,
+              private route:Router) {
+    this.getUsers(0, 20)
+    this.getTattoos(0, 20)
   }
 
   ngOnInit(): void {
     this.token = this.storageService.getToken()
     this.authenticatedUser = this.storageService.getUser()
-    this.getUsers(0, 20)
-    this.getTattoos(0, 20)
   }
 
   private getUsers(page: number, size: number) {
      this.userService.getAllUsers(page, size).subscribe(data => {
-      this.userList = data.tattooArtists
+      this.userList = of(data.tattooArtists)
       this.TattooArtistTotalElements = data.totalElements;
     })
   }
@@ -70,6 +73,15 @@ export class HomePageComponent implements OnInit {
     this.tattooService.deleteTattooWork(id, this.token).subscribe(data => {
       this.fetchUser()
       console.log(data)
+    })
+  }
+
+  searchArtist(input:string){
+    this.userService.searchUsers(input,null,null,true).subscribe(data=>{
+      data.map(data => this.userService.getUserById(data.id).subscribe(data => {
+        this.filteredUsers.set(data.id,data)
+      }))
+      this.userList = of( [...this.filteredUsers.values()]);
     })
   }
 
@@ -116,7 +128,7 @@ export class HomePageComponent implements OnInit {
   favoriteTattooArtist(tattoo_artist_id: string) {
     this.userService.favoriteTattooArtist(tattoo_artist_id, this.token).subscribe(() => {
       this.fetchUser()
-      this.getUsers(0, 20)
+      // this.getUsers(0, 20)
       console.log("favorite")
     })
   }
@@ -124,7 +136,7 @@ export class HomePageComponent implements OnInit {
   unFavoriteTattooArtist(tattoo_artist_id: string) {
     this.userService.unfavoriteTattooArtist(tattoo_artist_id, this.token).subscribe(() => {
       this.fetchUser()
-      this.getUsers(0, 20)
+      // this.getUsers(0, 20)
       console.log("unFavorite")
     })
   }

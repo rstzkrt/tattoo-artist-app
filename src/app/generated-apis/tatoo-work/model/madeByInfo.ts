@@ -9,6 +9,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { TattooStyle } from './tattooStyle';
 import { WorkingDays } from './workingDays';
 
 
@@ -21,6 +22,7 @@ export interface MadeByInfo {
     firstName?: string;
     lastName?: string;
     avatarUrl?: string;
+    tattooStyles?: Array<TattooStyle>;
     birthDate?: string;
     email?: string;
     hasArtistPage?: boolean;

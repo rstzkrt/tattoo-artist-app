@@ -12,6 +12,31 @@
           <mat-error>Phone Number is required!</mat-error>
         </mat-form-field>
         <br>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Gender</mat-label>
+          <mat-select formControlName="gender" required>
+            <mat-option *ngFor="let gender of genders" [value]="gender">{{gender}}</mat-option>
+          </mat-select>
+          <mat-error>Gender is required!</mat-error>
+        </mat-form-field>
+        <br>
+        <mat-form-field appearance="fill">
+          <mat-label>Tattoo styles you make</mat-label>
+          <mat-select formControlName="tattooStyles" required multiple>
+            <mat-option *ngFor="let style of tattooStyles" [value]="style">{{style}}</mat-option>
+          </mat-select>
+          <mat-error>tattoo style is required!</mat-error>
+        </mat-form-field>
+        <br>
+        <mat-form-field appearance="fill" color="warn">
+          <mat-label>Language</mat-label>
+          <mat-select formControlName="languages" required multiple>
+            <mat-option *ngFor="let language of languages" [value]="language">{{language}}</mat-option>
+          </mat-select>
+          <mat-error>Language is required!</mat-error>
+        </mat-form-field>
+        <br>
         <mat-form-field appearance="fill">
           <mat-label>DAYS</mat-label>
           <mat-select formControlName="workDays" multiple>
@@ -24,6 +49,12 @@
           <mat-label>Enter Street</mat-label>
           <input matInput placeholder="street-name" formControlName="street" required>
           <mat-error>Street is required!</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" color="warn">
+          <mat-label>Career Description</mat-label>
+          <input matInput placeholder="career" formControlName="careerDescription" required>
+          <mat-error>Career Desc. is required!</mat-error>
         </mat-form-field>
         <br>
         <mat-form-field appearance="fill" color="warn">

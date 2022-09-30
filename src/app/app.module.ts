@@ -57,9 +57,22 @@ import { EditProfileBasicComponent } from './components/edit-profile-basic/edit-
 import { CahnnelListComponent } from './components/cahnnel-list/cahnnel-list.component';
 import { SwiperModule } from 'swiper/angular';
 import {AuthenticationGuard} from "./guards/authentication.guard";
+import { ReportsAdminPanelComponent } from './components/reports-admin-panel/reports-admin-panel.component';
+import { TattooWorkSearchComponent } from './components/tattoo-work-search/tattoo-work-search.component';
+import { TattooArtistSearchComponent } from './components/tattoo-artist-search/tattoo-artist-search.component';
+import {AdminGuard} from "./guards/admin.guard";
+import {hasCustomClaim ,redirectUnauthorizedTo,redirectLoggedInTo} from "@angular/fire/auth-guard";
+
+const adminOnly = () => hasCustomClaim('admin');
+const red = () => redirectLoggedInTo('/chats');
 
 const routes: Routes = [
   {path: 'me', component: MyProfileComponent,canActivate: [AuthenticationGuard]},
+  {path: 'me-edit', component: EditProfileComponent},
+  {path: 'tattoo-artist-search/:keyword', component: TattooArtistSearchComponent},
+  {path: 'tattoo-work-search/:keyword', component: TattooWorkSearchComponent},
+  // {path: 'admin-panel', component: ReportsAdminPanelComponent, canActivate: [AngularFireAuthGuard], data: { authGuardPipe: adminOnly ,redirectLoggedInTo: red}},
+  {path: 'admin-panel', component: ReportsAdminPanelComponent, canActivate: [AdminGuard]},
   {path: 'me-edit', component: EditProfileComponent},
   {path: 'me-edit-basic', component: EditProfileBasicComponent},//user update without artist page
   {path: 'tattoo-work/:id', component: TattooWorkDetailPageComponent},
@@ -89,7 +102,10 @@ const routes: Routes = [
     EditProfileComponent,
     TattooWorkDetailPageComponent,
     EditProfileBasicComponent,
-    CahnnelListComponent
+    CahnnelListComponent,
+    ReportsAdminPanelComponent,
+    TattooWorkSearchComponent,
+    TattooArtistSearchComponent
   ],
   imports: [
     BrowserModule,

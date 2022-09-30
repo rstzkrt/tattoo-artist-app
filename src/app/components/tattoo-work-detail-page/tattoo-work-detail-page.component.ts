@@ -103,6 +103,7 @@ export class TattooWorkDetailPageComponent implements OnInit {
     this.commentService.deleteCommentById(id, this.token).subscribe(() => {
       this.comment = null
       console.log("deleted")
+      window.location.replace("/home")
     })
   }
 
@@ -122,6 +123,7 @@ export class TattooWorkDetailPageComponent implements OnInit {
     let commentToUpdate: CommentPatchRequestDto = this.commentUpdateFormGroup.get('commentUpdateGroup').value;
     this.commentService.editComment(id, commentToUpdate, this.token).subscribe(comment => {
       this.comment = comment
+      window.location.replace("/home")
     })
     this.isClicked = !this.isClicked
   }

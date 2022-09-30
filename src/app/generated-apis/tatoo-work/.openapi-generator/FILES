@@ -11,6 +11,7 @@ model/currency.ts
 model/errorResponse.ts
 model/madeByInfo.ts
 model/models.ts
+model/tattooStyle.ts
 model/tattooWorkPatchRequestDto.ts
 model/tattooWorkPostRequestDto.ts
 model/tattooWorkResponsePageable.ts

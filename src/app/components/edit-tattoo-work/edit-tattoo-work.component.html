@@ -26,6 +26,14 @@
             <mat-error>Description is required!</mat-error>
           </mat-form-field>
           <br>
+          <mat-form-field appearance="fill">
+            <mat-label>Tattoo styles you make</mat-label>
+            <mat-select formControlName="tattooStyle" required>
+              <mat-option *ngFor="let style of tattooStyles" [value]="style">{{style}}</mat-option>
+            </mat-select>
+            <mat-error>tattoo style is required!</mat-error>
+          </mat-form-field>
+          <br>
           <mat-form-field appearance="fill" color="warn">
             <mat-label>Price</mat-label>
             <input matInput formControlName="price" required>

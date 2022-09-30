@@ -10,7 +10,9 @@
     "build-user-api": "openapi-generator-cli generate -g typescript-angular -i src/openapi/user-contract.yaml -o ./src/app/generated-apis/user",
     "build-review-api": "openapi-generator-cli generate -g typescript-angular -i src/openapi/review-contract.yaml -o ./src/app/generated-apis/review",
     "build-tatoo-work-api": "openapi-generator-cli generate -g typescript-angular -i src/openapi/tattoo-work-contract.yaml -o ./src/app/generated-apis/tatoo-work",
-    "build-comment-api": "openapi-generator-cli generate -g typescript-angular -i src/openapi/comment-contract.yaml -o ./src/app/generated-apis/comment"
+    "build-comment-api": "openapi-generator-cli generate -g typescript-angular -i src/openapi/comment-contract.yaml -o ./src/app/generated-apis/comment",
+    "build-user-report-api": "openapi-generator-cli generate -g typescript-angular -i src/openapi/user-report-contract.yaml -o ./src/app/generated-apis/user-report",
+    "build-tattoo-work-report-api": "openapi-generator-cli generate -g typescript-angular -i src/openapi/tattoo-work-report-contract.yaml -o ./src/app/generated-apis/tattoo-work-report"
   },
   "private": true,
   "dependencies": {

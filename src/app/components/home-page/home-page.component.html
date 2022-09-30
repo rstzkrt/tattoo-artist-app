@@ -28,15 +28,9 @@
   <mat-tab label="TattooWork">
 
     <mat-toolbar>
-      <form>
-        <mat-form-field>
-          <span matPrefix></span>
-          <input type="tel" matInput placeholder="Search" name="search">
-          <button matSuffix mat-button>
-            <mat-icon>search</mat-icon>
-          </button>
-        </mat-form-field>
-      </form>
+      <span matPrefix></span>
+      <input type="tel" matInput placeholder="Search" name="search">
+      <button matSuffix mat-button><mat-icon>search</mat-icon></button>
     </mat-toolbar>
 
     <div fxLayout="row wrap" style="margin-left: 50px;">
@@ -61,20 +55,19 @@
             <img mat-card-avatar
                  routerLink="/users/{{tattooWork.madeBy.id}}"
                  src="{{tattooWork.madeBy.avatarUrl}}"
-                 style="background-size: cover;cursor: pointer ; width: 45%;height: 45%;">
+                 style="background-size: cover;cursor: pointer ; width: 45%;height: 45%;max-width: 100px; max-height: 100px">
 
             <mat-card-title><br></mat-card-title>
             <mat-card-title> {{tattooWork.madeBy.firstName}} {{tattooWork.madeBy.lastName}}</mat-card-title>
-            <mat-card-subtitle><mat-icon>location_on</mat-icon>{{tattooWork.madeBy.country}}</mat-card-subtitle>
-            <mat-card-subtitle><br></mat-card-subtitle>
-            <mat-card-subtitle><mat-icon>apartment</mat-icon> Address:  {{tattooWork.madeBy.city}} , {{tattooWork.madeBy.state}} , {{tattooWork.madeBy.street}} , {{tattooWork.madeBy.postalCode}}</mat-card-subtitle>
-            <mat-card-subtitle><mat-icon>info</mat-icon>Other Information: {{tattooWork.madeBy.otherInformation}}</mat-card-subtitle>
-            <mat-card-subtitle><br></mat-card-subtitle>
+            <mat-card-subtitle>
+              <mat-icon>location_on</mat-icon>
+              {{tattooWork.madeBy.country}}</mat-card-subtitle>
           </mat-card-header>
 
           <div class="detailDiv">
             <img routerLink="/tattoo-work/{{tattooWork.id}}" mat-card-image
-                 style=" cursor: pointer; object-fit:cover ;max-height: 450px" class="cover-img" src="{{tattooWork.coverPhoto}}">
+                 style=" cursor: pointer; object-fit:cover ;max-height: 450px" class="cover-img"
+                 src="{{tattooWork.coverPhoto}}">
             <div class="detailButton">
               <button routerLink="/tattoo-work/{{tattooWork.id}}" mat-flat-button color="accent">See Details</button>
             </div>
@@ -116,23 +109,22 @@
     </footer>
   </mat-tab>
 
-
-
   <mat-tab label="TattooArtist">
+
     <mat-toolbar>
-      <form>
-        <mat-form-field>
-          <span matPrefix></span>
-          <input type="tel" matInput placeholder="Search" name="search">
-          <button matSuffix mat-button>
-            <mat-icon>search</mat-icon>
-          </button>
-        </mat-form-field>
-      </form>
+      <section>
+        <input matInput #searchInput type="text"
+               placeholder="Search"
+               (keyup.enter)="searchArtist(searchInput.value)">
+        <button (click)="searchArtist(searchInput.value)" matSuffix mat-button>
+          <mat-icon>search</mat-icon>
+        </button>
+      </section>
+
     </mat-toolbar>
 
     <div fxLayout="row wrap" style="margin-left: 50px">
-      <div fxFlex style="padding-bottom: 30px" *ngFor="let user of userList ">
+      <div fxFlex style="padding-bottom: 30px" *ngFor="let user of userList | async ">
         <mat-card style="width: 520px;">
           <mat-card-header>
             <section *ngIf="authenticatedUser" style="margin-left: auto">
@@ -147,11 +139,12 @@
             </section>
             <mat-card-title>{{user.firstName}}</mat-card-title>
             <mat-card-subtitle>{{user.city ? user.city : "nowhere"}}</mat-card-subtitle>
-                        <mat-card-subtitle>
-                          <div  fxLayout="row">
-                            <mat-icon style="margin-left: auto" color="primary">star</mat-icon><h1>{{user.averageRating}}</h1>
-                          </div>
-                        </mat-card-subtitle>
+            <mat-card-subtitle>
+              <div fxLayout="row">
+                <mat-icon style="margin-left: auto" color="primary">star</mat-icon>
+                <h1>{{user.averageRating}}</h1>
+              </div>
+            </mat-card-subtitle>
           </mat-card-header>
           <img routerLink="/users/{{user.id}}" mat-card-image style=" cursor: pointer; object-fit:cover; height: 80%"
                src="{{user.avatarUrl}}">

@@ -29,6 +29,8 @@ import { TattooArtistPriceInterval } from '../model/tattooArtistPriceInterval';
 // @ts-ignore
 import { TattooWorksResponseDto } from '../model/tattooWorksResponseDto';
 // @ts-ignore
+import { UserDocumentDto } from '../model/userDocumentDto';
+// @ts-ignore
 import { UserResponseDto } from '../model/userResponseDto';
 // @ts-ignore
 import { UserResponseDtoPageable } from '../model/userResponseDtoPageable';
@@ -982,6 +984,90 @@ export class DefaultService {
             null,
             {
                 context: localVarHttpContext,
+                responseType: <any>responseType_,
+                withCredentials: this.configuration.withCredentials,
+                headers: localVarHeaders,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * search
+     * @param query query keyword
+     * @param city query keyword
+     * @param country query keyword
+     * @param isTattooArtist query keyword
+     * @param averageRating query keyword
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public searchUsers(query: string, city?: string, country?: string, isTattooArtist?: boolean, averageRating?: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<Array<UserDocumentDto>>;
+    public searchUsers(query: string, city?: string, country?: string, isTattooArtist?: boolean, averageRating?: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<Array<UserDocumentDto>>>;
+    public searchUsers(query: string, city?: string, country?: string, isTattooArtist?: boolean, averageRating?: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<Array<UserDocumentDto>>>;
+    public searchUsers(query: string, city?: string, country?: string, isTattooArtist?: boolean, averageRating?: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
+        if (query === null || query === undefined) {
+            throw new Error('Required parameter query was null or undefined when calling searchUsers.');
+        }
+
+        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
+        if (query !== undefined && query !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>query, 'query');
+        }
+        if (city !== undefined && city !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>city, 'city');
+        }
+        if (country !== undefined && country !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>country, 'country');
+        }
+        if (isTattooArtist !== undefined && isTattooArtist !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>isTattooArtist, 'isTattooArtist');
+        }
+        if (averageRating !== undefined && averageRating !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>averageRating, 'averageRating');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (localVarHttpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+                'application/json'
+            ];
+            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        let localVarHttpContext: HttpContext | undefined = options && options.context;
+        if (localVarHttpContext === undefined) {
+            localVarHttpContext = new HttpContext();
+        }
+
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        return this.httpClient.get<Array<UserDocumentDto>>(`${this.configuration.basePath}/users/search`,
+            {
+                context: localVarHttpContext,
+                params: localVarQueryParameters,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,

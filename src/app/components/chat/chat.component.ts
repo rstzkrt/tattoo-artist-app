@@ -39,7 +39,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-
+    window.document.body.style.backgroundColor="#303030"
     this.afAuth.authState.subscribe(user => {
       const filter = {type: 'messaging', id: {$eq: this.channel_id}, members: {$in: [user.uid]}};
       this.streamI18nService.setTranslation();

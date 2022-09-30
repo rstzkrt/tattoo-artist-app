@@ -1,6 +1,7 @@
 export * from './currency';
 export * from './errorResponse';
 export * from './madeByInfo';
+export * from './tattooStyle';
 export * from './tattooWorkPatchRequestDto';
 export * from './tattooWorkPostRequestDto';
 export * from './tattooWorkResponsePageable';
