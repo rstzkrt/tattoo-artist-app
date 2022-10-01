@@ -86,17 +86,25 @@
         </mat-form-field>
 
         <br>
-        <mat-form-field appearance="fill" color="warn">
-          <mat-label>Enter city</mat-label>
-          <input matInput placeholder="example@example.com" formControlName="city" required>
-          <mat-error>city is required!</mat-error>
-        </mat-form-field>
-        <br>
+
+
         <mat-form-field appearance="fill" color="warn">
           <mat-label>Enter country</mat-label>
-          <input matInput placeholder="example@example.com" formControlName="country" required>
+          <mat-select formControlName="country" required>
+            <mat-option *ngFor="let country of countries" (onSelectionChange)="onCitySelection(country)" [value]="country">{{country}}</mat-option>
+          </mat-select>
           <mat-error>country is required!</mat-error>
         </mat-form-field>
+        <br>
+
+        <mat-form-field appearance="fill" color="warn">
+          <mat-label>Enter city</mat-label>
+          <mat-select formControlName="city" required>
+            <mat-option *ngFor="let city of cities" [value]="city">{{city}}</mat-option>
+          </mat-select>
+          <mat-error>city is required!</mat-error>
+        </mat-form-field>
+
         <br>
         <mat-form-field appearance="fill" color="warn">
           <mat-label>Enter state</mat-label>
