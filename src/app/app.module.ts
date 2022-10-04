@@ -29,7 +29,7 @@ import {ChatComponent} from './components/chat/chat.component';
 import {AuthModule} from "@angular/fire/auth";
 import {AngularFireFunctionsModule, REGION} from "@angular/fire/compat/functions";
 import {RouterModule, Routes} from "@angular/router";
-import {ReactiveFormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {MatNativeDateModule, MatOptionModule} from "@angular/material/core";
 import {MatButtonModule} from "@angular/material/button";
@@ -57,11 +57,14 @@ import { EditProfileBasicComponent } from './components/edit-profile-basic/edit-
 import { CahnnelListComponent } from './components/cahnnel-list/cahnnel-list.component';
 import { SwiperModule } from 'swiper/angular';
 import {AuthenticationGuard} from "./guards/authentication.guard";
-import { ReportsAdminPanelComponent } from './components/reports-admin-panel/reports-admin-panel.component';
 import { TattooWorkSearchComponent } from './components/tattoo-work-search/tattoo-work-search.component';
 import { TattooArtistSearchComponent } from './components/tattoo-artist-search/tattoo-artist-search.component';
 import {AdminGuard} from "./guards/admin.guard";
 import {hasCustomClaim ,redirectUnauthorizedTo,redirectLoggedInTo} from "@angular/fire/auth-guard";
+import { TattooWorkReportsComponent } from './components/tattoo-work-reports/tattoo-work-reports.component';
+import { UserReportsComponent } from './components/user-reports/user-reports.component';
+import {MatMenuModule} from "@angular/material/menu";
+import {MatStepperModule} from "@angular/material/stepper";
 
 const adminOnly = () => hasCustomClaim('admin');
 const red = () => redirectLoggedInTo('/chats');
@@ -72,9 +75,10 @@ const routes: Routes = [
   {path: 'tattoo-artist-search/:keyword', component: TattooArtistSearchComponent},
   {path: 'tattoo-work-search/:keyword', component: TattooWorkSearchComponent},
   // {path: 'admin-panel', component: ReportsAdminPanelComponent, canActivate: [AngularFireAuthGuard], data: { authGuardPipe: adminOnly ,redirectLoggedInTo: red}},
-  {path: 'admin-panel', component: ReportsAdminPanelComponent, canActivate: [AdminGuard]},
+  {path: 'user-reports', component: UserReportsComponent }, //TODO add admin guard
+  {path: 'tattoo-work-reports', component: TattooWorkReportsComponent }, //TODO add admin guard
   {path: 'me-edit', component: EditProfileComponent},
-  {path: 'me-edit-basic', component: EditProfileBasicComponent},//user update without artist page
+  {path: 'me-edit-basic', component: EditProfileBasicComponent},
   {path: 'tattoo-work/:id', component: TattooWorkDetailPageComponent},
   {path: 'chats', component: ChatComponent},
   {path: 'chats/:id', component: ChatComponent},
@@ -103,9 +107,10 @@ const routes: Routes = [
     TattooWorkDetailPageComponent,
     EditProfileBasicComponent,
     CahnnelListComponent,
-    ReportsAdminPanelComponent,
     TattooWorkSearchComponent,
-    TattooArtistSearchComponent
+    TattooArtistSearchComponent,
+    TattooWorkReportsComponent,
+    UserReportsComponent
   ],
   imports: [
     BrowserModule,
@@ -150,7 +155,10 @@ const routes: Routes = [
     MatTooltipModule,
     MatCarouselModule.forRoot(),
     MatCheckboxModule,
-    SwiperModule
+    SwiperModule,
+    MatMenuModule,
+    MatStepperModule,
+    FormsModule
   ],
   providers: [{provide: REGION, useValue: 'europe-central2'}],
   bootstrap: [AppComponent]

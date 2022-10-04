@@ -5,5 +5,6 @@ export * from './tattooStyle';
 export * from './tattooWorkPatchRequestDto';
 export * from './tattooWorkPostRequestDto';
 export * from './tattooWorkResponsePageable';
+export * from './tattooWorkTakenReportDto';
 export * from './tattooWorksResponseDto';
 export * from './workingDays';

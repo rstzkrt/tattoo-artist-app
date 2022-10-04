@@ -1,5 +1,6 @@
 <mat-toolbar color="primary">
   <section>
+
     <mat-chip-list aria-label=" selection">
       <mat-chip color="primary">
         Poland
@@ -20,7 +21,28 @@
         </button>
       </mat-chip>
     </mat-chip-list>
+
   </section>
+
+
+  <mat-slider #mx (valueChange)="maxPrice=mx.value"
+    thumbLabel
+    [displayWith]="formatLabel"
+    tickInterval="100"
+    step="100"
+    min="0"
+    max="10000"
+    aria-label="units"></mat-slider>
+
+  <mat-slider #mn (valueChange)="minPrice=mn.value"
+              thumbLabel
+              [displayWith]="formatLabel"
+              tickInterval="100"
+              step="100"
+              min="0"
+              max="10000"
+              aria-label="units"></mat-slider>
+
 </mat-toolbar>
 
 <mat-tab-group color="primary" backgroundColor="primary" mat-align-tabs="center">
@@ -28,9 +50,14 @@
   <mat-tab label="TattooWork">
 
     <mat-toolbar>
-      <span matPrefix></span>
-      <input type="tel" matInput placeholder="Search" name="search">
-      <button matSuffix mat-button><mat-icon>search</mat-icon></button>
+      <section>
+        <input matInput #searchInput type="text"
+               placeholder="Search"
+               (keyup.enter)="searchTattooWork(searchInput.value)">
+        <button (click)="searchTattooWork(searchInput.value)" matSuffix mat-button>
+          <mat-icon>search</mat-icon>
+        </button>
+      </section>
     </mat-toolbar>
 
     <div fxLayout="row wrap" style="margin-left: 50px;">

@@ -450,4 +450,85 @@ export class DefaultService {
         );
     }
 
+    /**
+     * search
+     * @param query descrptn
+     * @param minPrice query keyword
+     * @param maxPrice query keyword
+     * @param currency query keyword
+     * @param tattooStyle query tattooStyle
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public searchTattooWorks(query?: string, minPrice?: number, maxPrice?: number, currency?: string, tattooStyle?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<Array<TattooWorksResponseDto>>;
+    public searchTattooWorks(query?: string, minPrice?: number, maxPrice?: number, currency?: string, tattooStyle?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<Array<TattooWorksResponseDto>>>;
+    public searchTattooWorks(query?: string, minPrice?: number, maxPrice?: number, currency?: string, tattooStyle?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<Array<TattooWorksResponseDto>>>;
+    public searchTattooWorks(query?: string, minPrice?: number, maxPrice?: number, currency?: string, tattooStyle?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
+
+        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
+        if (query !== undefined && query !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>query, 'query');
+        }
+        if (minPrice !== undefined && minPrice !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>minPrice, 'min_price');
+        }
+        if (maxPrice !== undefined && maxPrice !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>maxPrice, 'max_price');
+        }
+        if (currency !== undefined && currency !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>currency, 'currency');
+        }
+        if (tattooStyle !== undefined && tattooStyle !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>tattooStyle, 'tattooStyle');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (localVarHttpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+                'application/json'
+            ];
+            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        let localVarHttpContext: HttpContext | undefined = options && options.context;
+        if (localVarHttpContext === undefined) {
+            localVarHttpContext = new HttpContext();
+        }
+
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        return this.httpClient.get<Array<TattooWorksResponseDto>>(`${this.configuration.basePath}/tattoo-works/search`,
+            {
+                context: localVarHttpContext,
+                params: localVarQueryParameters,
+                responseType: <any>responseType_,
+                withCredentials: this.configuration.withCredentials,
+                headers: localVarHeaders,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
 }

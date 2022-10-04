@@ -15,6 +15,7 @@ model/tattooStyle.ts
 model/tattooWorkPatchRequestDto.ts
 model/tattooWorkPostRequestDto.ts
 model/tattooWorkResponsePageable.ts
+model/tattooWorkTakenReportDto.ts
 model/tattooWorksResponseDto.ts
 model/workingDays.ts
 variables.ts

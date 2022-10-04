@@ -25,13 +25,15 @@
       <p style="text-align: center">{{tattooWork.madeBy.state}}</p>
       <p style="text-align: center">{{tattooWork.madeBy.street}}</p>
 
-      <button *ngIf="tattooWork.madeBy.id !== authenticatedUser?.id" (click)="handleSendMessage(tattooWork.madeBy.id)" mat-flat-button color="accent" style="width: 100%">Send
+      <button *ngIf="tattooWork.madeBy.id !== authenticatedUser?.id" (click)="handleSendMessage(tattooWork.madeBy.id)"
+              mat-flat-button color="accent" style="width: 100%">Send
         direct message to owner
       </button>
 
     </mat-sidenav>
 
     <mat-sidenav-content>
+
       <button *ngIf="!sidenav.opened" mat-button (click)="sidenav.toggle()">
         <mat-icon>arrow_forward_ios_new</mat-icon>
       </button>
@@ -39,8 +41,32 @@
         <mat-icon>arrow_back_ios_new</mat-icon>
       </button>
 
-      <button *ngIf="tattooWork.madeBy.id===authenticatedUser?.id" style="margin-left: auto" routerLink="/edit-tattoo-work/{{tattooWork.id}}" mat-flat-button color="primary">edit tattoo work</button>
-      <button *ngIf="tattooWork.madeBy.id===authenticatedUser?.id" style="margin-left: auto" (click)="deleteTattooWork(tattooWork.id)" mat-flat-button color="warn">delete tattoo work</button>
+      <button *ngIf="tattooWork.madeBy.id===authenticatedUser?.id" style="margin-left: auto"
+              routerLink="/edit-tattoo-work/{{tattooWork.id}}" mat-flat-button color="primary">edit tattoo work
+      </button>
+      <button *ngIf="tattooWork.madeBy.id===authenticatedUser?.id" style="margin-left: auto"
+              (click)="deleteTattooWork(tattooWork.id)" mat-flat-button color="warn">delete tattoo work
+      </button>
+
+
+      <button *ngIf="isReportClicked == true && !authenticatedUser.tattooWorkReports.includes(tattooWork.id)" mat-icon-button (click)="handleReport()">
+        <span>REPORT</span>
+        <mat-icon>more_vert</mat-icon>
+      </button>
+
+      <div *ngIf="isReportClicked == false">
+        <form [formGroup]="reportFormGroup">
+          <div fxLayout="row">
+            <div formGroupName="reportGroup">
+              <mat-form-field appearance="fill" color="accent">
+                <mat-label>Report Description</mat-label>
+                <input matInput formControlName="description" required>
+              </mat-form-field>
+            </div>
+            <button mat-flat-button color="accent" (click)="reportTattooWork(tattooWork.id)">REPORT</button>
+          </div>
+        </form>
+      </div>
 
       <div style="margin-left: 5%; ">
         <swiper
@@ -51,7 +77,7 @@
           [thumbs]="{ swiper: thumbsSwiper }"
           class="mySwiper2">
           <ng-template swiperSlide *ngFor="let image of images">
-            <img src="{{image}}" />
+            <img src="{{image}}"/>
           </ng-template>
         </swiper>
         <swiper
@@ -62,7 +88,7 @@
           [watchSlidesProgress]="true"
           class="mySwiper">
           <ng-template swiperSlide *ngFor="let image of images">
-            <img class="img1" src="{{image}}" />
+            <img class="img1" src="{{image}}"/>
           </ng-template>
         </swiper>
 
@@ -73,7 +99,6 @@
 
         <hr>
         <h1>Comment</h1>
-
 
         <div *ngIf=" (tattooWork.clientId === authenticatedUser?.id) && (comment===null)">
           <form *ngIf="commentFormGroup" [formGroup]="commentFormGroup" (ngSubmit)="submit()">
@@ -90,7 +115,9 @@
                 </mat-select>
                 <mat-error>Rate is required !</mat-error>
               </mat-form-field>
-              <button [disabled]="!commentFormGroup.valid" mat-button mat-flat-button color="accent" (submit)="submit()">Send</button>
+              <button [disabled]="!commentFormGroup.valid" mat-button mat-flat-button color="accent"
+                      (submit)="submit()">Send
+              </button>
             </div>
           </form>
         </div>
@@ -123,7 +150,8 @@
                       </mat-select>
                       <mat-error>Rate is required !</mat-error>
                     </mat-form-field>
-                    <button [disabled]="!commentUpdateFormGroup.valid" *ngIf="comment.postedBy.id==authenticatedUser?.id" mat-flat-button
+                    <button [disabled]="!commentUpdateFormGroup.valid"
+                            *ngIf="comment.postedBy.id==authenticatedUser?.id" mat-flat-button
                             color="accent" (click)="editComment(comment.id)">update
                     </button>
                   </div>
@@ -142,11 +170,8 @@
               <hr>
             </mat-card-actions>
           </mat-card>
-
         </div>
-
       </div>
     </mat-sidenav-content>
   </mat-sidenav-container>
-
 </div>

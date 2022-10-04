@@ -15,6 +15,9 @@ import {TattooWorksResponseDto} from "../../generated-apis/tatoo-work";
 import {PageEvent} from "@angular/material/paginator";
 import {TattooWorkService} from "../../services/tattoo-work.service";
 import {StorageService} from "../../services/storage.service";
+import {UserReportService} from "../../services/user-report.service";
+import {UserReportPostReqDto} from "../../generated-apis/user-report";
+import {TattooWorkReportPost} from "../../common/tattooWorkReportPost";
 
 @Component({
   selector: 'app-user-profile',
@@ -35,6 +38,8 @@ export class UserProfileComponent implements OnInit {
   reviewUpdateFormGroup: FormGroup;
   authenticatedUser: User
   token: string
+  isReportClicked: boolean = true;
+  reportFormGroup: FormGroup;
 
   constructor(public userService: UserService,
               public authService: AuthService,
@@ -44,18 +49,25 @@ export class UserProfileComponent implements OnInit {
               private dialog: MatDialog,
               private afAuth: AngularFireAuth,
               private tattooWorkService: TattooWorkService,
-              private storageService: StorageService
+              private storageService: StorageService,
+              private userReportService: UserReportService
   ) {
     this.target_uid = this.routeCurr.snapshot.paramMap.get('id')
     userService.getUserById(this.target_uid).subscribe(user => {
       this.user = user;
     });
+    this.reportFormGroup = new FormGroup({
+      reportGroup: new FormGroup({
+        description: new FormControl('')
+      })
+    })
   }
 
   ngOnInit(): void {
     this.token = this.storageService.getToken()
     console.log(this.token)
     this.authenticatedUser = this.storageService.getUser()
+    console.log(this.authenticatedUser.userReports)
     this.getTattoos(0, 20)
     this.reviewService.getAllReviewByUserId(this.target_uid).subscribe(data => {
       this.userReviews = data
@@ -181,4 +193,24 @@ export class UserProfileComponent implements OnInit {
     })
     this.isClicked = !this.isClicked;
   }
+
+  reportUser(id: string) {
+    let authenticatedUserId = this.storageService.getUser().id;
+    let userReport: UserReportPostReqDto = this.reportFormGroup.get('reportGroup').value;
+    userReport.reportedUserId= id;
+    userReport.reportOwnerId=authenticatedUserId;
+    this.userReportService.createUserReport(userReport, this.storageService.getToken()).subscribe(data => {
+      console.log(data)
+      this.userService.fetchAuthenticatedUser(this.storageService.getToken()).subscribe(user=>{
+        this.storageService.saveUser(user)
+        this.isReportClicked = !this.isReportClicked
+      })
+    })
+
+  }
+
+  handleReport() {
+    this.isReportClicked = !this.isReportClicked
+  }
+
 }

@@ -690,6 +690,17 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Language'
+        tattooWorkReports:
+          type: array
+          items:
+            type: string
+            format: uuid
+        userReports:
+          type: array
+          items:
+            type: string
+            format: uuid
+
 
     Gender:
       enum:

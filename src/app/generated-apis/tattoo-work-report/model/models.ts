@@ -8,6 +8,7 @@ export * from './tattooWorkReportPatchReqDto';
 export * from './tattooWorkReportPostReqDto';
 export * from './tattooWorkReportResDto';
 export * from './tattooWorkReportResPageable';
+export * from './tattooWorkTakenReportDto';
 export * from './tattooWorksResponseDto';
 export * from './userResponseDto';
 export * from './workingDays';

@@ -85,6 +85,26 @@
       <button *ngIf="sidenav.opened" mat-button (click)="sidenav.toggle()"><mat-icon>arrow_back_ios_new</mat-icon></button>
       <h1 style="text-align: center">{{user.firstName}} {{user.lastName}}</h1>
 
+      <button *ngIf="isReportClicked == true && !authenticatedUser.userReports.includes(user.id)" mat-icon-button (click)="handleReport()">
+        <span>REPORT_USER</span>
+        <mat-icon>more_vert</mat-icon>
+      </button>
+
+      <div *ngIf="isReportClicked == false">
+        <form [formGroup]="reportFormGroup">
+          <div fxLayout="row">
+            <div formGroupName="reportGroup">
+              <mat-form-field appearance="fill" color="accent">
+                <mat-label>Report Description</mat-label>
+                <input matInput formControlName="description" required>
+              </mat-form-field>
+            </div>
+            <button mat-flat-button color="accent" (click)="reportUser(user.id)">REPORT</button>
+          </div>
+        </form>
+      </div>
+
+
       <img style="margin-left: 25%; width: 50%; height: 50%" src="{{user.avatarUrl}}" >
       <h1 style="text-align: center">email:{{user.email}}</h1>
       <h1 style="text-align: center">average rating:{{user.averageRating}}</h1>

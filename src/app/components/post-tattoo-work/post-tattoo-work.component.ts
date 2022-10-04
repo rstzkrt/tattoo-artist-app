@@ -28,6 +28,7 @@ export class PostTattooWorkComponent implements OnInit {
   token:string
   tattooStyles: TattooStyle[]= [TattooStyle.Tribal, TattooStyle.Tribal,TattooStyle.AsianOriental,TattooStyle.Biomechanical,TattooStyle.DotWork,TattooStyle.Script,TattooStyle.BlackAndGrey,TattooStyle.NewSchool,"OLD_SCHOOL",TattooStyle.Portraits,"WATERCOLOUR",TattooStyle.Realistic];
   autocompleteList: Observable<UserDocumentDto[]>;
+  clientId:string;
 
   constructor(private formBuilder: FormBuilder,
               private authService: AuthService,
@@ -72,6 +73,7 @@ export class PostTattooWorkComponent implements OnInit {
     let tattooWork:TattooWorkPostRequestDto = this.postTattooWorkFormGroup.get('postTattooWork').value;
     tattooWork.photos=this.imageUrlList
     tattooWork.coverPhoto=this.imageUrlList[0]
+    tattooWork.clientId= this.clientId;
     if(tattooWork.photos.length<1){
       alert("Please choose at least 3 photos")
     }else {
@@ -104,5 +106,8 @@ export class PostTattooWorkComponent implements OnInit {
       })
     });
     console.log(this.imageUrlList.length)
+  }
+  selectClient(id: string) {
+    this.clientId=id;
   }
 }

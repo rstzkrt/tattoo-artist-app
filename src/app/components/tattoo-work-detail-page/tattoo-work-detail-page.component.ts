@@ -1,8 +1,8 @@
-import {Component, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
+import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {TattooWorkService} from "../../services/tattoo-work.service";
 import {Observable} from "rxjs";
-import {TattooWorksResponseDto} from "../../generated-apis/user";
+import {TattooWorksResponseDto} from "../../generated-apis/tatoo-work";
 import {AuthService} from "../../services/auth.service";
 import {UserService} from "../../services/user.service";
 import {AngularFireAuth} from "@angular/fire/compat/auth";
@@ -11,13 +11,13 @@ import {environment} from "../../../environments/environment";
 import {CommentPatchRequestDto, CommentRequestDto, CommentResponseDto} from "../../generated-apis/comment";
 import {FormControl, FormGroup} from "@angular/forms";
 import {CommentService} from "../../services/comment.service";
-
 import SwiperCore, {FreeMode, Navigation, Thumbs} from "swiper";
 import {User} from "../../common/user";
 import {StorageService} from "../../services/storage.service";
+import {TattooWorkReportService} from "../../services/tattoo-work-report.service";
+import {TattooWorkReportPost} from "../../common/tattooWorkReportPost";
 
 SwiperCore.use([FreeMode, Navigation, Thumbs]);
-
 
 @Component({
   selector: 'app-tattoo-work-detail-page',
@@ -38,6 +38,8 @@ export class TattooWorkDetailPageComponent implements OnInit {
   images: Array<string> = []
   authenticatedUser: User;
   token: string;
+  reportFormGroup: FormGroup;
+  isReportClicked:boolean=true;
 
   constructor(private activatedRoute: ActivatedRoute,
               private tattooWorkService: TattooWorkService,
@@ -47,8 +49,14 @@ export class TattooWorkDetailPageComponent implements OnInit {
               private router: Router,
               private commentService: CommentService,
               private storageService: StorageService,
+              private tattooWorkReportService:TattooWorkReportService
   ) {
     this.id = this.activatedRoute.snapshot.paramMap.get('id')
+    this.reportFormGroup = new FormGroup({
+      reportGroup: new FormGroup({
+        description: new FormControl('')
+      })
+    })
   }
 
   ngOnInit(): void {
@@ -151,4 +159,22 @@ export class TattooWorkDetailPageComponent implements OnInit {
     })
   }
 
+  handleReport(){
+    this.isReportClicked=!this.isReportClicked;
+  }
+
+  reportTattooWork(id: string) {
+    let tattooWorkReport: TattooWorkReportPost = this.reportFormGroup.get('reportGroup').value;
+    tattooWorkReport.reportedTattooWorkId=id;
+    tattooWorkReport.reportOwnerId=this.storageService.getUser().id
+
+    this.tattooWorkReportService.createTattooWorkReport(tattooWorkReport,this.storageService.getToken()).subscribe(data=>{
+      console.log(data)
+      console.log("REPORTED")
+      this.userService.fetchAuthenticatedUser(this.storageService.getToken()).subscribe(user=>{
+        this.storageService.saveUser(user)
+        this.isReportClicked = !this.isReportClicked
+      })
+    })
+  }
 }

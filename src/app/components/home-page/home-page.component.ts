@@ -26,6 +26,17 @@ export class HomePageComponent implements OnInit {
   authenticatedUser: User;
   filteredUsers:Map<string,UserDocumentDto>=new Map<string, UserDocumentDto>();
 
+  //
+  city:string
+  country:string
+  isTattooArtist:boolean
+
+  //
+  minPrice:number;
+  maxPrice:number;
+  currency:string;
+
+
   constructor(public userService: UserService,
               public authService: AuthService,
               private tattooWorkService: TattooWorkService,
@@ -136,8 +147,19 @@ export class HomePageComponent implements OnInit {
   unFavoriteTattooArtist(tattoo_artist_id: string) {
     this.userService.unfavoriteTattooArtist(tattoo_artist_id, this.token).subscribe(() => {
       this.fetchUser()
-      // this.getUsers(0, 20)
       console.log("unFavorite")
     })
+  }
+
+  searchTattooWork(value: string) {
+    this.tattooService.searchTattooWorks(value,null,null,null,null).subscribe(data=>{
+      this.tattooWorkList = data;
+    })
+  }
+  formatLabel(value: number) {
+    if (value >= 1000) {
+      return Math.round(value / 1000) + 'k';
+    }
+    return value;
   }
 }

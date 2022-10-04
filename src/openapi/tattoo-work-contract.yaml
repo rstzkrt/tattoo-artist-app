@@ -71,6 +71,57 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
 
+  /tattoo-works/search:
+    get:
+      operationId: searchTattooWorks
+      description: search
+      parameters:
+        - in: query
+          name: query
+          description: descrptn
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: min_price
+          description: query keyword
+          required: false
+          schema:
+            type: integer
+        - in: query
+          name: max_price
+          description: query keyword
+          required: false
+          schema:
+            type: integer
+        - in: query
+          name: currency
+          description: query keyword
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: tattooStyle
+          description: query tattooStyle
+          required: false
+          schema:
+            type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TattooWorksResponseDto'
+        default:
+          description: error payload
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
   /tattoo-works/{id}:
     get:
       operationId: getTattooWorkById
@@ -238,6 +289,19 @@ components:
             format: uuid
         tattooStyle:
           $ref: '#/components/schemas/TattooStyle'
+        takenReports:
+          type: array
+          items:
+            $ref: '#/components/schemas/TattooWorkTakenReportDto'
+
+    TattooWorkTakenReportDto:
+      properties:
+        reportOwner:
+          type: string
+          format: uuid
+        reportedTattooWork:
+          type: string
+          format: uuid
 
     TattooWorkResponsePageable:
       properties:

@@ -42,5 +42,7 @@ export interface UserResponseDto {
     careerDescription?: string;
     gender?: Gender;
     languages?: Array<Language>;
+    tattooWorkReports?: Array<string>;
+    userReports?: Array<string>;
 }
 

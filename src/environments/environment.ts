@@ -14,7 +14,8 @@ export const environment = {
   },
   stream: {
     key: 'rgktfw92g4p6'
-  }
+  },
+  citiesApiKey: "SjZJeDc5RTN4S2NtN3lrQ3NieEdMbDhtMDZTbE9lQmJWRXlFTmJGSQ=="
 };
 
 /*

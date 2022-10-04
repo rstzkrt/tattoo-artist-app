@@ -18,6 +18,7 @@ model/tattooWorkReportPatchReqDto.ts
 model/tattooWorkReportPostReqDto.ts
 model/tattooWorkReportResDto.ts
 model/tattooWorkReportResPageable.ts
+model/tattooWorkTakenReportDto.ts
 model/tattooWorksResponseDto.ts
 model/userResponseDto.ts
 model/workingDays.ts

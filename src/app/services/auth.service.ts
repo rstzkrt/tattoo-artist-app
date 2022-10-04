@@ -12,7 +12,6 @@ import {EmailLoginReq, Login, LoginDialogComponent} from "../components/login-di
 import {MatDialog} from "@angular/material/dialog";
 import {StorageService} from "./storage.service";
 import {Router} from "@angular/router";
-import {getMatIconFailedToSanitizeLiteralError} from "@angular/material/icon";
 
 @Injectable({
   providedIn: 'root'
@@ -43,13 +42,14 @@ export class AuthService {
           this.storageService.saveToken(token)
           this.userObservable = userService.fetchAuthenticatedUser(token)
           userService.fetchAuthenticatedUser(token).subscribe(data => {
+            console.log(token)
             this.storageService.saveUser(data)
             this.authenticatedUser = data;
           }, error => console.error(error))
         })
       }
-
     })
+
     this.afAuth.onIdTokenChanged(function (user) {
       if (user) {
         user.getIdToken().then(data => {

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {DefaultService, UserReportPatchReqDto, UserReportPostReqDto} from "../generated-apis/user-report";
+import {retry} from "rxjs/operators";
 
 @Injectable({
   providedIn: 'root'
@@ -15,26 +16,26 @@ export class UserReportService {
 
   closeReport(id: string,token:string){
     this.userReportService.configuration.credentials= {"bearerAuth": token};
-    this.userReportService.closeReport(id)
+   return this.userReportService.closeReport(id)
   }
 
   createUserReport(userReportPostReqDto: UserReportPostReqDto ,token:string){
     this.userReportService.configuration.credentials= {"bearerAuth": token};
-    this.userReportService.createUserReport(userReportPostReqDto)
+    return this.userReportService.createUserReport(userReportPostReqDto)
   }
 
-  getAllUserReports(page: number, size: number, token:string){
+  getAllUserReports(page: number, size: number, token:string) {
     this.userReportService.configuration.credentials= {"bearerAuth": token};
-    this.userReportService.getAllUserReports(page, size)
+    return this.userReportService.getAllUserReports(page, size)
   }
 
   getUserReportById(id: string,token:string){
     this.userReportService.configuration.credentials= {"bearerAuth": token};
-    this.userReportService.getUserReportById(id)
+   return  this.userReportService.getUserReportById(id)
   }
 
   updateUserReport(id: string, userReportPatchReqDto: UserReportPatchReqDto,token:string){
     this.userReportService.configuration.credentials= {"bearerAuth": token};
-    this.userReportService.updateUserReport(id,userReportPatchReqDto)
+    return this.userReportService.updateUserReport(id,userReportPatchReqDto)
   }
 }

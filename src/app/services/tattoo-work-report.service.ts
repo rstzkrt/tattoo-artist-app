@@ -19,27 +19,27 @@ export class TattooWorkReportService {
 
   createTattooWorkReport(tattooWorkReportPostReqDto:TattooWorkReportPostReqDto,token:string){
     this.tattooWorkReportService.configuration.credentials= {"bearerAuth": token};
-    this.tattooWorkReportService.createTattooWorkReport(tattooWorkReportPostReqDto)
+    return  this.tattooWorkReportService.createTattooWorkReport(tattooWorkReportPostReqDto)
   }
 
   getAllTattooWorkReports(page: number, size: number,token:string){
     this.tattooWorkReportService.configuration.credentials= {"bearerAuth": token};
-    this.tattooWorkReportService.getAllTattooWorkReports(page,size)
+    return this.tattooWorkReportService.getAllTattooWorkReports(page,size)
   }
 
   getTattooWorkReportById(id: string,token:string){
     this.tattooWorkReportService.configuration.credentials= {"bearerAuth": token};
-    this.tattooWorkReportService.getTattooWorkReportById(id)
+    return this.tattooWorkReportService.getTattooWorkReportById(id)
   }
 
   removeTattooWorkReport(id: string,token:string){
     this.tattooWorkReportService.configuration.credentials= {"bearerAuth": token};
-    this.tattooWorkReportService.removeTattooWorkReport(id)
+    return this.tattooWorkReportService.removeTattooWorkReport(id)
   }
 
   updateTattooWorkReport(id: string, tattooWorkReportPatchReqDto: TattooWorkReportPatchReqDto,token:string){
     this.tattooWorkReportService.configuration.credentials= {"bearerAuth": token};
-    this.tattooWorkReportService.updateTattooWorkReport(id,tattooWorkReportPatchReqDto)
+    return this.tattooWorkReportService.updateTattooWorkReport(id,tattooWorkReportPatchReqDto)
 
   }
 }
