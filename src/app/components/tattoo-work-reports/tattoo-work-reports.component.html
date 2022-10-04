@@ -1,0 +1,60 @@
+<mat-toolbar>
+  <section>
+    <button routerLink="/user-reports" mat-raised-button>
+      User Reports
+    </button>
+  </section>
+  <section style="margin-left: auto">
+    <mat-paginator [pageSizeOptions]="[2, 5, 10, 25, 100]" [pageSize]="10" [length]="TotalElements"
+                   (page)="nextPageTattooWorkReport($event)"></mat-paginator>
+  </section>
+</mat-toolbar>
+<table mat-table [dataSource]="tattooWorkReportRequests" style="width: 100%">
+
+  <ng-container matColumnDef="id">
+    <th mat-header-cell *matHeaderCellDef> id </th>
+    <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="description">
+    <th mat-header-cell *matHeaderCellDef> description </th>
+    <td mat-cell *matCellDef="let element">
+      {{element.description}}
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="date">
+    <th mat-header-cell *matHeaderCellDef> date </th>
+    <td mat-cell *matCellDef="let element"> {{ element.date}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="reportOwner">
+    <th mat-header-cell *matHeaderCellDef> reportOwner </th>
+    <td mat-cell *matCellDef="let element"> {{element.reportOwner.firstName}} {{element.reportOwner.lastName}}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="reportedTattooWork">
+    <th mat-header-cell *matHeaderCellDef> reportedTattooWork </th>
+    <td mat-cell *matCellDef="let element"> {{element.reportedTattooWork.id}}
+      <button style="margin-left: 10%" color="warn" mat-icon-button
+              (click)="closeCase(element.id)"> close case
+        <mat-icon>
+          cancel
+        </mat-icon>
+      </button>
+      <button style="margin-left: 10%" color="warn" mat-icon-button
+              (click)="removeTattooWork(element.reportedTattooWork.id)"> remove tattooWork
+        <mat-icon>
+          cancel
+        </mat-icon>
+      </button>
+
+      <br>
+      <a routerLink="/tattoo-work/{{element.reportedTattooWork.id}}">reported tattooWork detail page</a>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+
