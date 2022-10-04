@@ -23,6 +23,8 @@ import { ClientReqDto } from '../model/clientReqDto';
 // @ts-ignore
 import { ErrorResponse } from '../model/errorResponse';
 // @ts-ignore
+import { Gender } from '../model/gender';
+// @ts-ignore
 import { TattooArtistAccReqDto } from '../model/tattooArtistAccReqDto';
 // @ts-ignore
 import { TattooArtistPriceInterval } from '../model/tattooArtistPriceInterval';
@@ -1000,13 +1002,15 @@ export class DefaultService {
      * @param country query keyword
      * @param isTattooArtist query keyword
      * @param averageRating query keyword
+     * @param languages query languages
+     * @param gender query gender
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public searchUsers(query: string, city?: string, country?: string, isTattooArtist?: boolean, averageRating?: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<Array<UserDocumentDto>>;
-    public searchUsers(query: string, city?: string, country?: string, isTattooArtist?: boolean, averageRating?: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<Array<UserDocumentDto>>>;
-    public searchUsers(query: string, city?: string, country?: string, isTattooArtist?: boolean, averageRating?: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<Array<UserDocumentDto>>>;
-    public searchUsers(query: string, city?: string, country?: string, isTattooArtist?: boolean, averageRating?: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
+    public searchUsers(query: string, city?: string, country?: string, isTattooArtist?: boolean, averageRating?: number, languages?: Array<string>, gender?: Gender, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<Array<UserDocumentDto>>;
+    public searchUsers(query: string, city?: string, country?: string, isTattooArtist?: boolean, averageRating?: number, languages?: Array<string>, gender?: Gender, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<Array<UserDocumentDto>>>;
+    public searchUsers(query: string, city?: string, country?: string, isTattooArtist?: boolean, averageRating?: number, languages?: Array<string>, gender?: Gender, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<Array<UserDocumentDto>>>;
+    public searchUsers(query: string, city?: string, country?: string, isTattooArtist?: boolean, averageRating?: number, languages?: Array<string>, gender?: Gender, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
         if (query === null || query === undefined) {
             throw new Error('Required parameter query was null or undefined when calling searchUsers.');
         }
@@ -1031,6 +1035,16 @@ export class DefaultService {
         if (averageRating !== undefined && averageRating !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
             <any>averageRating, 'averageRating');
+        }
+        if (languages) {
+            languages.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'languages');
+            })
+        }
+        if (gender !== undefined && gender !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>gender, 'gender');
         }
 
         let localVarHeaders = this.defaultHeaders;

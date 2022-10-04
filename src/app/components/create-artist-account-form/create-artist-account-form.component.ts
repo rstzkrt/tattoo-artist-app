@@ -9,8 +9,6 @@ import {StorageService} from "../../services/storage.service";
 import {environment} from "../../../environments/environment";
 import {HttpClient} from "@angular/common/http";
 
-
-
 @Component({
   selector: 'app-create-artist-account-form',
   templateUrl: './create-artist-account-form.component.html',
@@ -78,7 +76,6 @@ export class CreateArtistAccountFormComponent implements OnInit {
         }, error => {
           console.error(error)
         });
-
   }
 
   async onCountrySelection(country: any) {
@@ -99,5 +96,4 @@ export class CreateArtistAccountFormComponent implements OnInit {
       console.log(this.cities)
     })
   }
-
 }

@@ -102,6 +102,20 @@ paths:
           required: false
           schema:
             type: number
+        - in: query
+          name: languages
+          description: query languages
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+        - in: query
+          name: gender
+          description: query gender
+          required: false
+          schema:
+            $ref: "#/components/schemas/Gender"
       responses:
         200:
           description: OK

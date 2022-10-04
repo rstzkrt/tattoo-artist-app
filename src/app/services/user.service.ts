@@ -4,7 +4,7 @@ import {Observable} from "rxjs";
 import {User} from "../common/user";
 import {
   ClientReqDto,
-  DefaultService,
+  DefaultService, Gender,
   TattooArtistAccReqDto, TattooArtistPriceInterval,
   TattooWorksResponseDto, UserDocumentDto,
   UserResponseDto, UserResponseDtoPageable,
@@ -65,8 +65,8 @@ export class UserService{
     return this.userOpenApiService.favoriteTattooWork(tattoo_work_id)
   }
 
-  searchUsers(query:string,city?:string,country?:string ,isTattooArtist?:boolean,averageRating?:number): Observable<UserDocumentDto[]> {
-    return this.userOpenApiService.searchUsers(query,city,country,isTattooArtist,averageRating)
+  searchUsers(query:string,city?:string,country?:string ,isTattooArtist?:boolean,averageRating?:number,languages?:string[],gender?:Gender): Observable<UserDocumentDto[]> {
+    return this.userOpenApiService.searchUsers(query,city,country,isTattooArtist,averageRating,languages,gender)
   }
 
   getAllUsers(page: number,size: number,firstName?: string, lastName?: string): Observable<UserResponseDtoPageable> {
