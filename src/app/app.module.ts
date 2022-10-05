@@ -59,12 +59,14 @@ import { SwiperModule } from 'swiper/angular';
 import {AuthenticationGuard} from "./guards/authentication.guard";
 import { TattooWorkSearchComponent } from './components/tattoo-work-search/tattoo-work-search.component';
 import { TattooArtistSearchComponent } from './components/tattoo-artist-search/tattoo-artist-search.component';
-import {AdminGuard} from "./guards/admin.guard";
-import {hasCustomClaim ,redirectUnauthorizedTo,redirectLoggedInTo} from "@angular/fire/auth-guard";
+import {hasCustomClaim ,redirectLoggedInTo} from "@angular/fire/auth-guard";
 import { TattooWorkReportsComponent } from './components/tattoo-work-reports/tattoo-work-reports.component';
 import { UserReportsComponent } from './components/user-reports/user-reports.component';
 import {MatMenuModule} from "@angular/material/menu";
 import {MatStepperModule} from "@angular/material/stepper";
+import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
+import { ChangePasswordComponent } from './components/change-password/change-password.component';
+import {AngularFireAuthGuard} from "@angular/fire/compat/auth-guard";
 
 const adminOnly = () => hasCustomClaim('admin');
 const red = () => redirectLoggedInTo('/chats');
@@ -74,9 +76,15 @@ const routes: Routes = [
   {path: 'me-edit', component: EditProfileComponent},
   {path: 'tattoo-artist-search/:keyword', component: TattooArtistSearchComponent},
   {path: 'tattoo-work-search/:keyword', component: TattooWorkSearchComponent},
-  // {path: 'admin-panel', component: ReportsAdminPanelComponent, canActivate: [AngularFireAuthGuard], data: { authGuardPipe: adminOnly ,redirectLoggedInTo: red}},
-  {path: 'user-reports', component: UserReportsComponent }, //TODO add admin guard
-  {path: 'tattoo-work-reports', component: TattooWorkReportsComponent }, //TODO add admin guard
+  {path: 'auth',
+    children:[{
+          path: 'email/action',
+          component: ChangePasswordComponent,
+        }
+      ]
+  },
+  {path: 'user-reports', component: UserReportsComponent ,canActivate: [AngularFireAuthGuard], data: { authGuardPipe: adminOnly ,redirectLoggedInTo: red}},
+  {path: 'tattoo-work-reports', component: TattooWorkReportsComponent ,canActivate: [AngularFireAuthGuard], data: { authGuardPipe: adminOnly ,redirectLoggedInTo: red}},
   {path: 'me-edit', component: EditProfileComponent},
   {path: 'me-edit-basic', component: EditProfileBasicComponent},
   {path: 'tattoo-work/:id', component: TattooWorkDetailPageComponent},
@@ -110,7 +118,9 @@ const routes: Routes = [
     TattooWorkSearchComponent,
     TattooArtistSearchComponent,
     TattooWorkReportsComponent,
-    UserReportsComponent
+    UserReportsComponent,
+    ResetPasswordComponent,
+    ChangePasswordComponent
   ],
   imports: [
     BrowserModule,

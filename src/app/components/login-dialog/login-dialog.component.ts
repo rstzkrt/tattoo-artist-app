@@ -3,6 +3,7 @@ import {AuthService} from "../../services/auth.service";
 import {MatDialog} from "@angular/material/dialog";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {UserService} from "../../services/user.service";
+import {ResetPasswordComponent} from "../reset-password/reset-password.component";
 
 @Component({
   selector: 'app-login-dialog',
@@ -37,7 +38,6 @@ export class LoginDialogComponent implements OnInit {
   }
 
   submit() {
-
       let user:EmailLoginReq = this.emailSignUpFormGroup.get('emailRegisterForm').value;
       this.authService.singUpWithEmail(user)
         .then()
@@ -50,6 +50,10 @@ export class LoginDialogComponent implements OnInit {
     this.authService.singInWithEmail(login)
       .then()
       .catch(err=>console.log(err))
+  }
+
+  openResetPasswordDialog() {
+    this.dialog.open(ResetPasswordComponent)
   }
 }
 
