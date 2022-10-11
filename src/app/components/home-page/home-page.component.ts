@@ -14,6 +14,7 @@ import {map, startWith} from "rxjs/operators";
 import {FormControl, FormGroup} from "@angular/forms";
 import {environment} from "../../../environments/environment";
 import {HttpClient} from "@angular/common/http";
+import {user} from "@angular/fire/auth";
 
 @Component({
   selector: 'app-home-page',
@@ -23,7 +24,7 @@ import {HttpClient} from "@angular/common/http";
 export class HomePageComponent implements OnInit {
 
   tattooWorkList: Array<TattooWorksResponseDto>
-  userList: Array<UserResponseDto>
+  userList: Array<UserResponseDto>=[]
   TattooWorkTotalElements: number = 0;
   TattooArtistTotalElements: number = 0;
   token: string
@@ -31,6 +32,7 @@ export class HomePageComponent implements OnInit {
   filteredUsers:Map<string,UserDocumentDto>=new Map<string, UserDocumentDto>();
 
   //
+  artistSearchInput:string
   city:string
   country:string
   isTattooArtist:boolean
@@ -41,6 +43,7 @@ export class HomePageComponent implements OnInit {
   states:Array<Object>=[];
 
   //
+  tattooWorkSearchInput:string
   minPrice:number;
   maxPrice:number;
   currency:string;
@@ -52,6 +55,7 @@ export class HomePageComponent implements OnInit {
   gendersFilter: Gender[]=[Gender.Female,Gender.Male];
   languagesFilter: Language[]=[];
   ratingsFilter: number[]=[1,2,3,4,5];
+  searchModeOn:boolean= false;
 
   constructor(public userService: UserService,
               public authService: AuthService,
@@ -92,6 +96,17 @@ export class HomePageComponent implements OnInit {
   }
 
   private getUsers(page: number, size: number) {
+    // if (){// search yapildimi ontrol et
+    //   this.userService.searchUsers(input,this.city,this.country,true,this.averageRating,this.languages,this.gender).subscribe(data=>{
+    //     if(data.length===0){
+    //       this.userList = []
+    //     }
+    //     data.map(data => this.userService.getUserById(data.id).subscribe(data => {
+    //       this.filteredUsers.set(data.id,data)
+    //       this.userList = [...this.filteredUsers.values()]
+    //     }))
+    //   })
+    // }
      this.userService.getAllUsers(page, size).subscribe(data => {
       this.userList = data.tattooArtists
       this.TattooArtistTotalElements = data.totalElements;
@@ -99,8 +114,7 @@ export class HomePageComponent implements OnInit {
   }
 
   private getTattoos(page: number, size: number) {
-    this.tattooWorkService.getAllTattooWorks(page, size, 0)
-      .subscribe(data => {
+    this.tattooWorkService.getAllTattooWorks(page, size, 0).subscribe(data => {
       this.tattooWorkList = data.tattooWorks
       this.TattooWorkTotalElements = data.totalElements;
     })
@@ -125,16 +139,6 @@ export class HomePageComponent implements OnInit {
     })
   }
 
-  searchArtist(input:string){
-    this.userService.searchUsers(input,this.city,this.country,true,this.averageRating,this.languages,this.gender).subscribe(data=>{
-      data.map(data => this.userService.getUserById(data.id).subscribe(data => {
-        this.userList = []
-        this.filteredUsers.set(data.id,data)
-        this.userList = [...this.filteredUsers.values()]
-      }))
-    })
-  }
-
   fetchUser(): void{
     this.userService.fetchAuthenticatedUser(this.token).subscribe(user=>{
       this.storageService.saveUser(user)
@@ -154,6 +158,7 @@ export class HomePageComponent implements OnInit {
     this.token = this.storageService.getToken()
     this.userService.dislikeTattooWork(id, this.token).subscribe(() => {
       this.fetchUser()
+
       this.getTattoos(0, 20)
       console.log("dislike")
     })
@@ -190,11 +195,26 @@ export class HomePageComponent implements OnInit {
     })
   }
 
+  searchArtist(input:string){
+    this.artistSearchInput= input
+    this.userService.searchUsers(input,this.city,this.country,true,this.averageRating,this.languages,this.gender).subscribe(data=>{
+      if(data.length===0){
+        this.userList = []
+      }
+      data.map(data => this.userService.getUserById(data.id).subscribe(data => {
+        this.filteredUsers.set(data.id,data)
+        this.userList = [...this.filteredUsers.values()]
+      }))
+    })
+  }
+
   searchTattooWork(value: string) {
+    this.tattooWorkSearchInput= value
     this.tattooService.searchTattooWorks(value,this.minPrice,this.maxPrice,this.currency,this.tattooStyle).subscribe(data=>{
       this.tattooWorkList = data;
     })
   }
+
   formatLabel(value: number) {
     if (value >= 1000) {
       return Math.round(value / 1000) + 'k';

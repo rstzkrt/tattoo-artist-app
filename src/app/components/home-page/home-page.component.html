@@ -58,10 +58,10 @@
       </section>
 
       <section style="margin-left:  5%">
-        <input matInput #searchInput type="text"
+        <input matInput #searchInput1 type="text"
                placeholder="Search"
-               (keyup.enter)="searchTattooWork(searchInput.value)">
-        <button (click)="searchTattooWork(searchInput.value)" matSuffix mat-button>
+               (keyup.enter)="searchTattooWork(searchInput1.value)">
+        <button (click)="searchTattooWork(searchInput1.value)" matSuffix mat-button>
           <mat-icon>search</mat-icon>
         </button>
       </section>
@@ -200,7 +200,7 @@
     </mat-toolbar>
 
     <div fxLayout="row wrap" style="margin-left: 50px">
-      <div fxFlex style="padding-bottom: 30px" *ngFor="let user of userList  ">
+      <div fxFlex style="padding-bottom: 30px" *ngFor="let user of userList">
         <mat-card style="width: 520px;">
           <mat-card-header>
             <section *ngIf="authenticatedUser" style="margin-left: auto">

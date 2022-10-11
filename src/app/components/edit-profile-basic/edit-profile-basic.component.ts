@@ -84,8 +84,8 @@ export class EditProfileBasicComponent implements OnInit {
   }
 
   removeFromPhotos(url:string){
+    this.avatarUrl=null
     this.afStorage.refFromURL(url).delete().subscribe(()=>{
-      this.avatarUrl=null
     })
   }
 }

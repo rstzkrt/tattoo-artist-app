@@ -134,7 +134,7 @@ export class UserProfileComponent implements OnInit {
         data,);
       const target_uuid: string = this.routeCurr.snapshot.paramMap.get('id')
       this.userService.getUserById(target_uuid).subscribe(async receiverUser => {
-        const filter = {type: 'messaging', members: {$in: [this.authService.getCurrentUser().uid]}};
+        const filter = {type: 'messaging', members: {$in: [this.storageService.getUser().uid]}};
         const client = StreamChat.getInstance(environment.stream.key);
         const channels = await client.queryChannels(filter, {last_message_at: -1}, {
           watch: false,
@@ -145,7 +145,7 @@ export class UserProfileComponent implements OnInit {
           return members[receiverUser.uid] !== undefined
         })
         if (check.length === 0) {
-          const channel = client.channel('messaging', {members: [this.authService.getCurrentUser().uid, receiverUser.uid]});
+          const channel = client.channel('messaging', {members: [this.storageService.getUser().uid, receiverUser.uid]});
           await channel.create();
           await this.router.navigateByUrl("/chats/" + channel.id)
         } else {

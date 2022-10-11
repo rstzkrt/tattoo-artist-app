@@ -1,39 +1,31 @@
-import {Injectable} from '@angular/core';
-import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree} from '@angular/router';
-import {Observable} from 'rxjs';
-import {AngularFireAuth} from "@angular/fire/compat/auth";
-import {StorageService} from "../services/storage.service";
+import {CanActivate, Router} from '@angular/router';
+import {Injectable} from "@angular/core";
+import {AngularFireAuth} from '@angular/fire/compat/auth/';
+import {take, switchMap} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AdminGuard implements CanActivate {
 
-  constructor(private afAuth: AngularFireAuth
-              ,private router:Router,
-              private storage:StorageService) {
+  constructor(private auth: AngularFireAuth, private router: Router) {
   }
 
-  async canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree | any> {
-    const user=this.storage.getUser()
-
-    await this.afAuth.authState.subscribe(async user =>
-      await user.getIdTokenResult()
-        .then(async (idTokenResult) => {
-          if (await idTokenResult.claims.admin) {
-            return true
-          } else {
-            if(confirm("You dont have permission to access this page ")) {
-              this.router.navigateByUrl("/home")
-            }else {
-              this.router.navigateByUrl("/home")
-            }
-            return false
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        })
+  canActivate() {
+    return this.auth.authState.pipe(
+      take(1),
+      switchMap(async (authState) => {
+        if (!authState) {
+          this.router.navigate(['/home'])
+          return false
+        }
+        const token = await authState.getIdTokenResult()
+        if (!token.claims.admin) {
+          this.router.navigate(['/home'])
+          return false
+        }
+        return true
+      }),
     )
   }
 }

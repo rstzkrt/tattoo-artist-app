@@ -226,14 +226,7 @@ export class AuthService {
   }
 
   deleteAccount() {
-    this.afAuth.currentUser.then(user =>{
-      console.log(user)
-      user?.delete().then(()=>console.log("USER REMOVED FROM FIREBASE"))
-    })
-  }
-
-  getCurrentUser() {
-    return this.firebaseUser;
+    this.firebaseUser.delete().then(()=>console.log("USER REMOVED FROM FIREBASE"))
   }
 
   getStreamToken(): Observable<TokenOrProvider> {

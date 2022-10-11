@@ -35,7 +35,7 @@ export class EditProfileComponent implements OnInit {
   countries: Array<Object> = [];
   cities: string[] = [];
   states: Array<Object> = [];
-  choosenCountry: string
+  chosenCountry: string
 
   constructor(private userService: UserService,
               private aRouter: ActivatedRoute,
@@ -46,8 +46,21 @@ export class EditProfileComponent implements OnInit {
               private storageService: StorageService,
               private afStorage: AngularFireStorage,
               private httpClient: HttpClient) {
-
+    console.log("1 kere")
     this.token = this.storageService.getToken()
+    for (let language in Language) {
+      this.languages.push(<"AFAR" | "ABKHAZ" | "AVESTAN" | "AFRIKAANS" | "AKAN" | "AMHARIC" | "ARAGONESE" | "ARABIC" | "ASSAMESE" | "AVARIC" | "AYMARA" | "AZERBAIJANI" | "BASHKIR" | "BELARUSIAN" | "BULGARIAN" | "BIHARI" | "BISLAMA" | "BAMBARA" | "BENGALI" | "TIBETAN" | "BRETON" | "BOSNIAN" | "CATALAN" | "CHECHEN" | "CHAMORRO" | "CORSICAN" | "CREE" | "CZECH" | "OLD CHURCH SLAVONIC" | "CHUVASH" | "WELSH" | "DANISH" | "GERMAN" | "DIVEHI" | "DZONGKHA" | "EWE" | "GREEK" | "ENGLISH" | "ESPERANTO" | "SPANISH" | "ESTONIAN" | "BASQUE" | "PERSIAN" | "FULA" | "FINNISH" | "FIJIAN" | "FAROESE" | "FRENCH" | "WESTERN FRISIAN" | "IRISH" | "SCOTTISH GAELIC" | "GALICIAN" | "GUJARATI" | "MANX" | "HAUSA" | "HEBREW" | "HINDI" | "HIRI MOTU" | "CROATIAN" | "HAITIAN" | "HUNGARIAN" | "ARMENIAN" | "HERERO" | "INTERLINGUA" | "INDONESIAN" | "INTERLINGUE" | "IGBO" | "NUOSU" | "INUPIAQ" | "IDO" | "ICELANDIC" | "ITALIAN" | "INUKTITUT" | "JAPANESE" | "JAVANESE" | "GEORGIAN" | "KONGO" | "KIKUYU" | "KWANYAMA" | "KAZAKH" | "KALAALLISUT" | "KHMER" | "KANNADA" | "KOREAN" | "KANURI" | "KASHMIRI" | "KURDISH" | "KOMI" | "CORNISH" | "KYRGYZ" | "LATIN" | "LUXEMBOURGISH" | "GANDA" | "LIMBURGISH" | "LINGALA" | "LAO" | "LITHUANIAN" | "LUBA-KATANGA" | "LATVIAN" | "MALAGASY" | "MARSHALLESE" | "MĀORI" | "MACEDONIAN" | "MALAYALAM" | "MONGOLIAN" | "MARATHI" | "MALAY" | "MALTESE" | "BURMESE" | "NAURU" | "NORWEGIAN BOKMÅL" | "NORTHERN NDEBELE" | "NEPALI" | "NDONGA" | "DUTCH" | "NORWEGIAN NYNORSK" | "NORWEGIAN" | "SOUTHERN NDEBELE" | "NAVAJO" | "CHICHEWA" | "OCCITAN" | "OJIBWE" | "OROMO" | "ORIYA" | "OSSETIAN" | "PANJABI" | "PĀLI" | "POLISH" | "PASHTO" | "PORTUGUESE" | "QUECHUA" | "ROMANSH" | "KIRUNDI" | "ROMANIAN" | "RUSSIAN" | "KINYARWANDA" | "SANSKRIT" | "SARDINIAN" | "SINDHI" | "NORTHERN SAMI" | "SANGO" | "SINHALA" | "SLOVAK" | "SLOVENIAN" | "SHONA" | "SOMALI" | "ALBANIAN" | "SERBIAN" | "SWATI" | "SOUTHERN SOTHO" | "SUNDANESE" | "SWEDISH" | "SWAHILI" | "TAMIL" | "TELUGU" | "TAJIK" | "THAI" | "TIGRINYA" | "TURKMEN" | "TAGALOG" | "TSWANA" | "TONGA" | "TURKISH" | "TSONGA" | "TATAR" | "TWI" | "TAHITIAN" | "UYGHUR" | "UKRAINIAN" | "URDU" | "UZBEK" | "VENDA" | "VIETNAMESE" | "VOLAPÜK" | "WALLOON" | "WOLOF" | "XHOSA" | "YIDDISH" | "YORUBA" | "ZHUANG" | "CHINESE" | "ZULU">language.toUpperCase())
+    }
+
+  }
+
+  ngOnInit() {
+
+    const headers = {'content-type': 'application/json', 'X-CSCAPI-KEY': `${environment.citiesApiKey}`};
+    this.httpClient.get("https://api.countrystatecity.in/v1/countries", {headers: headers}).subscribe((data: Array<Object>) => {
+      this.countries = data
+    })
+
     this.userService.fetchAuthenticatedUser(this.token).subscribe(user => {
       this.avatarUrl = user.avatarUrl
       this.updateProfileFormGroup = new FormGroup({
@@ -72,19 +85,6 @@ export class EditProfileComponent implements OnInit {
         })
       })
     })
-
-    for (let language in Language) {
-      this.languages.push(<"AFAR" | "ABKHAZ" | "AVESTAN" | "AFRIKAANS" | "AKAN" | "AMHARIC" | "ARAGONESE" | "ARABIC" | "ASSAMESE" | "AVARIC" | "AYMARA" | "AZERBAIJANI" | "BASHKIR" | "BELARUSIAN" | "BULGARIAN" | "BIHARI" | "BISLAMA" | "BAMBARA" | "BENGALI" | "TIBETAN" | "BRETON" | "BOSNIAN" | "CATALAN" | "CHECHEN" | "CHAMORRO" | "CORSICAN" | "CREE" | "CZECH" | "OLD CHURCH SLAVONIC" | "CHUVASH" | "WELSH" | "DANISH" | "GERMAN" | "DIVEHI" | "DZONGKHA" | "EWE" | "GREEK" | "ENGLISH" | "ESPERANTO" | "SPANISH" | "ESTONIAN" | "BASQUE" | "PERSIAN" | "FULA" | "FINNISH" | "FIJIAN" | "FAROESE" | "FRENCH" | "WESTERN FRISIAN" | "IRISH" | "SCOTTISH GAELIC" | "GALICIAN" | "GUJARATI" | "MANX" | "HAUSA" | "HEBREW" | "HINDI" | "HIRI MOTU" | "CROATIAN" | "HAITIAN" | "HUNGARIAN" | "ARMENIAN" | "HERERO" | "INTERLINGUA" | "INDONESIAN" | "INTERLINGUE" | "IGBO" | "NUOSU" | "INUPIAQ" | "IDO" | "ICELANDIC" | "ITALIAN" | "INUKTITUT" | "JAPANESE" | "JAVANESE" | "GEORGIAN" | "KONGO" | "KIKUYU" | "KWANYAMA" | "KAZAKH" | "KALAALLISUT" | "KHMER" | "KANNADA" | "KOREAN" | "KANURI" | "KASHMIRI" | "KURDISH" | "KOMI" | "CORNISH" | "KYRGYZ" | "LATIN" | "LUXEMBOURGISH" | "GANDA" | "LIMBURGISH" | "LINGALA" | "LAO" | "LITHUANIAN" | "LUBA-KATANGA" | "LATVIAN" | "MALAGASY" | "MARSHALLESE" | "MĀORI" | "MACEDONIAN" | "MALAYALAM" | "MONGOLIAN" | "MARATHI" | "MALAY" | "MALTESE" | "BURMESE" | "NAURU" | "NORWEGIAN BOKMÅL" | "NORTHERN NDEBELE" | "NEPALI" | "NDONGA" | "DUTCH" | "NORWEGIAN NYNORSK" | "NORWEGIAN" | "SOUTHERN NDEBELE" | "NAVAJO" | "CHICHEWA" | "OCCITAN" | "OJIBWE" | "OROMO" | "ORIYA" | "OSSETIAN" | "PANJABI" | "PĀLI" | "POLISH" | "PASHTO" | "PORTUGUESE" | "QUECHUA" | "ROMANSH" | "KIRUNDI" | "ROMANIAN" | "RUSSIAN" | "KINYARWANDA" | "SANSKRIT" | "SARDINIAN" | "SINDHI" | "NORTHERN SAMI" | "SANGO" | "SINHALA" | "SLOVAK" | "SLOVENIAN" | "SHONA" | "SOMALI" | "ALBANIAN" | "SERBIAN" | "SWATI" | "SOUTHERN SOTHO" | "SUNDANESE" | "SWEDISH" | "SWAHILI" | "TAMIL" | "TELUGU" | "TAJIK" | "THAI" | "TIGRINYA" | "TURKMEN" | "TAGALOG" | "TSWANA" | "TONGA" | "TURKISH" | "TSONGA" | "TATAR" | "TWI" | "TAHITIAN" | "UYGHUR" | "UKRAINIAN" | "URDU" | "UZBEK" | "VENDA" | "VIETNAMESE" | "VOLAPÜK" | "WALLOON" | "WOLOF" | "XHOSA" | "YIDDISH" | "YORUBA" | "ZHUANG" | "CHINESE" | "ZULU">language.toUpperCase())
-    }
-    const headers = {'content-type': 'application/json', 'X-CSCAPI-KEY': `${environment.citiesApiKey}`};
-    httpClient.get("https://api.countrystatecity.in/v1/countries", {headers: headers}).subscribe((data: Array<Object>) => {
-      this.countries = data
-      console.log(this.countries)
-    })
-  }
-
-  ngOnInit() {
-
   }
 
   submit() {
@@ -128,23 +128,32 @@ export class EditProfileComponent implements OnInit {
     })
   }
 
-  async onCountrySelection(country: any) {
-    this.choosenCountry = country
-    const headers = {'X-CSCAPI-KEY': `${environment.citiesApiKey}`};
-    await this.httpClient.get(`https://api.countrystatecity.in/v1/countries/${country}/states`, {headers: headers}).subscribe(async (data: Array<Object>) => {
-      this.states = await data
-      console.log("states")
-      console.log(this.states)
-    })
+   onCountrySelection(country: any) {
+     if (country) {
+       this.chosenCountry = country
+       const headers = {'X-CSCAPI-KEY': `${environment.citiesApiKey}`};
+       this.httpClient.get(`https://api.countrystatecity.in/v1/countries/${country}/states`, {headers: headers}).subscribe((data: Array<Object>) => {
+         this.states =  data
+         this.cities = null;
+       })
+     }else{
+       this.states = null
+       this.cities= null
+     }
+
   }
 
-  async onStateSelection(state: string) {
-    const headers = { 'X-CSCAPI-KEY': `${environment.citiesApiKey}`};
-    await this.httpClient.get(`https://api.countrystatecity.in/v1/countries/${this.choosenCountry}/states/${state}/cities`, {headers: headers}).subscribe(async (data: Array<Object>) => {
-      this.cities = await data.map(object => object['name'])
-      console.log("cities")
-      console.log(this.cities)
-    })
-  }
+   onStateSelection(state: string) {
+     if (state) {
+       const headers = { 'X-CSCAPI-KEY': `${environment.citiesApiKey}`};
+       this.httpClient.get(`https://api.countrystatecity.in/v1/countries/${this.chosenCountry}/states/${state}/cities`, {headers: headers}).subscribe( (data: Array<Object>) => {
+         this.cities = data.map(object => object['name'])
+         console.log("cities")
+         console.log(this.cities)
+       })
+     } else {
+       this.cities = null;
+     }
 
+  }
 }

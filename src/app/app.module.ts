@@ -43,48 +43,48 @@ import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatChipsModule} from "@angular/material/chips";
 import {FilterMembersPipe} from "./components/chat/filter.pipe";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
-import { CreateArtistAccountFormComponent } from './components/create-artist-account-form/create-artist-account-form.component';
+import {
+  CreateArtistAccountFormComponent
+} from './components/create-artist-account-form/create-artist-account-form.component';
 import {MatTabsModule} from "@angular/material/tabs";
 import {MatSelectModule} from "@angular/material/select";
-import { PostTattooWorkComponent } from './components/post-tattoo-work/post-tattoo-work.component';
-import { EditTattooWorkComponent } from './components/edit-tattoo-work/edit-tattoo-work.component';
-import { EditProfileComponent } from './components/edit-profile/edit-profile.component';
+import {PostTattooWorkComponent} from './components/post-tattoo-work/post-tattoo-work.component';
+import {EditTattooWorkComponent} from './components/edit-tattoo-work/edit-tattoo-work.component';
+import {EditProfileComponent} from './components/edit-profile/edit-profile.component';
 import {MatTooltipModule} from "@angular/material/tooltip";
-import { TattooWorkDetailPageComponent } from './components/tattoo-work-detail-page/tattoo-work-detail-page.component';
+import {TattooWorkDetailPageComponent} from './components/tattoo-work-detail-page/tattoo-work-detail-page.component';
 import {MatCarouselModule} from "ng-mat-carousel";
 import {MatCheckboxModule} from "@angular/material/checkbox";
-import { EditProfileBasicComponent } from './components/edit-profile-basic/edit-profile-basic.component';
-import { CahnnelListComponent } from './components/cahnnel-list/cahnnel-list.component';
-import { SwiperModule } from 'swiper/angular';
+import {EditProfileBasicComponent} from './components/edit-profile-basic/edit-profile-basic.component';
+import {CahnnelListComponent} from './components/cahnnel-list/cahnnel-list.component';
+import {SwiperModule} from 'swiper/angular';
 import {AuthenticationGuard} from "./guards/authentication.guard";
-import { TattooWorkSearchComponent } from './components/tattoo-work-search/tattoo-work-search.component';
-import { TattooArtistSearchComponent } from './components/tattoo-artist-search/tattoo-artist-search.component';
-import {hasCustomClaim ,redirectLoggedInTo} from "@angular/fire/auth-guard";
-import { TattooWorkReportsComponent } from './components/tattoo-work-reports/tattoo-work-reports.component';
-import { UserReportsComponent } from './components/user-reports/user-reports.component';
+import {TattooWorkSearchComponent} from './components/tattoo-work-search/tattoo-work-search.component';
+import {TattooArtistSearchComponent} from './components/tattoo-artist-search/tattoo-artist-search.component';
+import {hasCustomClaim, redirectUnauthorizedTo} from "@angular/fire/auth-guard";
+import {TattooWorkReportsComponent} from './components/tattoo-work-reports/tattoo-work-reports.component';
+import {UserReportsComponent} from './components/user-reports/user-reports.component';
 import {MatMenuModule} from "@angular/material/menu";
 import {MatStepperModule} from "@angular/material/stepper";
-import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
-import { ChangePasswordComponent } from './components/change-password/change-password.component';
-import {AngularFireAuthGuard} from "@angular/fire/compat/auth-guard";
-
-const adminOnly = () => hasCustomClaim('admin');
-const red = () => redirectLoggedInTo('/chats');
+import {ResetPasswordComponent} from './components/reset-password/reset-password.component';
+import {ChangePasswordComponent} from './components/change-password/change-password.component';
+import {AdminGuard} from "./guards/admin.guard";
 
 const routes: Routes = [
-  {path: 'me', component: MyProfileComponent,canActivate: [AuthenticationGuard]},
+  {path: 'me', component: MyProfileComponent, canActivate: [AuthenticationGuard]},
   {path: 'me-edit', component: EditProfileComponent},
   {path: 'tattoo-artist-search/:keyword', component: TattooArtistSearchComponent},
   {path: 'tattoo-work-search/:keyword', component: TattooWorkSearchComponent},
-  {path: 'auth',
-    children:[{
-          path: 'email/action',
-          component: ChangePasswordComponent,
-        }
-      ]
+  {
+    path: 'auth',
+    children: [{
+      path: 'email/action',
+      component: ChangePasswordComponent,
+    }
+    ]
   },
-  {path: 'user-reports', component: UserReportsComponent ,canActivate: [AngularFireAuthGuard], data: { authGuardPipe: adminOnly ,redirectLoggedInTo: red}},
-  {path: 'tattoo-work-reports', component: TattooWorkReportsComponent ,canActivate: [AngularFireAuthGuard], data: { authGuardPipe: adminOnly ,redirectLoggedInTo: red}},
+  {path: 'user-reports', component: UserReportsComponent, canActivate: [AdminGuard]},
+  {path: 'tattoo-work-reports', component: TattooWorkReportsComponent, canActivate: [AdminGuard]},
   {path: 'me-edit', component: EditProfileComponent},
   {path: 'me-edit-basic', component: EditProfileBasicComponent},
   {path: 'tattoo-work/:id', component: TattooWorkDetailPageComponent},
@@ -95,8 +95,8 @@ const routes: Routes = [
   {path: 'edit-tattoo-work/:id', component: EditTattooWorkComponent},
   {path: 'artist-account-form', component: CreateArtistAccountFormComponent},
   {path: 'home', component: HomePageComponent},
-  {path: '', redirectTo: 'home', pathMatch: 'full'},
-  {path: '**', redirectTo: 'home', pathMatch: 'full'}
+  {path: '', redirectTo: '/home', pathMatch: 'full'},
+  {path: '**', redirectTo: '/home', pathMatch: 'full'}
 ];
 
 @NgModule({
@@ -168,7 +168,7 @@ const routes: Routes = [
     SwiperModule,
     MatMenuModule,
     MatStepperModule,
-    FormsModule
+    FormsModule,
   ],
   providers: [{provide: REGION, useValue: 'europe-central2'}],
   bootstrap: [AppComponent]
