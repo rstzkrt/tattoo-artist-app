@@ -31,8 +31,6 @@ import { TattooArtistPriceInterval } from '../model/tattooArtistPriceInterval';
 // @ts-ignore
 import { TattooWorksResponseDto } from '../model/tattooWorksResponseDto';
 // @ts-ignore
-import { UserDocumentDto } from '../model/userDocumentDto';
-// @ts-ignore
 import { UserResponseDto } from '../model/userResponseDto';
 // @ts-ignore
 import { UserResponseDtoPageable } from '../model/userResponseDtoPageable';
@@ -998,6 +996,8 @@ export class DefaultService {
     /**
      * search
      * @param query query keyword
+     * @param page 
+     * @param size 
      * @param city query keyword
      * @param country query keyword
      * @param isTattooArtist query keyword
@@ -1007,12 +1007,18 @@ export class DefaultService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public searchUsers(query: string, city?: string, country?: string, isTattooArtist?: boolean, averageRating?: number, languages?: Array<string>, gender?: Gender, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<Array<UserDocumentDto>>;
-    public searchUsers(query: string, city?: string, country?: string, isTattooArtist?: boolean, averageRating?: number, languages?: Array<string>, gender?: Gender, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<Array<UserDocumentDto>>>;
-    public searchUsers(query: string, city?: string, country?: string, isTattooArtist?: boolean, averageRating?: number, languages?: Array<string>, gender?: Gender, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<Array<UserDocumentDto>>>;
-    public searchUsers(query: string, city?: string, country?: string, isTattooArtist?: boolean, averageRating?: number, languages?: Array<string>, gender?: Gender, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
+    public searchUsers(query: string, page: number, size: number, city?: string, country?: string, isTattooArtist?: boolean, averageRating?: number, languages?: Array<string>, gender?: Gender, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<UserResponseDtoPageable>;
+    public searchUsers(query: string, page: number, size: number, city?: string, country?: string, isTattooArtist?: boolean, averageRating?: number, languages?: Array<string>, gender?: Gender, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<UserResponseDtoPageable>>;
+    public searchUsers(query: string, page: number, size: number, city?: string, country?: string, isTattooArtist?: boolean, averageRating?: number, languages?: Array<string>, gender?: Gender, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<UserResponseDtoPageable>>;
+    public searchUsers(query: string, page: number, size: number, city?: string, country?: string, isTattooArtist?: boolean, averageRating?: number, languages?: Array<string>, gender?: Gender, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
         if (query === null || query === undefined) {
             throw new Error('Required parameter query was null or undefined when calling searchUsers.');
+        }
+        if (page === null || page === undefined) {
+            throw new Error('Required parameter page was null or undefined when calling searchUsers.');
+        }
+        if (size === null || size === undefined) {
+            throw new Error('Required parameter size was null or undefined when calling searchUsers.');
         }
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
@@ -1046,6 +1052,14 @@ export class DefaultService {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
             <any>gender, 'gender');
         }
+        if (page !== undefined && page !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>page, 'page');
+        }
+        if (size !== undefined && size !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>size, 'size');
+        }
 
         let localVarHeaders = this.defaultHeaders;
 
@@ -1078,7 +1092,7 @@ export class DefaultService {
             }
         }
 
-        return this.httpClient.get<Array<UserDocumentDto>>(`${this.configuration.basePath}/users/search`,
+        return this.httpClient.get<UserResponseDtoPageable>(`${this.configuration.basePath}/users/search`,
             {
                 context: localVarHttpContext,
                 params: localVarQueryParameters,

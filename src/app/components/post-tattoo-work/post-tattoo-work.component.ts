@@ -5,10 +5,10 @@ import {AuthService} from "../../services/auth.service";
 import {Router} from "@angular/router";
 import {TattooWorkService} from "../../services/tattoo-work.service";
 import {AngularFireStorage, AngularFireStorageReference, AngularFireUploadTask} from "@angular/fire/compat/storage";
-import {Observable} from "rxjs";
-import { debounceTime, distinctUntilChanged, filter, finalize, switchMap} from "rxjs/operators";
+import {Observable, of} from "rxjs";
+import {debounceTime, distinctUntilChanged, filter, finalize, map, switchMap} from "rxjs/operators";
 import {StorageService} from "../../services/storage.service";
-import {TattooStyle, UserDocumentDto} from "../../generated-apis/user";
+import {TattooStyle, UserDocumentDto, UserResponseDto} from "../../generated-apis/user";
 import {HttpClient} from "@angular/common/http";
 import {UserService} from "../../services/user.service";
 
@@ -27,7 +27,7 @@ export class PostTattooWorkComponent implements OnInit {
   imageUrlList:string[]=[];
   token:string
   tattooStyles: TattooStyle[]= [TattooStyle.Tribal, TattooStyle.Tribal,TattooStyle.AsianOriental,TattooStyle.Biomechanical,TattooStyle.DotWork,TattooStyle.Script,TattooStyle.BlackAndGrey,TattooStyle.NewSchool,"OLD_SCHOOL",TattooStyle.Portraits,"WATERCOLOUR",TattooStyle.Realistic];
-  autocompleteList: Observable<UserDocumentDto[]>;
+  autocompleteList: Observable<UserResponseDto[]>;
   clientId:string;
 
   constructor(private formBuilder: FormBuilder,
@@ -59,8 +59,8 @@ export class PostTattooWorkComponent implements OnInit {
     this.token=this.storageService.getToken()
   }
 
-  searchUsers(fullName: string): Observable<UserDocumentDto[]> {
-    return this.userService.searchUsers(fullName);
+  searchUsers(fullName: string): Observable<UserResponseDto[]> {
+    return this.userService.searchUsers(fullName,0,20).pipe(map(data=>data.tattooArtists))
   }
 
   removeFromPhotos(url:string){

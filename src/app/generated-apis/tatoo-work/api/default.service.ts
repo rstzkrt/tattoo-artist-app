@@ -452,6 +452,8 @@ export class DefaultService {
 
     /**
      * search
+     * @param page 
+     * @param size 
      * @param query descrptn
      * @param minPrice query keyword
      * @param maxPrice query keyword
@@ -460,10 +462,16 @@ export class DefaultService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public searchTattooWorks(query?: string, minPrice?: number, maxPrice?: number, currency?: string, tattooStyle?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<Array<TattooWorksResponseDto>>;
-    public searchTattooWorks(query?: string, minPrice?: number, maxPrice?: number, currency?: string, tattooStyle?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<Array<TattooWorksResponseDto>>>;
-    public searchTattooWorks(query?: string, minPrice?: number, maxPrice?: number, currency?: string, tattooStyle?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<Array<TattooWorksResponseDto>>>;
-    public searchTattooWorks(query?: string, minPrice?: number, maxPrice?: number, currency?: string, tattooStyle?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
+    public searchTattooWorks(page: number, size: number, query?: string, minPrice?: number, maxPrice?: number, currency?: string, tattooStyle?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<TattooWorkResponsePageable>;
+    public searchTattooWorks(page: number, size: number, query?: string, minPrice?: number, maxPrice?: number, currency?: string, tattooStyle?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<TattooWorkResponsePageable>>;
+    public searchTattooWorks(page: number, size: number, query?: string, minPrice?: number, maxPrice?: number, currency?: string, tattooStyle?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<TattooWorkResponsePageable>>;
+    public searchTattooWorks(page: number, size: number, query?: string, minPrice?: number, maxPrice?: number, currency?: string, tattooStyle?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
+        if (page === null || page === undefined) {
+            throw new Error('Required parameter page was null or undefined when calling searchTattooWorks.');
+        }
+        if (size === null || size === undefined) {
+            throw new Error('Required parameter size was null or undefined when calling searchTattooWorks.');
+        }
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
         if (query !== undefined && query !== null) {
@@ -485,6 +493,14 @@ export class DefaultService {
         if (tattooStyle !== undefined && tattooStyle !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
             <any>tattooStyle, 'tattooStyle');
+        }
+        if (page !== undefined && page !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>page, 'page');
+        }
+        if (size !== undefined && size !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>size, 'size');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -518,7 +534,7 @@ export class DefaultService {
             }
         }
 
-        return this.httpClient.get<Array<TattooWorksResponseDto>>(`${this.configuration.basePath}/tattoo-works/search`,
+        return this.httpClient.get<TattooWorkResponsePageable>(`${this.configuration.basePath}/tattoo-works/search`,
             {
                 context: localVarHttpContext,
                 params: localVarQueryParameters,

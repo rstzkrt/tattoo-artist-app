@@ -65,8 +65,8 @@ export class UserService{
     return this.userOpenApiService.favoriteTattooWork(tattoo_work_id)
   }
 
-  searchUsers(query:string,city?:string,country?:string ,isTattooArtist?:boolean,averageRating?:number,languages?:string[],gender?:Gender): Observable<UserDocumentDto[]> {
-    return this.userOpenApiService.searchUsers(query,city,country,isTattooArtist,averageRating,languages,gender)
+  searchUsers(query:string,page:number,size:number, city?:string,country?:string ,isTattooArtist?:boolean,averageRating?:number,languages?:string[],gender?:Gender): Observable<UserResponseDtoPageable> {
+    return this.userOpenApiService.searchUsers(query,page,size,city,country,isTattooArtist,averageRating,languages,gender)
   }
 
   getAllUsers(page: number,size: number,firstName?: string, lastName?: string): Observable<UserResponseDtoPageable> {
@@ -105,5 +105,10 @@ export class UserService{
   getFavoriteTattooArtists(token:string): Observable<UserResponseDto[]>{
     this.userOpenApiService.configuration.credentials= {"bearerAuth": token};
     return this.userOpenApiService.getFavoriteTattooArtists();
+  }
+  deleteById(id:string,token:string){
+    this.userOpenApiService.configuration.credentials= {"bearerAuth": token};
+    return this.userOpenApiService.deleteUser(id);
+
   }
 }

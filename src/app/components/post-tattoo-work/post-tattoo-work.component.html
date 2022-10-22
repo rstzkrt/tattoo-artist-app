@@ -63,10 +63,10 @@
         </form>
 
         <mat-autocomplete #auto="matAutocomplete">
-          <mat-option *ngFor="let user of autocompleteList | async " [value]="user.fullName" (onSelectionChange)="selectClient(user.id)">
+          <mat-option *ngFor="let user of autocompleteList | async " [value]="user.firstName + ' ' + user.lastName" (onSelectionChange)="selectClient(user.id)">
             <div fxLayout="row">
               <img  fxFlex style="height: 50px; margin-top: auto ; margin-bottom: auto ;" matCardImage src="{{user.avatarUrl}}">
-              <h3 fxFlex style="margin-top: auto ; margin-bottom: auto ;margin-left: 10%;" >{{user.fullName}}</h3>
+              <h3 fxFlex style="margin-top: auto ; margin-bottom: auto ;margin-left: 10%;" >{{user.firstName + ' ' + user.lastName}}</h3>
             </div>
           </mat-option>
         </mat-autocomplete>

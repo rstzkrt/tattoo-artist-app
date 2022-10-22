@@ -41,6 +41,12 @@
         <mat-icon>
           cancel
         </mat-icon>
+        <button style="margin-left: 10%" color="warn" mat-icon-button
+                (click)="removeUser(element.reportedUser.id)"> remove user
+          <mat-icon>
+            remove
+          </mat-icon>
+        </button>
       </button>
       <br>
       <a routerLink="/users/{{element.reportedUser.id}}">reportedUser profile</a>

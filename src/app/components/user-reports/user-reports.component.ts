@@ -6,7 +6,6 @@ import {AngularFireAuth} from "@angular/fire/compat/auth";
 import {ActivatedRoute} from "@angular/router";
 import {StorageService} from "../../services/storage.service";
 import {PageEvent} from "@angular/material/paginator";
-import {of} from "rxjs";
 import {UserService} from "../../services/user.service";
 
 @Component({
@@ -41,11 +40,11 @@ export class UserReportsComponent implements OnInit {
     })
   }
 
-  // removeUser(id) {
-  //   this.userService.deleteById(id,this.storageService.getToken()).subscribe(data=>{
-  //     this.getUserReportsPageable(this.page,this.size)
-  //   })
-  // }
+  removeUser(id) {
+    this.userService.deleteById(id,this.storageService.getToken()).subscribe(data=>{
+      this.getUserReportsPageable(this.page,this.size)
+    })
+  }
 
   private getUserReportsPageable(page: number, size: number) {
     this.userReportService.getAllUserReports(page, size,this.storageService.getToken()).subscribe(data => {

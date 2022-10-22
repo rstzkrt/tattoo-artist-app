@@ -13,7 +13,8 @@ export const environment = {
     appId: "1:508136722118:web:472340433ea1a028c511c7"
   },
   stream: {
-    key: 'rgktfw92g4p6'
+    key:'fg2yzareubjv'
+    // key: 'rgktfw92g4p6'
   },
   citiesApiKey: "SjZJeDc5RTN4S2NtN3lrQ3NieEdMbDhtMDZTbE9lQmJWRXlFTmJGSQ=="
 };

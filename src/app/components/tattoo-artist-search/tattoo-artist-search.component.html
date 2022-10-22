@@ -1,1 +1,94 @@
-<p>tattoo-artist-search works!</p>
+<!--<mat-toolbar style="height: 200px">-->
+
+<!--  <section style="margin-left: 5%">-->
+<!--    <mat-form-field appearance="outline">-->
+<!--      <mat-label>filter with country</mat-label>-->
+<!--      <mat-select #selectedCountry (selectionChange)="country=selectedCountry.value" >-->
+<!--        <mat-option *ngFor="let country of countries" (onSelectionChange)="onCountrySelection(country['iso2'])" [value]="country['name']">{{country['name']}}</mat-option>-->
+<!--      </mat-select>-->
+<!--    </mat-form-field>-->
+<!--  </section>-->
+
+<!--  <section style="margin-left: 5%">-->
+<!--    <mat-form-field appearance="fill" color="warn">-->
+<!--      <mat-label>filter with state</mat-label>-->
+<!--      <mat-select #selectedState (selectionChange)="city=selectedState.value" >-->
+<!--        <mat-option *ngFor="let state of states" [value]="state['name']">{{state['name']}}</mat-option>-->
+<!--      </mat-select>-->
+<!--    </mat-form-field>-->
+<!--  </section>-->
+
+<!--  <section style="margin-left: 5%">-->
+<!--    <mat-form-field appearance="outline">-->
+<!--      <mat-label> filter with gender</mat-label>-->
+<!--      <mat-select #selectedGender (selectionChange)="gender=selectedGender.value">-->
+<!--        <mat-option *ngFor="let gender of gendersFilter" [value]="gender">{{gender}}</mat-option>-->
+<!--      </mat-select>-->
+<!--    </mat-form-field>-->
+<!--  </section>-->
+
+<!--  <section style="margin-left: 5%">-->
+<!--    <mat-form-field appearance="outline">-->
+<!--      <mat-label> filter with languages</mat-label>-->
+<!--      <mat-select #selectedLanguages (selectionChange)="languages=selectedLanguages.value" multiple>-->
+<!--        <mat-option *ngFor="let language of languagesFilter" [value]="language">{{language}}</mat-option>-->
+<!--      </mat-select>-->
+<!--    </mat-form-field>-->
+<!--  </section>-->
+
+<!--  <section style="margin-left: 5%">-->
+<!--    <mat-form-field appearance="outline">-->
+<!--      <mat-label> filter with average rating</mat-label>-->
+<!--      <mat-select #selectedRating (selectionChange)="averageRating=selectedRating.value">-->
+<!--        <mat-option *ngFor="let rating of ratingsFilter" [value]="rating">{{rating}}</mat-option>-->
+<!--      </mat-select>-->
+<!--    </mat-form-field>-->
+<!--  </section>-->
+
+<!--  <section style="margin-left: 5%">-->
+<!--    <input matInput #searchInput type="text"-->
+<!--           placeholder="Search"-->
+<!--           (keyup.enter)="searchArtist(searchInput.value)">-->
+<!--    <button (click)="searchArtist(searchInput.value)" matSuffix mat-button>-->
+<!--      <mat-icon>search</mat-icon>-->
+<!--    </button>-->
+<!--  </section>-->
+<!--</mat-toolbar>-->
+
+
+<!--<div fxLayout="row wrap" style="margin-left: 50px">-->
+<!--  <div fxFlex style="padding-bottom: 30px" *ngFor="let user of userList">-->
+<!--    <mat-card style="width: 520px;">-->
+<!--      <mat-card-header>-->
+<!--        <section *ngIf="authenticatedUser" style="margin-left: auto">-->
+<!--          <button matTooltip="favorite" *ngIf="!authenticatedUser.favoriteArtistIds.includes(user.id)"-->
+<!--                  (click)="favoriteTattooArtist(user.id)" mat-icon-button color="accent">-->
+<!--            <mat-icon>favorite</mat-icon>-->
+<!--          </button>-->
+<!--          <button matTooltip="unFavorite" *ngIf="authenticatedUser.favoriteArtistIds.includes(user.id)"-->
+<!--                  (click)="unFavoriteTattooArtist(user.id)" mat-icon-button color="accent">-->
+<!--            <mat-icon>undo</mat-icon>-->
+<!--          </button>-->
+<!--        </section>-->
+<!--        <mat-card-title>{{user.firstName}}</mat-card-title>-->
+<!--        <mat-card-subtitle>{{user.city ? user.city : "nowhere"}}</mat-card-subtitle>-->
+<!--        <mat-card-subtitle>-->
+<!--          <div fxLayout="row">-->
+<!--            <mat-icon style="margin-left: auto" color="primary">star</mat-icon>-->
+<!--            <h1>{{user.averageRating}}</h1>-->
+<!--          </div>-->
+<!--        </mat-card-subtitle>-->
+<!--      </mat-card-header>-->
+<!--      <img routerLink="/users/{{user.id}}" mat-card-image style=" cursor: pointer; object-fit:cover; height: 80%"-->
+<!--           src="{{user.avatarUrl}}">-->
+<!--      <mat-card-content>-->
+<!--        <h2>rating : {{user.averageRating}}</h2>-->
+<!--        <h2>working days: {{user.workDays}}</h2>-->
+<!--      </mat-card-content>-->
+<!--    </mat-card>-->
+<!--  </div>-->
+<!--</div>-->
+<!--<footer style="margin-top: auto">-->
+<!--  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" [pageSize]="10" [length]="TattooArtistTotalElements"-->
+<!--                 (page)="nextPageUser($event)"></mat-paginator>-->
+<!--</footer>-->

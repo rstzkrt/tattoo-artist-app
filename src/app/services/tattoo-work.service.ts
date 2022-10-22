@@ -36,8 +36,9 @@ export class TattooWorkService{
   getTattooWorkById(id: string): Observable<TattooWorksResponseDto> {
     return this.tattooWorkService.getTattooWorkById(id)
   }
-  searchTattooWorks(query?: string, minPrice?: number, maxPrice?: number, currency?: string,tattooStyle?: string){
-    return this.tattooWorkService.searchTattooWorks(query,minPrice,maxPrice,currency,tattooStyle);
+
+  searchTattooWorks( page:number,size:number ,query?: string, minPrice?: number, maxPrice?: number, currency?: string,tattooStyle?: string){
+    return this.tattooWorkService.searchTattooWorks(page,size,query,minPrice,maxPrice,currency,tattooStyle);
   }
 
   patchTattooWork(id: string, tattooWorkPatchRequestDto: TattooWorkPatchRequestDto,token:string): Observable<TattooWorksResponseDto> {
