@@ -130,7 +130,7 @@
           </div>
 
           <div style="margin-left: 5%" fxLayout="row">
-            <h1>{{tattooWork.description}}</h1>
+            <h1 style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 20ch;">{{tattooWork.description}}</h1>
             <mat-card style="margin-left: auto"><h1
               style="margin-left: auto">{{tattooWork.price | currency:tattooWork.currency}}</h1></mat-card>
           </div>
@@ -219,7 +219,7 @@
               </button>
             </section>
             <mat-card-title>{{user.firstName}}</mat-card-title>
-            <mat-card-subtitle>{{user.city ? user.city : "nowhere"}}</mat-card-subtitle>
+            <mat-card-subtitle>{{user.city ? user.city : "unknown"}}</mat-card-subtitle>
             <mat-card-subtitle>
               <div fxLayout="row">
                 <mat-icon style="margin-left: auto" color="primary">star</mat-icon>
@@ -230,8 +230,8 @@
           <img routerLink="/users/{{user.id}}" mat-card-image style=" cursor: pointer; object-fit:cover; height: 80%"
                src="{{user.avatarUrl}}">
           <mat-card-content>
-            <h2>rating : {{user.averageRating}}</h2>
-            <h2>working days: {{user.workDays}}</h2>
+            <h2>Rating : {{user.averageRating}}</h2>
+            <h2>Working days: {{user.workDays}}</h2>
           </mat-card-content>
         </mat-card>
       </div>

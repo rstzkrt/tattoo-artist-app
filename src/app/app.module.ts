@@ -87,7 +87,7 @@ const routes: Routes = [
   {path: 'tattoo-work-reports', component: TattooWorkReportsComponent, canActivate: [AdminGuard]},
   {path: 'me-edit', component: EditProfileComponent},
   {path: 'me-edit-basic', component: EditProfileBasicComponent},
-  {path: 'tattoo-work/:id', component: TattooWorkDetailPageComponent},
+  {path: 'tattoo-work/:id', component: TattooWorkDetailPageComponent,canActivate: [AuthenticationGuard]},
   {path: 'chats', component: ChatComponent},
   {path: 'chats/:id', component: ChatComponent},
   {path: 'users/:id', component: UserProfileComponent},

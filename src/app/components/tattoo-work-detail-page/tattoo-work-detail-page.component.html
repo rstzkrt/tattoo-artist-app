@@ -1,4 +1,4 @@
-<div *ngIf="tattooWork |async as tattooWork">
+<div *ngIf="tattooWork | async as tattooWork">
   <mat-sidenav-container style="height: 1200px">
     <mat-sidenav style="width: 600px" #sidenav mode="side">
       <br>
@@ -9,13 +9,30 @@
           width: 200px;
           border-radius: 50%;" src="{{tattooWork.madeBy.avatarUrl}}">
       <p style="text-align: center">{{tattooWork.madeBy.firstName}} {{tattooWork.madeBy.lastName}}</p>
+
+      <br>
+      <h2 style="text-align: center">Career</h2>
+      <p style="text-align: center">{{tattooWork.madeBy.careerDescription}}</p>
+
+      <br>
+      <h2 style="text-align: center">Languages</h2>
+      <p style="text-align: center">{{tattooWork.madeBy.languages}}</p>
+
+      <br>
+      <h2 style="text-align: center">Price Interval</h2>
+      <p style="text-align: center" *ngIf=" priceInterval | async as priceIntervalObject">          <mat-icon>sell</mat-icon> MAX: {{priceIntervalObject.maxTattooWorkPrice}} {{priceIntervalObject.maxTattooWorkPriceCurrency}} -  MIN: {{priceIntervalObject.minTattooWorkPrice}} {{priceIntervalObject.minTattooWorkPriceCurrency}}
+      </p>
+
+      <br>
+      <h2 style="text-align: center">Available Days</h2>
+      <p style="text-align: center">{{tattooWork.madeBy.workDays}}</p>
       <br>
       <h2 style="text-align: center">Contact</h2>
       <p style="text-align: center">{{tattooWork.madeBy.phoneNumber}}</p>
       <p style="text-align: center">{{tattooWork.madeBy.email}}</p>
       <br>
       <h2 style="text-align: center">Average Rating</h2>
-      <p style="text-align: center">{{tattooWork.madeBy.street}}</p>
+      <p style="text-align: center">{{tattooWork.madeBy.averageRating}}</p>
       <br>
       <h2 style="text-align: center">Address</h2>
       <p style="text-align: center">{{tattooWork.madeBy.city}}</p>
@@ -48,13 +65,12 @@
               (click)="deleteTattooWork(tattooWork.id)" mat-flat-button color="warn">delete tattoo work
       </button>
 
-
-      <button *ngIf="isReportClicked == true && !authenticatedUser.tattooWorkReports.includes(tattooWork.id)" mat-icon-button (click)="handleReport()">
+      <button *ngIf="((isReportClicked === true) && (!authenticatedUser.tattooWorkReports.includes(tattooWork.id)) )" mat-icon-button (click)="handleReport()">
         <span>REPORT</span>
         <mat-icon>more_vert</mat-icon>
       </button>
 
-      <div *ngIf="isReportClicked == false">
+      <div style="margin-left: 50px" *ngIf="isReportClicked == false">
         <form [formGroup]="reportFormGroup">
           <div fxLayout="row">
             <div formGroupName="reportGroup">
@@ -63,7 +79,8 @@
                 <input matInput formControlName="description" required>
               </mat-form-field>
             </div>
-            <button mat-flat-button color="accent" (click)="reportTattooWork(tattooWork.id)">REPORT</button>
+            <button style="height: 50px" mat-flat-button color="accent" (click)="reportTattooWork(tattooWork.id)">Report</button>
+            <button style="height: 50px" mat-flat-button color="warn" (click)="handleReport()" >Cancel</button>
           </div>
         </form>
       </div>

@@ -11,7 +11,7 @@ import {
 })
 export class TattooWorkReportService {
 
-  private _rootUrl: string="http://localhost:8080";
+  private _rootUrl: string="http://tattoo-api.us-east-1.elasticbeanstalk.com";
 
   constructor(private httpClient:HttpClient, private tattooWorkReportService:DefaultService) {
     tattooWorkReportService.configuration.basePath=this._rootUrl;

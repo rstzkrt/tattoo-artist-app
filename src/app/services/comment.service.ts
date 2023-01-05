@@ -7,7 +7,7 @@ import {Observable} from "rxjs";
   providedIn: 'root'
 })
 export class CommentService{
-  private _rootUrl: string="http://localhost:8080";
+  private _rootUrl: string="http://tattoo-api.us-east-1.elasticbeanstalk.com";
   constructor(private commentService:DefaultService) {
     commentService.configuration.basePath=this._rootUrl;
   }

@@ -9,7 +9,9 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { Language } from './language';
 import { TattooStyle } from './tattooStyle';
+import { Gender } from './gender';
 import { WorkingDays } from './workingDays';
 
 
@@ -35,5 +37,8 @@ export interface MadeByInfo {
     state?: string;
     postalCode?: string;
     otherInformation?: string;
+    careerDescription?: string;
+    gender?: Gender;
+    languages?: Array<Language>;
 }
 

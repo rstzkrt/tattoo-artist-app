@@ -16,6 +16,8 @@ import {User} from "../../common/user";
 import {StorageService} from "../../services/storage.service";
 import {TattooWorkReportService} from "../../services/tattoo-work-report.service";
 import {TattooWorkReportPost} from "../../common/tattooWorkReportPost";
+import {TattooArtistPriceInterval} from "../../generated-apis/user";
+import {signOut} from "@angular/fire/auth";
 
 SwiperCore.use([FreeMode, Navigation, Thumbs]);
 
@@ -40,6 +42,7 @@ export class TattooWorkDetailPageComponent implements OnInit {
   token: string;
   reportFormGroup: FormGroup;
   isReportClicked:boolean=true;
+  priceInterval: Observable<TattooArtistPriceInterval>;
 
   constructor(private activatedRoute: ActivatedRoute,
               private tattooWorkService: TattooWorkService,
@@ -63,7 +66,10 @@ export class TattooWorkDetailPageComponent implements OnInit {
     this.token = this.storageService.getToken()
     this.authenticatedUser = this.storageService.getUser()
     this.tattooWork = this.tattooWorkService.getTattooWorkById(this.id)
-    this.tattooWork.subscribe(data => this.images = data.photos)
+    this.tattooWork.subscribe(data =>{
+      this.images = data.photos
+      this.priceInterval = this.userService.userPriceInterval(data.madeBy.uid)
+    } )
     this.commentFormGroup = new FormGroup({
       commentGroup: new FormGroup({
         message: new FormControl(''),
@@ -171,8 +177,10 @@ export class TattooWorkDetailPageComponent implements OnInit {
     this.tattooWorkReportService.createTattooWorkReport(tattooWorkReport,this.storageService.getToken()).subscribe(data=>{
       console.log(data)
       console.log("REPORTED")
+
       this.userService.fetchAuthenticatedUser(this.storageService.getToken()).subscribe(user=>{
         this.storageService.saveUser(user)
+        console.log(this.authenticatedUser.tattooWorkReports)
         this.isReportClicked = !this.isReportClicked
       })
     })

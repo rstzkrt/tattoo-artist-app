@@ -7,7 +7,7 @@ import {Observable} from "rxjs";
 })
 export class ReviewService{
 
-  private _rootUrl: string="http://localhost:8080";
+  private _rootUrl: string="http://tattoo-api.us-east-1.elasticbeanstalk.com";
 
   constructor( private reviewService :DefaultService) {
     reviewService.configuration.basePath=this._rootUrl;

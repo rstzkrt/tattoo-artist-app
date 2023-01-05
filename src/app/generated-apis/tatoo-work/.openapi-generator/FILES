@@ -9,6 +9,8 @@ git_push.sh
 index.ts
 model/currency.ts
 model/errorResponse.ts
+model/gender.ts
+model/language.ts
 model/madeByInfo.ts
 model/models.ts
 model/tattooStyle.ts

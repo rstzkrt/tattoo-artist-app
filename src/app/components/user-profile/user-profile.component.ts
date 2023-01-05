@@ -18,6 +18,7 @@ import {StorageService} from "../../services/storage.service";
 import {UserReportService} from "../../services/user-report.service";
 import {UserReportPostReqDto} from "../../generated-apis/user-report";
 import {TattooWorkReportPost} from "../../common/tattooWorkReportPost";
+import {TattooArtistPriceInterval} from "../../generated-apis/user";
 
 @Component({
   selector: 'app-user-profile',
@@ -40,6 +41,7 @@ export class UserProfileComponent implements OnInit {
   token: string
   isReportClicked: boolean = true;
   reportFormGroup: FormGroup;
+  priceInterval: Observable<TattooArtistPriceInterval>;
 
   constructor(public userService: UserService,
               public authService: AuthService,
@@ -55,6 +57,7 @@ export class UserProfileComponent implements OnInit {
     this.target_uid = this.routeCurr.snapshot.paramMap.get('id')
     userService.getUserById(this.target_uid).subscribe(user => {
       this.user = user;
+      this.priceInterval = this.userService.userPriceInterval(user.uid)
     });
     this.reportFormGroup = new FormGroup({
       reportGroup: new FormGroup({
