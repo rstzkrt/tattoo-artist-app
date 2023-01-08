@@ -123,6 +123,7 @@ export class EditProfileComponent implements OnInit {
   }
 
   removeFromPhotos(url: string) {
+    // check if it exist in database first
     this.afStorage.refFromURL(url).delete().subscribe(() => {
       this.avatarUrl = null
     })

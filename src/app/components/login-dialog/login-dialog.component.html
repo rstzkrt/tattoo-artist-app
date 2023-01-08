@@ -23,10 +23,10 @@
         <input type="password" matInput formControlName="password" placeholder="Password" style="width: 400px;">
       </mat-form-field>
       <br>
-      <button (click)="signIn()" mat-raised-button color="accent">Sign In</button>
+      <button [disabled]="!loginFormGroup.valid" (click)="signIn()" mat-raised-button color="accent">Sign In</button>
       </div>
     </form>
-    <a style="cursor: pointer; " (click)="openResetPasswordDialog()">forgot my password</a>
+    <a style="cursor: pointer; " (click)="openResetPasswordDialog()">Forgot my password</a>
   </div>
 
 
@@ -39,26 +39,26 @@
     <form *ngIf="emailSignUpFormGroup" [formGroup]="emailSignUpFormGroup" (ngSubmit)="submit()" style="width: 400px">
       <div formGroupName="emailRegisterForm">
         <mat-form-field style="width: 400px;" color="accent">
-          <mat-label>first Name</mat-label>
+          <mat-label>First Name</mat-label>
           <input matInput formControlName="firstName" required>
-          <mat-error>first name is required!</mat-error>
+          <mat-error>First name is required!</mat-error>
         </mat-form-field>
         <br>
         <mat-form-field style="width: 400px;" color="accent">
-          <mat-label>last Name</mat-label>
-          <input type="text" matInput formControlName="lastName" placeholder="last Name" style="width: 400px">
-          <mat-error>last name is required!</mat-error>
+          <mat-label>Last Name</mat-label>
+          <input type="text" matInput formControlName="lastName" required placeholder="last Name" style="width: 400px">
+          <mat-error>Last name is required!</mat-error>
         </mat-form-field>
         <br>
         <mat-form-field style="width: 400px;" color="accent">
           <mat-label>Email</mat-label>
-          <input type="email" matInput formControlName="email" placeholder="email" style="width: 400px;">
+          <input type="email" matInput formControlName="email" required placeholder="email" style="width: 400px;">
           <mat-error>Email is required!</mat-error>
         </mat-form-field>
         <br>
         <mat-form-field style="width: 400px;" color="accent">
           <mat-label>Password</mat-label>
-          <input type="password" matInput formControlName="password" placeholder="Password" style="width: 400px;">
+          <input type="password" matInput formControlName="password" required placeholder="Password" style="width: 400px;">
           <mat-error>Password is required!</mat-error>
         </mat-form-field>
         <br>

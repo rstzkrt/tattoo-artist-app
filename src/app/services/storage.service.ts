@@ -25,7 +25,7 @@ export class StorageService {
 
   public saveUser(user: any): void {
     window.sessionStorage.removeItem(USER_KEY);
-    console.log( JSON.stringify(user))
+    // console.log( JSON.stringify(user))
     window.sessionStorage.setItem(USER_KEY, JSON.stringify(user));
   }
 

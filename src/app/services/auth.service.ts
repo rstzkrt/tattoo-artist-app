@@ -35,17 +35,22 @@ export class AuthService {
   ) {
 
     this.afAuth.authState.subscribe(user => {
-      console.log(user)
+      // console.log(user)
       this.firebaseUser = user;
       if (user) {
         user.getIdToken().then((token) => {
           this.storageService.saveToken(token)
           this.userObservable = userService.fetchAuthenticatedUser(token)
           userService.fetchAuthenticatedUser(token).subscribe(data => {
-            console.log(token)
+            // console.log(token)
             this.storageService.saveUser(data)
             this.authenticatedUser = data;
-          }, error => console.error(error))
+          }, error => {
+              console.log("no user logged in yet")
+              console.error(error)
+          }
+
+          )
         })
       }
     })
@@ -83,7 +88,7 @@ export class AuthService {
       }
     ).catch(err => {
       window.alert(err)
-      console.log(err)
+      // console.log(err)
     })
   }
 

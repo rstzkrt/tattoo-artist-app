@@ -7,20 +7,20 @@
   <div fxLayout="row wrap">
     <div fxFlex *ngIf="avatarUrl">
       <img style="width: 500px;height: 500px; border: 10px solid darkgreen;" matCardImage [src]="avatarUrl">
-      <button (click)="removeFromPhotos(avatarUrl)" mat-flat-button color="accent">remove</button>
+      <button *ngIf="avatarUrl !== 'https://www.gravatar.com/avatar/?d=mp' "  (click)="removeFromPhotos(avatarUrl)" mat-flat-button color="accent">remove</button>
     </div>
   </div>
   <br>
   <mat-card style="margin-left: 30%;margin-right: 30%;">
     <form *ngIf="updateProfileFormGroup" [formGroup]="updateProfileFormGroup" (ngSubmit)="submit()">
       <div formGroupName="updateProfile">
-        <mat-form-field appearance="fill" color="warn">
+        <mat-form-field appearance="fill" color="accent">
           <mat-label>First name</mat-label>
           <input matInput placeholder="name" formControlName="firstName" required>
           <mat-error>FirstName is required!</mat-error>
         </mat-form-field>
         <br>
-        <mat-form-field appearance="fill" color="warn">
+        <mat-form-field appearance="fill" color="accent">
           <mat-label>LastName</mat-label>
           <input matInput formControlName="lastName" required>
           <mat-error>LastName is required!</mat-error>
@@ -32,19 +32,19 @@
 <!--          <mat-error>Email is required!</mat-error>-->
 <!--        </mat-form-field>-->
 <!--        <br>-->
-        <mat-form-field appearance="fill" color="warn">
+        <mat-form-field appearance="fill" color="accent">
           <mat-label>Enter Phone Number</mat-label>
           <input matInput placeholder="1231233" formControlName="phoneNumber" required>
           <mat-error>Phone Number is required!</mat-error>
         </mat-form-field>
         <br>
-        <mat-form-field appearance="fill" color="warn">
+        <mat-form-field appearance="fill" color="accent">
           <mat-label>Career Description</mat-label>
           <input matInput placeholder="career" formControlName="careerDescription" required>
           <mat-error>Career Desc. is required!</mat-error>
         </mat-form-field>
         <br>
-        <mat-form-field appearance="fill">
+        <mat-form-field appearance="fill" color="accent">
           <mat-label>Gender</mat-label>
           <mat-select formControlName="gender" required>
             <mat-option *ngFor="let gender of genders" [value]="gender">{{gender}}</mat-option>
@@ -52,7 +52,7 @@
           <mat-error>Gender is required!</mat-error>
         </mat-form-field>
         <br>
-        <mat-form-field appearance="fill">
+        <mat-form-field appearance="fill" color="accent">
           <mat-label>Tattoo styles you make</mat-label>
           <mat-select formControlName="tattooStyles" required multiple>
             <mat-option *ngFor="let style of tattooStyles" [value]="style">{{style}}</mat-option>
@@ -61,7 +61,7 @@
         </mat-form-field>
         <br>
 
-        <mat-form-field appearance="fill">
+        <mat-form-field appearance="fill" color="accent">
           <mat-label>DAYS</mat-label>
           <mat-select formControlName="workDays" multiple>
             <mat-option *ngFor="let day of days" [value]="day">{{day}}</mat-option>
@@ -70,14 +70,14 @@
         </mat-form-field>
 
         <br><br><br><br>
-        <mat-form-field appearance="fill" color="warn">
+        <mat-form-field appearance="fill" color="accent">
           <mat-label>Enter Street</mat-label>
           <input matInput placeholder="street-name" formControlName="street" required>
           <mat-error>Street is required!</mat-error>
         </mat-form-field>
         <br>
 
-        <mat-form-field appearance="fill" color="warn">
+        <mat-form-field appearance="fill" color="accent">
           <mat-label>Language</mat-label>
           <mat-select formControlName="languages" required multiple>
             <mat-option *ngFor="let language of languages" [value]="language">{{language}}</mat-option>
@@ -88,7 +88,7 @@
         <br>
 
 
-        <mat-form-field appearance="fill" color="warn">
+        <mat-form-field appearance="fill" color="accent">
           <mat-label>Enter country</mat-label>
           <mat-select formControlName="country" required>
             <mat-option *ngFor="let country of countries" (onSelectionChange)="onCountrySelection(country['iso2'])" [value]="country['name']">{{country['name']}}</mat-option>
@@ -98,7 +98,7 @@
 
 
         <br>
-        <mat-form-field appearance="fill" color="warn">
+        <mat-form-field appearance="fill" color="accent">
           <mat-label>Enter state</mat-label>
           <mat-select formControlName="state" required>
             <mat-option *ngFor="let state of states" (onSelectionChange)="onStateSelection(state['iso2'])" [value]="state['name']">{{state['name']}}</mat-option>
@@ -108,7 +108,7 @@
 
         <br>
 
-        <mat-form-field appearance="fill" color="warn">
+        <mat-form-field appearance="fill" color="accent">
           <mat-label>Enter city</mat-label>
           <mat-select formControlName="city" required>
             <mat-option *ngFor="let city of cities" [value]="city">{{city}}</mat-option>
@@ -118,19 +118,19 @@
 
 
         <br>
-        <mat-form-field appearance="fill" color="warn">
+        <mat-form-field appearance="fill" color="accent">
           <mat-label>Enter postal code</mat-label>
           <input matInput placeholder="03-123" formControlName="postalCode" required>
           <mat-error>Postal code is required!</mat-error>
 
         </mat-form-field>
         <br>
-        <mat-form-field appearance="fill" color="warn">
+        <mat-form-field appearance="fill" color="accent">
           <mat-label>Enter additional information</mat-label>
           <input matInput placeholder="Tattoo Studio.." formControlName="otherInformation" required>
         </mat-form-field>
         <br>
-        <mat-form-field appearance="fill">
+        <mat-form-field appearance="fill" color="accent">
           <mat-label>Choose birth date</mat-label>
           <input formControlName="birthDate" matInput [matDatepicker]="picker">
           <mat-hint>MM/DD/YYYY</mat-hint>

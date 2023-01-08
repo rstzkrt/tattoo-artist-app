@@ -15,13 +15,13 @@
 
 <form *ngIf="updateProfileFormGroup" [formGroup]="updateProfileFormGroup" (ngSubmit)="submit()">
   <div formGroupName="updateProfile">
-    <mat-form-field appearance="fill" color="warn">
+    <mat-form-field appearance="fill" color="accent">
       <mat-label>First name</mat-label>
       <input matInput placeholder="name" formControlName="firstName" required>
       <mat-error>FirstName is required!</mat-error>
     </mat-form-field>
     <br>
-    <mat-form-field appearance="fill" color="warn">
+    <mat-form-field appearance="fill" color="accent">
       <mat-label>LastName</mat-label>
       <input matInput formControlName="lastName" required>
       <mat-error>LastName is required!</mat-error>
